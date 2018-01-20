@@ -20,4 +20,8 @@ Route::group([
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
+
+    // 注册
+    Route::post('send_sms_code', 'RegisterController@sendSMSVerificationCode');
+    Route::post('register', 'RegisterController@register');
 });

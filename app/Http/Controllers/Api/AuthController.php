@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AuthController extends ApiController
 {
     /**
      * Create a new AuthController instance.

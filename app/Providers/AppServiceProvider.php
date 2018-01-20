@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use League\Fractal\Manager as FractalManager;
+use Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(191);
     }
 
     /**
@@ -25,6 +27,18 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+
+            \DB::listen(function ($query) {
+                $sql = str_replace('?', '%s', $query->sql);
+                foreach ($query->bindings as $binding) {
+                    $binding = (string)$binding;
+                }
+                $sql = sprintf($sql, ...$query->bindings);
+                \Log::info('sql', [$sql, $query->time, url()->current()]);
+            });
         }
+        $this->app->singleton(FractalManager::class, function ($app) {
+            return new FractalManager();
+        });
     }
 }

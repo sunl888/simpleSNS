@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePasswordResetsTable extends Migration
+class CreateVerificationCodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreatePasswordResetsTable extends Migration
      */
     public function up()
     {
-        Schema::create('password_resets', function (Blueprint $table) {
+        Schema::create('verification_codes', function (Blueprint $table) {
             $table->char('tel_num', 11)->index()->comment('手机号码');
-            $table->string('token');
+            $table->string('hashed_code');
             $table->timestampTz('created_at')->nullable();
         });
     }
@@ -27,6 +27,6 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('verification_codes');
     }
 }

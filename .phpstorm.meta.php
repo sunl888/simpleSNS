@@ -1,5 +1,4 @@
 <?php
-
 namespace PHPSTORM_META {
 
     /**
@@ -154,6 +153,7 @@ namespace PHPSTORM_META {
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
+        'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
@@ -300,6 +300,7 @@ namespace PHPSTORM_META {
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
+        'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
@@ -446,6 +447,7 @@ namespace PHPSTORM_META {
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
+        'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
     ]));
     override(\App::make(0), map([
         '' => '@',
@@ -592,6 +594,7 @@ namespace PHPSTORM_META {
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
+        'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
     ]));
     override(\App::makeWith(0), map([
         '' => '@',
@@ -738,6 +741,7 @@ namespace PHPSTORM_META {
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
+        'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
     ]));
     override(\app(0), map([
         '' => '@',
@@ -884,6 +888,7 @@ namespace PHPSTORM_META {
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
+        'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
     ]));
     override(\resolve(0), map([
         '' => '@',
@@ -1030,6 +1035,7 @@ namespace PHPSTORM_META {
         'auth.password' => \Illuminate\Auth\Passwords\PasswordBrokerManager::class,
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
+        'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
     ]));
 
     override(\Illuminate\Support\Arr::add(0), type(0));

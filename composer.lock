@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b920cff3cf7fbb4b8356c2d1a23fb7c0",
+    "content-hash": "063dd6ccd654195b0977c5711bdc26d8",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -2553,6 +2553,61 @@
             "time": "2018-01-20T00:28:24+00:00"
         },
         {
+            "name": "rtconner/laravel-tagging",
+            "version": "2.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rtconner/laravel-tagging.git",
+                "reference": "a945f2e7ef40ece795b5dd749b3325705420a90a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/rtconner/laravel-tagging/a945f2e7ef40ece795b5dd749b3325705420a90a.zip",
+                "reference": "a945f2e7ef40ece795b5dd749b3325705420a90a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": ">= 5.0",
+                "illuminate/support": ">= 5.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "orchestra/testbench": "~3.0",
+                "phpunit/phpunit": "~4.0",
+                "vlucas/phpdotenv": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Conner\\Tagging\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Conner",
+                    "email": "rtconner@smarter.bz"
+                }
+            ],
+            "description": "Use PHP traits to extend Laravel Eloquent Models to allow Tags. Models can be marked as Taggable.",
+            "homepage": "https://smartersoftware.net/packages/laravel-tagging-taggable",
+            "keywords": [
+                "Taggable",
+                "eloquent",
+                "laravel",
+                "laravel5",
+                "tag",
+                "tagged",
+                "tagging",
+                "tags"
+            ],
+            "time": "2017-09-06T03:49:28+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.0.2",
             "source": {
@@ -3631,6 +3686,51 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2017-11-27T11:13:29+00:00"
+        },
+        {
+            "name": "ty666/cdn-pusher",
+            "version": "1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/3tnet/cdn-pusher.git",
+                "reference": "136862251bb83decf12a4b0e4f5d48372a943afa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/3tnet/cdn-pusher/136862251bb83decf12a4b0e4f5d48372a943afa.zip",
+                "reference": "136862251bb83decf12a4b0e4f5d48372a943afa",
+                "shasum": ""
+            },
+            "require": {
+                "symfony/finder": "^3.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ty666\\CdnPusher\\CdnPusherServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ty666\\CdnPusher\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "taoyu",
+                    "email": "1255803549@qq.com",
+                    "homepage": "https://github.com/ty666",
+                    "role": "Developer"
+                }
+            ],
+            "description": "cdn pusher for laravel",
+            "time": "2017-12-02T15:26:14+00:00"
         },
         {
             "name": "tymon/jwt-auth",

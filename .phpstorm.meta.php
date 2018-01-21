@@ -54,7 +54,6 @@ namespace PHPSTORM_META {
         'tymon.jwt.payload.factory' => \Tymon\JWTAuth\Factory::class,
         'tymon.jwt.secret' => \Tymon\JWTAuth\Console\JWTGenerateSecretCommand::class,
         'libphonenumber' => \libphonenumber\PhoneNumberUtil::class,
-        'Conner\Tagging\Contracts\TaggingUtility' => \Conner\Tagging\Util::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -158,6 +157,9 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
+        'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
+        'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
+        'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
@@ -205,7 +207,6 @@ namespace PHPSTORM_META {
         'tymon.jwt.payload.factory' => \Tymon\JWTAuth\Factory::class,
         'tymon.jwt.secret' => \Tymon\JWTAuth\Console\JWTGenerateSecretCommand::class,
         'libphonenumber' => \libphonenumber\PhoneNumberUtil::class,
-        'Conner\Tagging\Contracts\TaggingUtility' => \Conner\Tagging\Util::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -309,6 +310,9 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
+        'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
+        'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
+        'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
@@ -356,7 +360,6 @@ namespace PHPSTORM_META {
         'tymon.jwt.payload.factory' => \Tymon\JWTAuth\Factory::class,
         'tymon.jwt.secret' => \Tymon\JWTAuth\Console\JWTGenerateSecretCommand::class,
         'libphonenumber' => \libphonenumber\PhoneNumberUtil::class,
-        'Conner\Tagging\Contracts\TaggingUtility' => \Conner\Tagging\Util::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -460,6 +463,9 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
+        'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
+        'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
+        'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
     ]));
     override(\App::make(0), map([
         '' => '@',
@@ -507,7 +513,6 @@ namespace PHPSTORM_META {
         'tymon.jwt.payload.factory' => \Tymon\JWTAuth\Factory::class,
         'tymon.jwt.secret' => \Tymon\JWTAuth\Console\JWTGenerateSecretCommand::class,
         'libphonenumber' => \libphonenumber\PhoneNumberUtil::class,
-        'Conner\Tagging\Contracts\TaggingUtility' => \Conner\Tagging\Util::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -611,6 +616,9 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
+        'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
+        'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
+        'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
     ]));
     override(\App::makeWith(0), map([
         '' => '@',
@@ -658,7 +666,6 @@ namespace PHPSTORM_META {
         'tymon.jwt.payload.factory' => \Tymon\JWTAuth\Factory::class,
         'tymon.jwt.secret' => \Tymon\JWTAuth\Console\JWTGenerateSecretCommand::class,
         'libphonenumber' => \libphonenumber\PhoneNumberUtil::class,
-        'Conner\Tagging\Contracts\TaggingUtility' => \Conner\Tagging\Util::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -762,6 +769,9 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
+        'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
+        'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
+        'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
     ]));
     override(\app(0), map([
         '' => '@',
@@ -809,7 +819,6 @@ namespace PHPSTORM_META {
         'tymon.jwt.payload.factory' => \Tymon\JWTAuth\Factory::class,
         'tymon.jwt.secret' => \Tymon\JWTAuth\Console\JWTGenerateSecretCommand::class,
         'libphonenumber' => \libphonenumber\PhoneNumberUtil::class,
-        'Conner\Tagging\Contracts\TaggingUtility' => \Conner\Tagging\Util::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -913,6 +922,9 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
+        'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
+        'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
+        'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
     ]));
     override(\resolve(0), map([
         '' => '@',
@@ -960,7 +972,6 @@ namespace PHPSTORM_META {
         'tymon.jwt.payload.factory' => \Tymon\JWTAuth\Factory::class,
         'tymon.jwt.secret' => \Tymon\JWTAuth\Console\JWTGenerateSecretCommand::class,
         'libphonenumber' => \libphonenumber\PhoneNumberUtil::class,
-        'Conner\Tagging\Contracts\TaggingUtility' => \Conner\Tagging\Util::class,
         'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
         'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
         'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
@@ -1064,6 +1075,9 @@ namespace PHPSTORM_META {
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
         'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
+        'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
+        'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
+        'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
     ]));
 
     override(\Illuminate\Support\Arr::add(0), type(0));

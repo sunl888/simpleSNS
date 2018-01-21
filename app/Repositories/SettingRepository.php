@@ -18,17 +18,17 @@ class SettingRepository extends BaseRepository
         return Setting::class;
     }
 
-    public function filterData(array &$data)
-    {
-        if (isset($data['description']))
-            $data['description'] = e($data['description']);
-        return $data;
-    }
-
     public function preCreate(array &$data)
     {
         $data = $this->filterData($data);
         $data['creator_id'] = auth()->id();
+        return $data;
+    }
+
+    public function filterData(array &$data)
+    {
+        if (isset($data['description']))
+            $data['description'] = e($data['description']);
         return $data;
     }
 

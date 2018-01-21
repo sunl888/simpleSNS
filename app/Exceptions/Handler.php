@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Exceptions\Contract\MessageBagErrors;
 use App\Exceptions\Debug\WantsJsonRequest;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,11 +64,6 @@ class Handler extends ExceptionHandler
         return response()->json($this->errorFormat(new ResourceException(null, $exception->errors())), $exception->status);
     }
 
-    protected function convertExceptionToArray(Exception $e)
-    {
-        return $this->errorFormat($e);
-    }
-
     protected function errorFormat(Exception $e)
     {
         $errorFormat = config('api.errorFormat');
@@ -104,6 +100,11 @@ class Handler extends ExceptionHandler
         return $this->recursivelyRemoveEmptyReplacements($errorFormat);
     }
 
+    protected function getStatusCode(Exception $exception)
+    {
+        return $this->isHttpException($exception) ? $exception->getStatusCode() : 500;
+    }
+
     protected function recursivelyRemoveEmptyReplacements(array $input)
     {
         foreach ($input as &$value) {
@@ -121,8 +122,22 @@ class Handler extends ExceptionHandler
         });
     }
 
-    protected function getStatusCode(Exception $exception)
+    protected function convertExceptionToArray(Exception $e)
     {
-        return $this->isHttpException($exception) ? $exception->getStatusCode() : 500;
+        return $this->errorFormat($e);
+    }
+
+    /**
+     * JWT 认证时token过期返回 JSON,而不redirect to login
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param AuthenticationException $exception
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return $request->expectsJson()
+            ? response()->json(['message' => $exception->getMessage()], 401)
+            : redirect()->guest(route('login'));
     }
 }

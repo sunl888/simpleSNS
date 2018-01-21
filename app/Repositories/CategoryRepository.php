@@ -19,6 +19,15 @@ class CategoryRepository extends BaseRepository
         return Category::class;
     }
 
+    public function preCreate(array &$data)
+    {
+        $data = $this->filterData($data);
+        // CategoryModel
+        $data['cate_slug'] = $this->model->generateSlug($data['cate_name']);
+        $data['creator_id'] = auth()->id();
+        return $data;
+    }
+
     public function filterData(array &$data, $category = null)
     {
         $filterValues = [
@@ -40,16 +49,6 @@ class CategoryRepository extends BaseRepository
             $data['description'] = e($data['description']);
         return $data;
     }
-
-    public function preCreate(array &$data)
-    {
-        $data = $this->filterData($data);
-        // CategoryModel
-        $data['cate_slug'] = $this->model->generateSlug($data['cate_name']);
-        $data['creator_id'] = auth()->id();
-        return $data;
-    }
-
 
     public function preUpdate(array &$data, $category)
     {

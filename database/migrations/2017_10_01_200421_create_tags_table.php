@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTagsTable extends Migration
 {
@@ -18,12 +18,7 @@ class CreateTagsTable extends Migration
             $table->string('name')->unique();
             $table->string('slug', 50)->unique();
             $table->string('image')->nullable()->comment('分类图片');
-            $table->unsignedInteger('creator_id')->nullable()->default(null);
             $table->timestamps();
-            $table->foreign('creator_id')
-                ->references('id')->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('set null');
         });
 
         Schema::create('taggables', function (Blueprint $table) {

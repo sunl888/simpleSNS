@@ -9,41 +9,44 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nickname', 'tel_num', 'avatar', 'email', 'password', 'introduction',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
 
-    /**
-     * Get the identifier that will be stored in the subject claim of the JWT.
-     *
-     * @return mixed
-     */
     public function getJWTIdentifier()
     {
         return $this->getKey();
     }
 
-    /**
-     * Return a key value array, containing any custom claims to be added to the JWT.
-     *
-     * @return array
-     */
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    /**
+     * 关注我的用户
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function follows()
+    {
+        return $this->belongsTo(Follow::class, 'user_id', 'id');
+    }
+
+    /**
+     * 我赞过的文章
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }

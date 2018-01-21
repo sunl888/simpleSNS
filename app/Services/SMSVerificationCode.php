@@ -36,8 +36,13 @@ class SMSVerificationCode
             return false;
 
         $hashedCode = $verificationCodeModel->hashed_code;
-        $this->verificationCodeRepository->delete($phoneNumber);
-        return $this->hasher->check(strtolower($value), $hashedCode);
+
+        if ($this->hasher->check(strtolower($value), $hashedCode)) {
+            $this->verificationCodeRepository->delete($phoneNumber);
+            return true;
+        }
+        // 验证码不匹配
+        return false;
     }
 
     public function send($phoneNumber, $config)
@@ -58,6 +63,7 @@ class SMSVerificationCode
         $sendSms->setOutId($outId);
 
         $res = $client->execute($sendSms);
+
         if ($res->Code !== 'OK') {
             throw new SendVerificationCodeException($res->Message);
         }

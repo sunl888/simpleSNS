@@ -8,21 +8,13 @@ use App\Models\Traits\HasSlug;
 use App\Observers\ClearNavigationCache;
 use App\Support\Presenter\PresentableInterface;
 
-class Category extends BaseModel implements PresentableInterface
+class Category extends BaseModel
 {
     use HasSlug;
 
-    protected $casts = [
-        'is_nav' => 'boolean',
-        'is_target_blank' => 'boolean'
-    ];
-
-    protected $fillable = ['type', 'parent_id', 'image', 'cate_name', 'order',
-        'description', 'url', 'is_target_blank', 'cate_slug', 'is_nav',
-        'page_template', 'list_template', 'channel_template', 'content_template', 'creator_id'];
-
-
     const TYPE_POST = 'post', TYPE_PAGE = 'page', TYPE_LINK = 'link', TYPE_CHANNEL = 'channel';
+    protected $fillable = ['image', 'cate_name', 'order',
+        'description', 'cate_slug', 'creator_id'];
 
     /**
      * 数据模型的启动方法
@@ -33,11 +25,6 @@ class Category extends BaseModel implements PresentableInterface
     {
         parent::boot();
         static::observe(ClearNavigationCache::class);
-    }
-
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
     }
 
     /**
@@ -63,6 +50,11 @@ class Category extends BaseModel implements PresentableInterface
                 break;
         }
         return $query;
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 
     /**

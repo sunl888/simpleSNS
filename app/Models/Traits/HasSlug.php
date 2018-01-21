@@ -20,6 +20,11 @@ trait HasSlug
             ->generate($text, $this->slugMode(), $this->delimiter());
     }
 
+    public function delimiter(): string
+    {
+        return '-';
+    }
+
     public function scopeBySlug($query, $slug)
     {
         $query->where($this->slugKey(), $slug);
@@ -28,11 +33,6 @@ trait HasSlug
     public function slugKey(): string
     {
         return 'slug';
-    }
-
-    public function delimiter(): string
-    {
-        return '-';
     }
 
     public function slugMode(): string

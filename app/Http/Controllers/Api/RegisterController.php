@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\SendSmsFailException;
 use App\Exceptions\SendVerificationCodeException;
 use App\Http\Controllers\ApiController;
 use App\Repositories\UserRepository;
 use App\Rules\SMSVerificationCode;
 use App\Services\SMSVerificationCode as SMSVerificationCodeService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use JWTAuth;
 use Log;
 
 class RegisterController extends APIController
@@ -45,6 +46,21 @@ class RegisterController extends APIController
         return $this->response()->noContent();
     }
 
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        //dd($this->registered($request, User::find(4)));
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        return $this->registered($request, $user);
+    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -56,8 +72,7 @@ class RegisterController extends APIController
     {
         return Validator::make($data, [
             'sms_verification_code' => ['bail', 'required', new SMSVerificationCode($data['tel_num'])],
-            'name' => ['bail', 'required', 'string', 'max:30'],
-            'email' => ['bail', 'required', 'string'],
+            'email' => ['bail', 'required', 'string', 'email'],
             'tel_num' => ['bail', 'required', 'string', 'regex:/\d{11}/', 'unique:users'],
             'password' => ['bail', 'required', 'string', 'min:6'],
         ]);
@@ -72,7 +87,7 @@ class RegisterController extends APIController
     protected function create(array $data)
     {
         $userRepository = app(UserRepository::class);
-        return $userRepository->create(array_only($data, ['name', 'tel_num', 'email', 'password']));
+        return $userRepository->create(array_only($data, ['tel_num', 'email', 'password']));
     }
 
     /**
@@ -84,7 +99,18 @@ class RegisterController extends APIController
      */
     protected function registered(Request $request, $user)
     {
-        $this->guard()->login($user);
+        if ($token = JWTAuth::fromUser($user)) {
+            return $this->respondWithToken($token);
+        }
         return $this->response()->noContent();
+    }
+
+    private function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => $this->guard()->factory()->getTTL() * 60
+        ]);
     }
 }

@@ -11,10 +11,12 @@ class Setting extends BaseModel implements InterfaceTypeable
 {
     use Typeable, Listable;
 
-    protected $fillable = ['name', 'value', 'description', 'type_name', 'is_system', 'creator_id'];
-
     protected static $allowSortFields = ['name', 'value', 'description', 'type_name'];
     protected static $allowSearchFields = ['name', 'value', 'description'];
+    protected $fillable = ['name', 'value', 'description', 'type_name', 'is_system', 'creator_id'];
+    protected $casts = [
+        'is_visible' => 'boolean'
+    ];
 
     /**
      * 数据模型的启动方法
@@ -31,9 +33,5 @@ class Setting extends BaseModel implements InterfaceTypeable
 
         static::observe(ClearSettingCache::class);
     }
-
-    protected $casts = [
-        'is_visible' => 'boolean'
-    ];
 
 }

@@ -5,9 +5,9 @@ namespace App\Repositories;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\PostService;
+use Auth;
 use Carbon\Carbon;
 use Naux\AutoCorrect;
-use Auth;
 
 class PostRepository extends BaseRepository
 {
@@ -19,6 +19,29 @@ class PostRepository extends BaseRepository
     public function model()
     {
         return Post::class;
+    }
+
+    public function preCreate(array &$data)
+    {
+        $this->filterData($data);
+        $postService = app(PostService::class);
+        // 创建文章时 如果没有传入 published_at 字段，将 published_at 设置为 Carbon::now()
+        if (!isset($data['published_at'])) {
+            $data['published_at'] = Carbon::now();
+        }
+        // 创建文章时 如果没有传入 type 字段，type 默认设置为 Category::TYPE_POST
+        if (!isset($data['type']))
+            $data['type'] = Category::TYPE_POST;
+        // 创建文章时 如果没有传入 status 字段，status 默认设置为 Post::STATUS_DRAFT
+        if (!isset($data['status']))
+            $data['status'] = Post::STATUS_DRAFT;
+
+        if (!isset($data['excerpt']))
+            $data['excerpt'] = $postService->makeExcerpt($data['content']);
+
+        $data['user_id'] = Auth::id();
+        $data['slug'] = $this->model->generateSlug($data['title']);
+        return $data;
     }
 
     public function filterData(array &$data)
@@ -47,53 +70,11 @@ class PostRepository extends BaseRepository
         return $data;
     }
 
-    public function preCreate(array &$data)
-    {
-        $this->filterData($data);
-        $postService = app(PostService::class);
-        // 创建文章时 如果没有传入 published_at 字段，将 published_at 设置为 Carbon::now()
-        if (!isset($data['published_at'])) {
-            $data['published_at'] = Carbon::now();
-        }
-        // 创建文章时 如果没有传入 type 字段，type 默认设置为 Category::TYPE_POST
-        if (!isset($data['type']))
-            $data['type'] = Category::TYPE_POST;
-        // 创建文章时 如果没有传入 status 字段，status 默认设置为 Post::STATUS_DRAFT
-        if (!isset($data['status']))
-            $data['status'] = Post::STATUS_DRAFT;
-
-        if (!isset($data['excerpt']))
-            $data['excerpt'] = $postService->makeExcerpt($data['content']);
-
-        $data['user_id'] = Auth::id();
-        $data['slug'] = $this->model->generateSlug($data['title']);
-        return $data;
-    }
-
     public function created(&$data, $post)
     {
         $this->updateOrCreatePostContent($post, $data);
         $this->addAttachments($post, $data);
         $this->addTags($post, $data);
-    }
-
-    public function preUpdate(array &$data, $post)
-    {
-        $data = $this->filterData($data);
-        if (isset($data['title']) && $post->title != $data['title']) {
-            $data['slug'] = $this->model->generateSlug($data['title']);
-        }
-        if (!isset($data['excerpt']) && isset($data['content'])) {
-            $data['excerpt'] = app(PostService::class)->makeExcerpt($data['content']);
-        }
-        return $data;
-    }
-
-    public function updated(&$data, $post)
-    {
-        $this->updateOrCreatePostContent($post, $data);
-        $this->syncAttachments($post, $data);
-        $this->syncTags($post, $data);
     }
 
     /**
@@ -125,18 +106,6 @@ class PostRepository extends BaseRepository
     }
 
     /**
-     * 同步附件
-     * @param Post $post
-     * @param $data
-     */
-    private function syncAttachments(Post $post, &$data)
-    {
-        if (isset($data['attachment_ids'])) {
-            $post->attachments()->sync($data['attachment_ids']);
-        }
-    }
-
-    /**
      * 添加标签
      * @param Post $post
      * @param $data
@@ -145,6 +114,37 @@ class PostRepository extends BaseRepository
     {
         if (isset($data['tag_ids'])) {
             $post->tags()->attach($data['tag_ids']);
+        }
+    }
+
+    public function preUpdate(array &$data, $post)
+    {
+        $data = $this->filterData($data);
+        if (isset($data['title']) && $post->title != $data['title']) {
+            $data['slug'] = $this->model->generateSlug($data['title']);
+        }
+        if (!isset($data['excerpt']) && isset($data['content'])) {
+            $data['excerpt'] = app(PostService::class)->makeExcerpt($data['content']);
+        }
+        return $data;
+    }
+
+    public function updated(&$data, $post)
+    {
+        $this->updateOrCreatePostContent($post, $data);
+        $this->syncAttachments($post, $data);
+        $this->syncTags($post, $data);
+    }
+
+    /**
+     * 同步附件
+     * @param Post $post
+     * @param $data
+     */
+    private function syncAttachments(Post $post, &$data)
+    {
+        if (isset($data['attachment_ids'])) {
+            $post->attachments()->sync($data['attachment_ids']);
         }
     }
 

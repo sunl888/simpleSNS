@@ -29,13 +29,13 @@ class WantsJsonRequest
         return $this->request->$method(...$arguments);
     }
 
-    public function __set($name, $value)
-    {
-        $this->request->$name = $value;
-    }
-
     public function __get($name)
     {
         return $this->request->$name;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->request->$name = $value;
     }
 }

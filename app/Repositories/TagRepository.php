@@ -17,13 +17,6 @@ class TagRepository extends BaseRepository
         return Tag::class;
     }
 
-    public function filterData(array &$data)
-    {
-        if (isset($data['name']))
-            $data['name'] = e($data['name']);
-        return $data;
-    }
-
     public function preCreate(array &$data)
     {
         $data = $this->filterData($data);
@@ -32,6 +25,12 @@ class TagRepository extends BaseRepository
         return $data;
     }
 
+    public function filterData(array &$data)
+    {
+        if (isset($data['name']))
+            $data['name'] = e($data['name']);
+        return $data;
+    }
 
     public function preUpdate(array &$data, $tag)
     {

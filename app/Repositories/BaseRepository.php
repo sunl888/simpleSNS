@@ -21,7 +21,10 @@ abstract class BaseRepository
     public function __construct(Application $app)
     {
         $this->app = $app;
-        $this->makeModel();
+        try {
+            $this->makeModel();
+        } catch (RepositoryException $e) {
+        }
     }
 
     /**

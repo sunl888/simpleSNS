@@ -8,6 +8,7 @@
 
 use App\Repositories\SettingRepository;
 use App\Services\SettingCacheService;
+use GuzzleHttp\Exception\TransferException;
 
 if (!function_exists('toIso8601String')) {
     function toIso8601String($date)
@@ -48,5 +49,21 @@ if (!function_exists('setting')) {
         }
         return value($default);
     }
+}
 
+/**
+ * transformer params validation
+ */
+if (!function_exists('verificationParams')) {
+    function verificationParams($params, $validParams)
+    {
+        $usedParams = array_keys(iterator_to_array($params));
+        if ($invalidParams = array_diff($usedParams, $validParams)) {
+            throw new TransferException(sprintf(
+                'Invalid param(s): "%s". Valid param(s): "%s"',
+                implode(',', $usedParams),
+                implode(',', $validParams)
+            ));
+        }
+    }
 }

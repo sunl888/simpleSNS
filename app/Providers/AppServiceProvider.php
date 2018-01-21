@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use Schema;
+use App\Repositories\VerificationCodeRepository;
 use App\Services\SendSmsService;
-use Illuminate\Hashing\BcryptHasher;
 use App\Services\SMSVerificationCode;
+use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Support\ServiceProvider;
 use League\Fractal\Manager as FractalManager;
-use App\Repositories\VerificationCodeRepository;
+use Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,14 +32,14 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
-            \DB::listen(function ($query) {
+            /*\DB::listen(function ($query) {
                 $sql = str_replace('?', '%s', $query->sql);
                 foreach ($query->bindings as $binding) {
                     $binding = (string)$binding;
                 }
                 $sql = sprintf($sql, ...$query->bindings);
                 \Log::info('sql', [$sql, $query->time, url()->current()]);
-            });
+            });*/
         }
 
         $this->app->singleton(SMSVerificationCode::class, function ($app) {

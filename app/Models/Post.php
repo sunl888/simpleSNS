@@ -3,22 +3,18 @@
 namespace App\Models;
 
 use App\Models\Presenter\PostPresenter;
-use App\Models\Traits\HasSlug;
 use App\Models\Traits\Listable;
+use App\Models\Traits\Sortable;
 use App\Support\Presenter\PresentableInterface;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Post extends BaseModel implements PresentableInterface
+class Post extends BaseModel
 {
-    use SoftDeletes, Listable, HasSlug;
-
-    protected $fillable = ['title', 'user_id', 'slug', 'excerpt', 'type', 'views_count', 'cover', 'status', 'template', 'top', 'top_expired_at', 'published_at', 'category_id', 'order', 'fields'];
-    protected $dates = ['deleted_at', 'top', 'top_expired_at', 'published_at', 'created_at', 'updated_at'];
-    protected static $allowSearchFields = ['title', 'excerpt'];
-    protected static $allowSortFields = ['title', 'status', 'views_count', 'top', 'order', 'published_at', 'category_id'];
+    use Listable, Sortable;
 
     const STATUS_PUBLISH = 'publish', STATUS_DRAFT = 'draft';
+    protected $fillable = ['title', 'user_id', 'slug', 'excerpt', 'views', 'cover', 'likes', 'status', 'published_at', 'category_id', 'order'];
+    protected $dates = ['published_at', 'created_at', 'updated_at'];
 
     public function scopeRecent($query)
     {
@@ -37,7 +33,7 @@ class Post extends BaseModel implements PresentableInterface
 
     public function scopeApplyFilter($query, $data)
     {
-        $data = $data->only('status', 'only_trashed', 'category_id');
+        /*$data = $data->only('status', 'only_trashed', 'category_id');
         $query->orderByTop()
             ->byCategory(isset($data['category_id']) ? $data['category_id'] : null)
             ->byType(Category::TYPE_POST)
@@ -45,7 +41,7 @@ class Post extends BaseModel implements PresentableInterface
 
         if (isset($data['only_trashed']) && $data['only_trashed']) {
             $query->onlyTrashed();
-        }
+        }*/
         return $query->ordered()->recent();
     }
 
@@ -60,14 +56,6 @@ class Post extends BaseModel implements PresentableInterface
             $query->where('category_id', $category);
     }
 
-
-    public function scopeByType($query, $type)
-    {
-        if (in_array($type, [Category::TYPE_POST, Category::TYPE_PAGE]))
-            return $query->where('type', $type);
-        return $query;
-    }
-
     public function scopeByStatus($query, $status)
     {
         if (in_array($status, [static::STATUS_PUBLISH, static::STATUS_DRAFT]))
@@ -76,21 +64,11 @@ class Post extends BaseModel implements PresentableInterface
             return $query->publishOrDraft();
     }
 
-    /**
-     * 获取已发布或草稿的文章的查询作用域
-     * @param $query
-     * @return mixed
-     */
     public function scopePublishOrDraft($query)
     {
         return $query->where('status', static::STATUS_PUBLISH)->orWhere('status', static::STATUS_DRAFT);
     }
 
-    /**
-     * 已发布文章的查询作用域
-     * @param $query
-     * @return mixed
-     */
     public function scopePublishPost($query)
     {
         return $query->where(function ($query) {
@@ -98,41 +76,14 @@ class Post extends BaseModel implements PresentableInterface
         });
     }
 
-    public function scopeOrderByTop($query)
-    {
-        return $query->orderBy('top', 'DESC');
-    }
-
     public function addViewCount()
     {
         return $this->increment('views_count');
     }
 
-    /**
-     * 一对一关联 post_content 表
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
     public function postContent()
     {
         return $this->hasOne(PostContent::class);
-    }
-
-
-    /**
-     * 文章是否置顶
-     */
-    public function isTop()
-    {
-        return !is_null($this->top);
-    }
-
-    /**
-     * 获取下一篇文章
-     * @return mixed
-     */
-    public function getNextPost()
-    {
-        return $this->category->posts()->publishPost()->where('id', '>', $this->id)->first();
     }
 
     public function isPublish()
@@ -143,20 +94,6 @@ class Post extends BaseModel implements PresentableInterface
     public function isDraft()
     {
         return $this->status == static::STATUS_DRAFT;
-    }
-
-
-    public function getPresenter()
-    {
-        return new PostPresenter($this);
-    }
-
-    /**
-     * 附件
-     */
-    public function attachments()
-    {
-        return $this->belongsToMany(Attachment::class);
     }
 
     /**
@@ -170,40 +107,6 @@ class Post extends BaseModel implements PresentableInterface
     public function slugMode()
     {
         return setting('post_slug_mode');
-    }
-
-    private $fieldsCache = null;
-
-    public function getFieldsAttribute($fields)
-    {
-        if (is_null($this->fieldsCache)) {
-            $this->fieldsCache = json_decode($fields, true);
-        }
-        return $this->fieldsCache;
-    }
-
-    public function getFieldByKey($key)
-    {
-        return $this->fields[$key];
-    }
-
-    /**
-     * meta keywords
-     * @return string
-     */
-    public function getKeywords()
-    {
-        $tagStr = $this->tags->implode('name', ',');
-        return $this->category->cate_name . ',' . $tagStr . setting('default_keywords');
-
-    }
-
-    /**
-     * meta description
-     */
-    public function getDescription()
-    {
-        return $this->excerpt ?: setting('default_description');
     }
 
 }

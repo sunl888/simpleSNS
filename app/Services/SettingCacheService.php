@@ -10,9 +10,9 @@ class SettingCacheService
 
     private $allSettings = null;
 
-    protected function cacheKay()
+    public function get($name)
     {
-        return 'setting:all';
+        return $this->all()->get($name);
     }
 
     public function all()
@@ -25,9 +25,9 @@ class SettingCacheService
         return $this->allSettings;
     }
 
-    public function get($name)
+    protected function cacheKay()
     {
-        return $this->all()->get($name);
+        return 'setting:all';
     }
 
     public function clearCache()

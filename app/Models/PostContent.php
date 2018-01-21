@@ -4,15 +4,13 @@ namespace App\Models;
 
 class PostContent extends BaseModel
 {
+    public $incrementing = false;
     /**
      * The primary key for the model.
      *
      * @var string
      */
     protected $primaryKey = 'post_id';
-
-    public $incrementing = false;
-
     protected $fillable = ['content'];
 
     public function post()

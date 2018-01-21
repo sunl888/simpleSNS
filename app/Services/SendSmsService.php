@@ -3,9 +3,9 @@
 namespace App\Services;
 
 
+use App\Exceptions\SendSmsFailException;
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
-use App\Exceptions\SendSmsFailException;
 
 class SendSmsService
 {
@@ -35,6 +35,11 @@ class SendSmsService
         $sendSms->setTemplateParam($templateParam);
         $sendSms->setOutId($outId);
 
+        //    阿里云短信服务接口触发天级流控Permits:10，这是个阿里云返回来的错误信息。
+        //    错误原因是因为短信发送有默认的频率限制：
+        //    限制如下：
+        //    短信验证码 ：使用同一个签名，对同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。
+        //    短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日
         $result = $client->execute($sendSms);
 
         if ($result->Code !== 'OK') {
@@ -42,5 +47,4 @@ class SendSmsService
         }
         return response()->isOk();
     }
-
 }

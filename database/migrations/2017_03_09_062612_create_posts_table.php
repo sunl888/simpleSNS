@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreatePostsTable extends Migration
 {
@@ -28,9 +28,7 @@ class CreatePostsTable extends Migration
             // 浏览量
             $table->unsignedInteger('views')->default(0);
             $table->unsignedInteger('likes')->default(0);
-            $table->unsignedInteger('like_id')->comment('点赞表ID');
             $table->integer('order')->default(0)->index()->comment('排序字段');
-            $table->softDeletes();
             // 发布时间
             $table->timestamp('published_at')->nullable();
             $table->timestamps();

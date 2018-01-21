@@ -3,9 +3,9 @@
 namespace App\Services;
 
 
-use GuzzleHttp\Client;
-use DB;
 use Closure;
+use DB;
+use GuzzleHttp\Client;
 
 class SlugGenerator
 {
@@ -32,49 +32,6 @@ class SlugGenerator
             }
         }
         return $slug;
-    }
-
-    /**
-     * 设置判断 slug 是否唯一的函数
-     *
-     * setSlugIsUniqueFunc(function ($slug){
-     *     return Post::where('slug', $slug)->count() <= 0;
-     * })
-     *
-     * setSlugIsUniqueFunc('post', 'slug');
-     *
-     * @param $slugIsUniqueFuncOrTableName
-     * @param string $field
-     * @return $this
-     */
-    public function setSlugIsUniqueFunc($slugIsUniqueFuncOrTableName, string $slugField = '', $ignore = null, $ignorekeyName = 'id')
-    {
-        if ($slugIsUniqueFuncOrTableName instanceof Closure) {
-            $this->slugIsUniqueFunc = $slugIsUniqueFuncOrTableName;
-        } else {
-            $this->slugIsUniqueFunc = function ($text) use ($slugIsUniqueFuncOrTableName, $slugField, $ignore, $ignorekeyName) {
-                $query = DB::table($slugIsUniqueFuncOrTableName)->where($slugField, $text);
-                if ($ignore) {
-                    $query->where($ignorekeyName, $ignore);
-                }
-                return $query->count() <= 0;
-            };
-        }
-
-        return $this;
-    }
-
-    public function slugIsUnique($slug)
-    {
-        if (!is_null($this->slugIsUniqueFunc)) {
-            return call_user_func($this->slugIsUniqueFunc, $slug);
-        }
-        return true;
-    }
-
-    public function pinyinSlug($text, $delimiter = '-')
-    {
-        return pinyin_permalink($text, $delimiter);
     }
 
     public function englishSlug($text, $delimiter = '-')
@@ -119,5 +76,48 @@ class SlugGenerator
             return false;
         }
         return true;
+    }
+
+    public function pinyinSlug($text, $delimiter = '-')
+    {
+        return pinyin_permalink($text, $delimiter);
+    }
+
+    public function slugIsUnique($slug)
+    {
+        if (!is_null($this->slugIsUniqueFunc)) {
+            return call_user_func($this->slugIsUniqueFunc, $slug);
+        }
+        return true;
+    }
+
+    /**
+     * 设置判断 slug 是否唯一的函数
+     *
+     * setSlugIsUniqueFunc(function ($slug){
+     *     return Post::where('slug', $slug)->count() <= 0;
+     * })
+     *
+     * setSlugIsUniqueFunc('post', 'slug');
+     *
+     * @param $slugIsUniqueFuncOrTableName
+     * @param string $field
+     * @return $this
+     */
+    public function setSlugIsUniqueFunc($slugIsUniqueFuncOrTableName, string $slugField = '', $ignore = null, $ignorekeyName = 'id')
+    {
+        if ($slugIsUniqueFuncOrTableName instanceof Closure) {
+            $this->slugIsUniqueFunc = $slugIsUniqueFuncOrTableName;
+        } else {
+            $this->slugIsUniqueFunc = function ($text) use ($slugIsUniqueFuncOrTableName, $slugField, $ignore, $ignorekeyName) {
+                $query = DB::table($slugIsUniqueFuncOrTableName)->where($slugField, $text);
+                if ($ignore) {
+                    $query->where($ignorekeyName, $ignore);
+                }
+                return $query->count() <= 0;
+            };
+        }
+
+        return $this;
     }
 }

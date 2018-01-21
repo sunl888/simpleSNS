@@ -14,8 +14,8 @@ return [
     // sms template
     'template' => [
         'user_register' => [
+            'sign_name' => '孙龙',
             'template_code' => 'SMS_122297275',
-            'sign_name' => '用户注册',
             'out_id' => 'register'
         ],
     ],

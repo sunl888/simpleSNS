@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use Schema;
+use App\Services\SendSmsService;
+use Illuminate\Hashing\BcryptHasher;
+use App\Services\SMSVerificationCode;
 use Illuminate\Support\ServiceProvider;
 use League\Fractal\Manager as FractalManager;
-use Schema;
+use App\Repositories\VerificationCodeRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -37,6 +41,18 @@ class AppServiceProvider extends ServiceProvider
                 \Log::info('sql', [$sql, $query->time, url()->current()]);
             });
         }
+
+        $this->app->singleton(SMSVerificationCode::class, function ($app) {
+            return new SMSVerificationCode(
+                app(VerificationCodeRepository::class),
+                app(BcryptHasher::class),
+                config('alidayu'));
+        });
+
+        $this->app->singleton(SendSmsService::class, function ($app) {
+            return new SendSmsService(config('alidayu'));
+        });
+
         $this->app->singleton(FractalManager::class, function ($app) {
             return new FractalManager();
         });

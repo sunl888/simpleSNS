@@ -3,10 +3,11 @@
 namespace App\Services;
 
 use App\Exceptions\GenerateVerificationCodeException;
-use App\Exceptions\SendSmsFailException;
 use App\Exceptions\SendVerificationCodeException;
 use App\Repositories\VerificationCodeRepository;
 use Carbon\Carbon;
+use Flc\Dysms\Client;
+use Flc\Dysms\Request\SendSms;
 use Illuminate\Contracts\Hashing\Hasher;
 
 /**
@@ -42,15 +43,23 @@ class SMSVerificationCode
     public function send($phoneNumber, $config)
     {
         list($signName, $templateCode, $outId) = array_values($config);
+
         $this->sendVerificationCode($phoneNumber, $this->generateVerificationCode($phoneNumber), $signName, $templateCode, $outId);
     }
 
     protected function sendVerificationCode($phoneNumber, $verificationCode, $signName, $templateCode, $outId = null)
     {
-        try {
-            app(SendSmsService::class)->send($phoneNumber, ['code' => $verificationCode], $signName, $templateCode, $outId);
-        } catch (SendSmsFailException $e) {
-            throw new SendVerificationCodeException($e->getMessage());
+        $client = new Client($this->config);
+        $sendSms = new SendSms();
+        $sendSms->setPhoneNumbers($phoneNumber);
+        $sendSms->setSignName($signName);
+        $sendSms->setTemplateCode($templateCode);
+        $sendSms->setTemplateParam(['code' => $verificationCode]);
+        $sendSms->setOutId($outId);
+
+        $res = $client->execute($sendSms);
+        if ($res->Code !== 'OK') {
+            throw new SendVerificationCodeException($res->Message);
         }
         $this->verificationCodeRepository->create([
             'tel_num' => $phoneNumber,

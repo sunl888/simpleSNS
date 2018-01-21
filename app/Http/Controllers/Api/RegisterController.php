@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\SendSmsFailException;
 use App\Exceptions\SendVerificationCodeException;
 use App\Http\Controllers\ApiController;
 use App\Repositories\UserRepository;
@@ -41,7 +42,6 @@ class RegisterController extends APIController
             Log::error('验证码发送失败！:' . $e->getMessage());
             abort(500, '验证码发送失败！');
         }
-
         return $this->response()->noContent();
     }
 

@@ -3,9 +3,9 @@
 namespace App\Services;
 
 
-use App\Exceptions\SendSmsFailException;
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
+use App\Exceptions\SendSmsFailException;
 
 class SendSmsService
 {

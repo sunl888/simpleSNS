@@ -2,10 +2,12 @@
 
 namespace App\Exceptions;
 
-class SendVerificationCodeException extends SendSmsFailException
+use Symfony\Component\HttpKernel\Exception\HttpException;
+
+class SendVerificationCodeException extends HttpException
 {
     public function __construct($message = null, \Exception $previous = null, array $headers = array(), $code = 0)
     {
-        parent::__construct($message, 500, $previous);
+        parent::__construct(500, $message, $previous, $headers, $code);
     }
 }

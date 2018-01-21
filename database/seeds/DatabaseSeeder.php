@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\User::class, 3)->create();
+        factory(App\Models\User::class, 10)->create();
+        \App\Models\User::where('id', 1)->first()->update(['nickname' => 'admin', 'tel_num' => '15705547511', 'email' => '2013855675@qq.com']);
     }
 }

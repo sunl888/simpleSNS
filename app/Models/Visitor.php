@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+
 use Carbon\Carbon;
 
 class Visitor extends BaseModel

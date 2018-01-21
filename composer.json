@@ -19,7 +19,10 @@
     "league/fractal": "^0.17.0",
     "propaganistas/laravel-phone": "^3.0",
     "rtconner/laravel-tagging": "~2.2",
-    "tymon/jwt-auth": "^1.0@dev"
+    "tymon/jwt-auth": "^1.0@dev",
+    "overtrue/laravel-pinyin": "~3.0",
+    "overtrue/laravel-filesystem-qiniu": "^1.0",
+    "overtrue/laravel-lang": "~3.0"
   },
   "require-dev": {
     "filp/whoops": "~2.0",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "438e0dee45b517072b7de4ff7fc07424",
+    "content-hash": "b920cff3cf7fbb4b8356c2d1a23fb7c0",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -127,6 +127,48 @@
                 }
             ],
             "time": "2016-06-13T19:28:20+00:00"
+        },
+        {
+            "name": "caouecs/laravel-lang",
+            "version": "3.0.41",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/caouecs/Laravel-lang.git",
+                "reference": "1ec55fb2d6315fd4f977c5e2419ba530efea5d3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/caouecs/Laravel-lang/1ec55fb2d6315fd4f977c5e2419ba530efea5d3f.zip",
+                "reference": "1ec55fb2d6315fd4f977c5e2419ba530efea5d3f",
+                "shasum": ""
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^1.10"
+            },
+            "suggest": {
+                "ablunier/laravel-lang-installer": "Command for easily add languages to a Laravel project",
+                "arcanedev/laravel-lang": "Translations manager and checker for Laravel 5",
+                "overtrue/laravel-lang": "Command to add languages in your project"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "caouecs",
+                    "email": "caouecs@caouecs.net"
+                }
+            ],
+            "description": "Languages for Laravel",
+            "keywords": [
+                "lang",
+                "languages",
+                "laravel",
+                "lpm"
+            ],
+            "time": "2018-01-19T08:47:27+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1713,6 +1755,245 @@
             "time": "2017-12-26T14:43:21+00:00"
         },
         {
+            "name": "overtrue/flysystem-qiniu",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/flysystem-qiniu.git",
+                "reference": "64e0d51065f0ae5101098d4fcf280af2af453d36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/flysystem-qiniu/64e0d51065f0ae5101098d4fcf280af2af453d36.zip",
+                "reference": "64e0d51065f0ae5101098d4fcf280af2af453d36",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^1.0",
+                "php": ">=5.5.9",
+                "qiniu/php-sdk": "^7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "1.0.x-dev",
+                "php": ">=5.6.0",
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\Flysystem\\Qiniu\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "i@overtrue.me"
+                }
+            ],
+            "description": "Flysystem adapter for the Qiniu storage.",
+            "time": "2017-11-29T06:50:29+00:00"
+        },
+        {
+            "name": "overtrue/laravel-filesystem-qiniu",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-filesystem-qiniu.git",
+                "reference": "315dcb03c2afa448eaa4e60721072a183f302408"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/laravel-filesystem-qiniu/315dcb03c2afa448eaa4e60721072a183f302408.zip",
+                "reference": "315dcb03c2afa448eaa4e60721072a183f302408",
+                "shasum": ""
+            },
+            "require": {
+                "league/flysystem": "^1.0",
+                "overtrue/flysystem-qiniu": "^1.0.2",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelFilesystem\\Qiniu\\QiniuStorageServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelFilesystem\\Qiniu\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "i@overtrue.me"
+                }
+            ],
+            "description": "A Qiniu storage filesystem for Laravel.",
+            "time": "2017-11-29T06:55:32+00:00"
+        },
+        {
+            "name": "overtrue/laravel-lang",
+            "version": "3.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-lang.git",
+                "reference": "c49d5f86c2ab2302c06e10d7ebd66a1ac73e0bab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/laravel-lang/c49d5f86c2ab2302c06e10d7ebd66a1ac73e0bab.zip",
+                "reference": "c49d5f86c2ab2302c06e10d7ebd66a1ac73e0bab",
+                "shasum": ""
+            },
+            "require": {
+                "caouecs/laravel-lang": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelLang\\TranslationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelLang\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "List of 52 languages for Laravel 5",
+            "keywords": [
+                "languages",
+                "laravel",
+                "overtrue"
+            ],
+            "time": "2017-10-28T12:10:43+00:00"
+        },
+        {
+            "name": "overtrue/laravel-pinyin",
+            "version": "3.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/laravel-pinyin.git",
+                "reference": "4ca98a67cc2cd53ce98ee43dddbc5f5093cdbacc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/laravel-pinyin/4ca98a67cc2cd53ce98ee43dddbc5f5093cdbacc.zip",
+                "reference": "4ca98a67cc2cd53ce98ee43dddbc5f5093cdbacc",
+                "shasum": ""
+            },
+            "require": {
+                "overtrue/pinyin": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Overtrue\\LaravelPinyin\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Pinyin": "Overtrue\\LaravelPinyin\\Facades\\Pinyin"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\LaravelPinyin\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "overtrue",
+                    "email": "anzhengchao@gmail.com"
+                }
+            ],
+            "description": "Chinese to Pinyin translator.",
+            "keywords": [
+                "Chinese",
+                "Pinyin",
+                "laravel",
+                "overtrue"
+            ],
+            "time": "2017-07-02T22:06:52+00:00"
+        },
+        {
+            "name": "overtrue/pinyin",
+            "version": "3.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/overtrue/pinyin.git",
+                "reference": "3b781d267197b74752daa32814d3a2cf5d140779"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/overtrue/pinyin/3b781d267197b74752daa32814d3a2cf5d140779.zip",
+                "reference": "3b781d267197b74752daa32814d3a2cf5d140779",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Overtrue\\Pinyin\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Carlos",
+                    "homepage": "http://github.com/overtrue"
+                }
+            ],
+            "description": "Chinese to pinyin translator.",
+            "homepage": "https://github.com/overtrue/pinyin",
+            "keywords": [
+                "Chinese",
+                "Pinyin",
+                "cn2pinyin"
+            ],
+            "time": "2017-07-10T07:20:01+00:00"
+        },
+        {
             "name": "paragonie/random_compat",
             "version": "v2.0.11",
             "source": {
@@ -2141,6 +2422,57 @@
             "time": "2017-12-28T16:14:16+00:00"
         },
         {
+            "name": "qiniu/php-sdk",
+            "version": "v7.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/qiniu/php-sdk.git",
+                "reference": "79290fd9cb5d72cc2feef779008b3aaeeac49eb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/qiniu/php-sdk/79290fd9cb5d72cc2feef779008b3aaeeac49eb9.zip",
+                "reference": "79290fd9cb5d72cc2feef779008b3aaeeac49eb9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Qiniu\\": "src/Qiniu"
+                },
+                "files": [
+                    "src/Qiniu/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Qiniu",
+                    "email": "sdk@qiniu.com",
+                    "homepage": "http://www.qiniu.com"
+                }
+            ],
+            "description": "Qiniu Resource (Cloud) Storage SDK for PHP",
+            "homepage": "http://developer.qiniu.com/",
+            "keywords": [
+                "cloud",
+                "qiniu",
+                "sdk",
+                "storage"
+            ],
+            "time": "2017-11-07T06:12:11+00:00"
+        },
+        {
             "name": "ramsey/uuid",
             "version": "3.7.3",
             "source": {
@@ -2219,61 +2551,6 @@
                 "uuid"
             ],
             "time": "2018-01-20T00:28:24+00:00"
-        },
-        {
-            "name": "rtconner/laravel-tagging",
-            "version": "2.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rtconner/laravel-tagging.git",
-                "reference": "a945f2e7ef40ece795b5dd749b3325705420a90a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/rtconner/laravel-tagging/a945f2e7ef40ece795b5dd749b3325705420a90a.zip",
-                "reference": "a945f2e7ef40ece795b5dd749b3325705420a90a",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": ">= 5.0",
-                "illuminate/support": ">= 5.0",
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9",
-                "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "~4.0",
-                "vlucas/phpdotenv": "~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Conner\\Tagging\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Conner",
-                    "email": "rtconner@smarter.bz"
-                }
-            ],
-            "description": "Use PHP traits to extend Laravel Eloquent Models to allow Tags. Models can be marked as Taggable.",
-            "homepage": "https://smartersoftware.net/packages/laravel-tagging-taggable",
-            "keywords": [
-                "Taggable",
-                "eloquent",
-                "laravel",
-                "laravel5",
-                "tag",
-                "tagged",
-                "tagging",
-                "tags"
-            ],
-            "time": "2017-09-06T03:49:28+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

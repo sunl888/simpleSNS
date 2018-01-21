@@ -63,7 +63,7 @@ namespace PHPSTORM_META {
         'League\Fractal\Manager' => \League\Fractal\Manager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -157,6 +157,7 @@ namespace PHPSTORM_META {
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
+        'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
@@ -213,7 +214,7 @@ namespace PHPSTORM_META {
         'League\Fractal\Manager' => \League\Fractal\Manager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -307,6 +308,7 @@ namespace PHPSTORM_META {
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
+        'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
@@ -363,7 +365,7 @@ namespace PHPSTORM_META {
         'League\Fractal\Manager' => \League\Fractal\Manager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -457,6 +459,7 @@ namespace PHPSTORM_META {
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
+        'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
     ]));
     override(\App::make(0), map([
         '' => '@',
@@ -513,7 +516,7 @@ namespace PHPSTORM_META {
         'League\Fractal\Manager' => \League\Fractal\Manager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -607,6 +610,7 @@ namespace PHPSTORM_META {
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
+        'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
     ]));
     override(\App::makeWith(0), map([
         '' => '@',
@@ -663,7 +667,7 @@ namespace PHPSTORM_META {
         'League\Fractal\Manager' => \League\Fractal\Manager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -757,6 +761,7 @@ namespace PHPSTORM_META {
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
+        'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
     ]));
     override(\app(0), map([
         '' => '@',
@@ -813,7 +818,7 @@ namespace PHPSTORM_META {
         'League\Fractal\Manager' => \League\Fractal\Manager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -907,6 +912,7 @@ namespace PHPSTORM_META {
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
+        'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
     ]));
     override(\resolve(0), map([
         '' => '@',
@@ -963,7 +969,7 @@ namespace PHPSTORM_META {
         'League\Fractal\Manager' => \League\Fractal\Manager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'validation.presence' => \Illuminate\Validation\DatabasePresenceVerifier::class,
-        'translation.loader' => \Illuminate\Translation\FileLoader::class,
+        'translation.loader' => \Overtrue\LaravelLang\FileLoader::class,
         'translator' => \Illuminate\Translation\Translator::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -1057,6 +1063,7 @@ namespace PHPSTORM_META {
         'auth.password.broker' => \Illuminate\Auth\Passwords\PasswordBroker::class,
         'command.tinker' => \Laravel\Tinker\Console\TinkerCommand::class,
         'Laravel\Socialite\Contracts\Factory' => \Laravel\Socialite\SocialiteManager::class,
+        'Overtrue\Pinyin\Pinyin' => \Overtrue\Pinyin\Pinyin::class,
     ]));
 
     override(\Illuminate\Support\Arr::add(0), type(0));

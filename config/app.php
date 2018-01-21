@@ -169,7 +169,6 @@ return [
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Propaganistas\LaravelPhone\PhoneServiceProvider::class,
-        Conner\Tagging\Providers\TaggingServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
 
         /*

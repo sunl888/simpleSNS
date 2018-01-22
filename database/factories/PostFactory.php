@@ -11,7 +11,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'excerpt' => str_random(128),
         'views' => 0,
         'cover' => $faker->imageUrl(),
-        'likes' => 1,
+        'likes' => 0,
         'category_id' => function () {
             $categoryIDs = Category::all()->pluck('id');
             return $categoryIDs->random(1)->first();

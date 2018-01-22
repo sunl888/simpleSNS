@@ -3,9 +3,8 @@
 namespace App\Transformers;
 
 use App\Models\PostContent;
-use League\Fractal\TransformerAbstract;
 
-class PostContentTransformer extends TransformerAbstract
+class PostContentTransformer extends BaseTransformer
 {
     public function transform(PostContent $postContents)
     {

@@ -23,8 +23,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
+        Route::get('img/{image}', 'App\Http\Controllers\ImagesController@show')->where('image', '[A-Za-z0-9]{32}\.[A-Za-z0-9]+')->name('image');
         parent::boot();
     }
 

@@ -45,8 +45,7 @@ class VisitorService
     public function getRecentlyPVUVFromCache()
     {
         // todo 14 放到配置文件中
-        // $visitorRecordDays = setting('visitor_record_days', 14);
-        $visitorRecordDays = 14;
+        $visitorRecordDays = 30;
         $today = Carbon::today();
         // 获取应该 cache 的日期
         $shouldCacheDates = [];
@@ -110,7 +109,6 @@ class VisitorService
     public function getPVUVByDateWithoutCache(Carbon $date)
     {
         return [
-            // 'page_view' => Visitor::withinOneday($date)->sum('views'),
             'unique_visitor' => Visitor::withinOneday($date)->count()
         ];
     }

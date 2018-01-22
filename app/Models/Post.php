@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Presenter\PostPresenter;
+use App\Models\Traits\HasSlug;
 use App\Models\Traits\Listable;
 use App\Models\Traits\Sortable;
-use App\Support\Presenter\PresentableInterface;
 
 
 class Post extends BaseModel
 {
-    use Listable, Sortable;
+    use Listable, Sortable, HasSlug;
 
     const STATUS_PUBLISH = 'publish', STATUS_DRAFT = 'draft';
     protected $fillable = ['title', 'user_id', 'slug', 'excerpt', 'views', 'cover', 'likes', 'status', 'published_at', 'category_id', 'order'];
@@ -33,15 +32,11 @@ class Post extends BaseModel
 
     public function scopeApplyFilter($query, $data)
     {
-        /*$data = $data->only('status', 'only_trashed', 'category_id');
-        $query->orderByTop()
-            ->byCategory(isset($data['category_id']) ? $data['category_id'] : null)
-            ->byType(Category::TYPE_POST)
-            ->byStatus(isset($data['status']) ? $data['status'] : null);
+        $data = $data->only('status', 'category_id');
 
-        if (isset($data['only_trashed']) && $data['only_trashed']) {
-            $query->onlyTrashed();
-        }*/
+        $query->byCategory($data['category_id'] ?? null)
+            ->byStatus($data['status'] ?? null);
+
         return $query->ordered()->recent();
     }
 
@@ -71,14 +66,39 @@ class Post extends BaseModel
 
     public function scopePublishPost($query)
     {
-        return $query->where(function ($query) {
-            $query->byType(Category::TYPE_POST)->byStatus(static::STATUS_PUBLISH);
-        });
+        return $query->byStatus(static::STATUS_PUBLISH);
     }
 
-    public function addViewCount()
+    public function scopeDraftPost($query)
     {
-        return $this->increment('views_count');
+        return $query->byStatus(static::STATUS_DRAFT);
+    }
+
+    /**
+     * 文章浏览量增加
+     * @return int
+     */
+    public function addViews()
+    {
+        return $this->increment('views');
+    }
+
+    /**
+     * 文章点赞数量加 1
+     * @return int
+     */
+    public function addLikes()
+    {
+        return $this->increment('likes');
+    }
+
+    /**
+     * 文章点赞数量减 1
+     * @return int
+     */
+    public function subLikes()
+    {
+        return $this->decrement('likes');
     }
 
     public function postContent()
@@ -104,9 +124,14 @@ class Post extends BaseModel
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
     public function slugMode()
     {
-        return setting('post_slug_mode');
+        return config('sns.default_slug_mode');
     }
 
 }

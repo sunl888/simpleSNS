@@ -3,9 +3,8 @@
 namespace App\Transformers;
 
 use App\Models\Tag;
-use League\Fractal\TransformerAbstract;
 
-class TagTransformer extends TransformerAbstract
+class TagTransformer extends BaseTransformer
 {
 
     public function transform(Tag $tag)

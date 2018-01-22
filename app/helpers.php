@@ -8,7 +8,6 @@
 
 use App\Repositories\SettingRepository;
 use App\Services\SettingCacheService;
-use GuzzleHttp\Exception\TransferException;
 
 if (!function_exists('toIso8601String')) {
     function toIso8601String($date)
@@ -21,49 +20,68 @@ if (!function_exists('toIso8601String')) {
     }
 }
 
+if (!function_exists('image_url')) {
 
-if (!function_exists('setting')) {
-    /**
-     * 获取或设置网站设置
-     * 获取: setting('setting_name', 'default_value');
-     * 设置: 1. setting(['setting_name1' => 'value1', 'setting_name2' => 'value2']);
-     *      2. setting(['setting_name1' => ['value' => 'value_test', 'is_system' => true]]);
-     * @param null $name
-     * @param null $default
-     * @return SettingCacheService|\Illuminate\Foundation\Application|mixed|null|void
-     */
-    function setting($name = null, $default = null)
+    function image_url($imageId, $style = null, $default = null)
     {
-        if (is_null($name)) {
-            return app(SettingCacheService::class);
+        static $config = [];
+
+        if (is_null($imageId)) {
+            return value($default);
         }
 
-        if (is_array($name)) {
-            return app(SettingRepository::class)->set($name);
+        if (empty($config))
+            $config = config('images');
+
+        if ($config['source_disk'] == 'local') {
+
+            $parameters = ['image' => $imageId];
+
+            if (is_array($style)) {
+                $parameters = array_merge($parameters, $style);
+            } elseif (is_string($style)) {
+                $parameters['p'] = $style;
+            }
+
+            return route(config('images.route_name'), $parameters);
+
+        } else {
+            $path = $config['source_path_prefix'] . '/' . substr($imageId, 0, 2) . '/' . $imageId;
+
+            if (is_array($style)) {
+                $style = array_merge($config['default_style'], $style);
+            } elseif (isset($config['presets'][$style])) {
+                $style = array_merge($config['default_style'], $config['presets'][$style]);
+            } else {
+                $style = null;
+            }
+
+            if (!empty($style)) {
+
+                if (isset($style['q'])) {
+                    $q = "q/{$style['q']}|imageslim";
+                } else {
+                    $q = '';
+                }
+                // $parameters = "?imageView2/1/w/{$style['w']}/h/{$style['h']}" . $q;
+
+                $parameters = '?imageView2/1/' . (isset($style['w']) ? "w/{$style['w']}/" : '') . (isset($style['h']) ? "h/{$style['h']}/" : '') . $q;
+
+            } else {
+                $parameters = '';
+            }
+
+            return Storage::disk($config['source_disk'])->url($path) . $parameters;
         }
 
-        $setting = app(SettingCacheService::class)->get($name);
+    }
 
-        if (!is_null($setting)) {
-            return $setting->value;
-        }
-        return value($default);
+}
+
+if (!function_exists('clean')) {
+    function clean($html, $config = null)
+    {
+        return app(HTMLPurifier::class)->purify($html, $config);
     }
 }
 
-/**
- * transformer params validation
- */
-if (!function_exists('verificationParams')) {
-    function verificationParams($params, $validParams)
-    {
-        $usedParams = array_keys(iterator_to_array($params));
-        if ($invalidParams = array_diff($usedParams, $validParams)) {
-            throw new TransferException(sprintf(
-                'Invalid param(s): "%s". Valid param(s): "%s"',
-                implode(',', $usedParams),
-                implode(',', $validParams)
-            ));
-        }
-    }
-}

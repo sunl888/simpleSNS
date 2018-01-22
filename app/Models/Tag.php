@@ -10,10 +10,10 @@ class Tag extends BaseModel
     use HasSlug, Listable;
 
     public static $allowSearchFields = ['name', 'slug'];
-    protected $fillable = ['name', 'slug', 'creator_id'];
+    protected $fillable = ['name', 'slug','image', 'creator_id'];
 
     /**
-     * 获得拥有此 tag 的文章。
+     * 获得此标签下所有的文章。
      */
     public function posts()
     {
@@ -22,6 +22,6 @@ class Tag extends BaseModel
 
     public function slugMode()
     {
-        return setting('tag_slug_mode');
+        return config('sns.default_slug_mode');
     }
 }

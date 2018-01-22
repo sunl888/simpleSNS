@@ -10,26 +10,18 @@ namespace App\Transformers;
 
 
 use App\Models\Like;
-use League\Fractal\TransformerAbstract;
 
-class LikeTransformer extends TransformerAbstract
+class LikeTransformer extends BaseTransformer
 {
-
-    protected $availableIncludes = [];
-
-    private $validParams = [];
-
-    public function transform(Like $user)
+    public function transform(Like $like)
     {
         return [
-            'id' => $user->id,
-            'nickname' => $user->nick_name,
-            'email' => $user->email,
-            'avatar' => $user->avatar,
-            'tel_num' => $user->tel_num,
-            'introduction' => $user->introduction,
-            'created_at' => $user->created_at->toDateTimeString(),
-            'updated_at' => $user->updated_at->toDateTimeString()
+            'id' => $like->id,
+            'user' => $like->user,
+            'post_id' => $like->post_id,
+            'user_id' => $like->user_id,
+            'created_at' => $like->created_at->toDateTimeString(),
+            'updated_at' => $like->updated_at->toDateTimeString()
         ];
     }
 }

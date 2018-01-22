@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.32 on 2018-01-21.
+ * Generated for Laravel 5.5.32 on 2018-01-22.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -6655,46 +6655,6 @@ namespace Illuminate\Support\Facades {
          
     }
 
-    class Redis {
-        
-        /**
-         * Get a Redis connection by name.
-         *
-         * @param string|null $name
-         * @return \Illuminate\Redis\Connections\Connection 
-         * @static 
-         */ 
-        public static function connection($name = null)
-        {
-            return \Illuminate\Redis\RedisManager::connection($name);
-        }
-        
-        /**
-         * Resolve the given connection by name.
-         *
-         * @param string|null $name
-         * @return \Illuminate\Redis\Connections\Connection 
-         * @throws \InvalidArgumentException
-         * @static 
-         */ 
-        public static function resolve($name = null)
-        {
-            return \Illuminate\Redis\RedisManager::resolve($name);
-        }
-        
-        /**
-         * Return all of the created connections.
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function connections()
-        {
-            return \Illuminate\Redis\RedisManager::connections();
-        }
-         
-    }
-
     class Request {
         
         /**
@@ -12771,96 +12731,60 @@ namespace Tymon\JWTAuth\Facades {
  
 }
 
-namespace Laravel\Socialite\Facades { 
+namespace Intervention\Image\Facades { 
 
-    class Socialite {
+    class Image {
         
         /**
-         * Get a driver instance.
-         *
-         * @param string $driver
-         * @return mixed 
-         * @static 
-         */ 
-        public static function with($driver)
-        {
-            return \Laravel\Socialite\SocialiteManager::with($driver);
-        }
-        
-        /**
-         * Build an OAuth 2 provider instance.
-         *
-         * @param string $provider
-         * @param array $config
-         * @return \Laravel\Socialite\Two\AbstractProvider 
-         * @static 
-         */ 
-        public static function buildProvider($provider, $config)
-        {
-            return \Laravel\Socialite\SocialiteManager::buildProvider($provider, $config);
-        }
-        
-        /**
-         * Format the server configuration.
+         * Overrides configuration settings
          *
          * @param array $config
-         * @return array 
          * @static 
          */ 
-        public static function formatConfig($config)
+        public static function configure($config = array())
         {
-            return \Laravel\Socialite\SocialiteManager::formatConfig($config);
+            return \Intervention\Image\ImageManager::configure($config);
         }
         
         /**
-         * Get the default driver name.
+         * Initiates an Image instance from different input types
          *
-         * @throws \InvalidArgumentException
-         * @return string 
+         * @param mixed $data
+         * @return \Intervention\Image\Image 
          * @static 
          */ 
-        public static function getDefaultDriver()
+        public static function make($data)
         {
-            return \Laravel\Socialite\SocialiteManager::getDefaultDriver();
+            return \Intervention\Image\ImageManager::make($data);
         }
         
         /**
-         * Get a driver instance.
+         * Creates an empty image canvas
          *
-         * @param string $driver
-         * @return mixed 
+         * @param integer $width
+         * @param integer $height
+         * @param mixed $background
+         * @return \Intervention\Image\Image 
          * @static 
          */ 
-        public static function driver($driver = null)
+        public static function canvas($width, $height, $background = null)
         {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::driver($driver);
+            return \Intervention\Image\ImageManager::canvas($width, $height, $background);
         }
         
         /**
-         * Register a custom driver creator Closure.
+         * Create new cached image and run callback
+         * (requires additional package intervention/imagecache)
          *
-         * @param string $driver
          * @param \Closure $callback
-         * @return $this 
+         * @param integer $lifetime
+         * @param boolean $returnObj
+         * @return \Image 
          * @static 
          */ 
-        public static function extend($driver, $callback)
+        public static function cache($callback, $lifetime = null, $returnObj = false)
         {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::extend($driver, $callback);
-        }
-        
-        /**
-         * Get all of the created "drivers".
-         *
-         * @return array 
-         * @static 
-         */ 
-        public static function getDrivers()
-        {
-            //Method inherited from \Illuminate\Support\Manager            
-            return \Laravel\Socialite\SocialiteManager::getDrivers();
+            return \Intervention\Image\ImageManager::cache($callback, $lifetime, $returnObj);
         }
          
     }
@@ -15085,8 +15009,6 @@ namespace  {
 
     class Redirect extends \Illuminate\Support\Facades\Redirect {}
 
-    class Redis extends \Illuminate\Support\Facades\Redis {}
-
     class Request extends \Illuminate\Support\Facades\Request {}
 
     class Response extends \Illuminate\Support\Facades\Response {}
@@ -15109,7 +15031,7 @@ namespace  {
 
     class JWTFactory extends \Tymon\JWTAuth\Facades\JWTFactory {}
 
-    class Socialite extends \Laravel\Socialite\Facades\Socialite {}
+    class Image extends \Intervention\Image\Facades\Image {}
 
     class Pinyin extends \Overtrue\LaravelPinyin\Facades\Pinyin {}
  

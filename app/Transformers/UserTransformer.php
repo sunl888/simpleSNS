@@ -20,6 +20,11 @@ class UserTransformer extends BaseTransformer
             'avatar' => $user->avatar,
             'tel_num' => $user->tel_num,
             'introduction' => $user->introduction,
+            'city' => $user->city,
+            'location' => $user->location,
+            'company' => $user->company,
+            'username' => $user->username,
+            'name' => $user->name,
             'created_at' => $user->created_at->toDateTimeString(),
             'updated_at' => $user->updated_at->toDateTimeString()
         ];

@@ -18,6 +18,11 @@ return [
             'template_code' => 'SMS_122297275',
             'out_id' => 'register'
         ],
+        'user_reset_pwd' => [
+            'sign_name' => '孙龙',
+            'template_code' => 'SMS_122299761',
+            'out_id' => 'reset_password'
+        ],
     ],
 
 ];

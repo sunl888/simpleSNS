@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
         // 文章分类
         $this->call(CategorySeeder::class);
 
-        factory(App\Models\User::class, 10)->create()->each(function ($u) {
+        factory(App\Models\User::class, 5)->create()->each(function ($u) {
             // 生成文章
             $post = $u->posts()->save(factory(App\Models\Post::class)->make());
             // 生成文章正文

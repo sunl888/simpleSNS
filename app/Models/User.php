@@ -10,7 +10,7 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     use Notifiable;
 
     protected $fillable = [
-        'nickname', 'tel_num', 'avatar', 'email', 'password', 'introduction',
+        'nickname', 'tel_num', 'avatar', 'email', 'password', 'introduction', 'is_banned', 'city', 'oauth_token', 'location', 'company', 'username', 'name', 'provider', 'last_actived_at',
     ];
 
     protected $hidden = [
@@ -49,4 +49,31 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     {
         return $this->hasMany(Like::class);
     }
+
+    /**
+     * @param $query
+     * @param $primacy 's
+     * @param $credentials 0=>'username', 1=>'password', 2=>'provider'
+     * @return mixed
+     */
+    public function scopeByPrimaryKeys($query, $primarys, $credentials)
+    {
+        list($username, , $provider) = array_values($credentials);
+
+        $query->where(['provider' => $provider]);
+        $query->where(function ($query) use ($primarys, $username) {
+            foreach ($primarys as $primary) {
+                $query->orWhere([$primary => $username]);
+            }
+            return $query;
+        });
+
+        return $query;
+    }
+
+    public function scopeProviderWithNull($query)
+    {
+        return $query->where('provider', null);
+    }
+
 }

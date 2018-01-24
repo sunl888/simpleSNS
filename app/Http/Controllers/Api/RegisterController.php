@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Exceptions\SendVerificationCodeException;
+use App\Events\ResetPasswrod;
 use App\Http\Controllers\ApiController;
+use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Rules\FieldHasExisted;
 use App\Rules\SMSVerificationCode;
-use App\Services\SMSVerificationCode as SMSVerificationCodeService;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use JWTAuth;
-use Log;
+use App\Services\SMSVerificationCode as SMSVerificationCodeService;
 
 class RegisterController extends APIController
 {
@@ -30,36 +33,56 @@ class RegisterController extends APIController
         $this->middleware('guest');
     }
 
-    public function sendSMSVerificationCode(Request $request)
-    {
-        $data = $this->validate($request, [
-            'tel_num' => ['bail', 'required', 'string', 'regex:/\d{11}/', Rule::unique('users', 'tel_num')]
-        ]);
-
-        try {
-            app(SMSVerificationCodeService::class)->send($data['tel_num'], config('alidayu.template.user_register'));
-        } catch (SendVerificationCodeException $e) {
-            // todo 语言包
-            Log::error('验证码发送失败！:' . $e->getMessage());
-            abort(500, '验证码发送失败！');
-        }
-        return $this->response()->noContent();
-    }
-
     /**
-     * Handle a registration request for the application.
+     * 注册
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function register(Request $request)
     {
-        //dd($this->registered($request, User::find(4)));
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
 
         return $this->registered($request, $user);
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws ValidationException
+     */
+    public function resetPassword(Request $request)
+    {
+        $data = $request->all();
+        Validator::make($data, [
+            'tel_num' => ['bail', 'required', 'string', 'regex:/\d{11}/'],
+            'sms_verification_code' => ['bail', 'required', new SMSVerificationCode($data['tel_num'])],
+            'password' => ['bail', 'required', 'string', 'min:6'],
+        ])->validate();
+
+        $user = User::where(['tel_num' => $data['tel_num'], 'provider' => null])->first();
+
+        if (!$user) {
+            throw new ModelNotFoundException('该账号不存在');
+        }
+
+        event(new ResetPasswrod($this->update($request->all(), $user)));
+
+        return $this->reseted($request, $data);
+    }
+
+    protected function reseted(Request $request, $credentials)
+    {
+        $credentials = array_only($credentials, ['tel_num', 'password']);
+
+        if ($token = JWTAuth::attempt($credentials)) {
+            return $this->respondWithToken($token);
+        }
+        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     /**
@@ -71,9 +94,10 @@ class RegisterController extends APIController
     protected function validator(array $data)
     {
         return Validator::make($data, [
+            'tel_num' => ['bail', 'required', 'string', 'regex:/\d{11}/', new FieldHasExisted()],
+            // TODO 这里如果没有tel_num会报错
             'sms_verification_code' => ['bail', 'required', new SMSVerificationCode($data['tel_num'])],
-            'email' => ['bail', 'required', 'string', 'email'],
-            'tel_num' => ['bail', 'required', 'string', 'regex:/\d{11}/', 'unique:users'],
+            'email' => ['bail', 'required', 'string', 'email', new FieldHasExisted()],
             'password' => ['bail', 'required', 'string', 'min:6'],
         ]);
     }
@@ -88,6 +112,12 @@ class RegisterController extends APIController
     {
         $userRepository = app(UserRepository::class);
         return $userRepository->create(array_only($data, ['tel_num', 'email', 'password']));
+    }
+
+    protected function update(array $data, Model $model)
+    {
+        $userRepository = app(UserRepository::class);
+        return $userRepository->update(array_only($data, ['password']), $model);
     }
 
     /**
@@ -113,4 +143,5 @@ class RegisterController extends APIController
             'expires_in' => $this->guard()->factory()->getTTL() * 60
         ]);
     }
+
 }

@@ -19,7 +19,6 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'nickname' => snake_case($faker->userName),
         'tel_num' => $prefix . $middle . $suffix,
         'email' => $faker->unique()->safeEmail,
-        'avatar' => $faker->imageUrl(),
         'introduction' => $faker->text(20),
         'password' => bcrypt(config('sns.default_user_password') ?? $password),
     ];

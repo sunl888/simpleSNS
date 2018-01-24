@@ -6,7 +6,7 @@ Router.prototype.goBack = function () {
   this.isBack = true;
   window.history.go(-1);
 };
-const parentComponent = {template: '<router-view></router-view>'};
+// const parentComponent = {template: '<router-view></router-view>'};
 export default new Router({
   routes: [
     {
@@ -16,24 +16,25 @@ export default new Router({
     // 登录
     {
       path: '/login',
-      component: parentComponent,
+      meta: { title: '首页' },
+      component: require('../views/account/AccountComponent.vue'),
       children: [
         {
           path: '/',
           name: 'login',
-          component: require('../views/login.vue')
+          component: require('../views/account/login.vue')
         },
         {
           path: '/forget_pass',
           name: 'forget_pass',
-          component: require('../views/login.vue')
+          component: require('../views/account/forgetPass.vue')
         }
       ]
     },
     {
       path: '/logon',
       name: 'logon',
-      component: require('../views/login.vue')
+      component: require('../views/account/login.vue')
     },
     // 首页
     {

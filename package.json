@@ -10,6 +10,7 @@
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
+    "animate.css": "^3.5.2",
     "axios": "^0.17.1",
     "babel-eslint": "^8.2.1",
     "bootstrap-sass": "^3.3.7",

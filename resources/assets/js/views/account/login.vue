@@ -1,31 +1,33 @@
 <template>
-<div class="login_box">
-  <div class="login">
+  <div class="login">       
     <div class="photo">
-      <img src="../assets/images/temp.jpg" alt="">
+      <img src="../../assets/images/temp.jpg" alt="">
     </div>
     <mu-row gutter>
-      <mu-col  class="form clear_fixed" width="90" tablet="50" desktop="33">
+      <mu-col  class="form clear_fixed" width="90" tablet="50" desktop="25">
         <h2>登录</h2>
         <mu-text-field hintText="请输入手机号" type="text" fullWidth v-model="userId"/><br/>
         <mu-text-field hintText="请输入密码" type="password" fullWidth v-model="userPassword"/><br/>
         <mu-checkbox label="记住我" class="demo-checkbox remeber_me"/>
         <div class="logon">
           <router-link :to="{name: 'forget_pass'}">忘记密码</router-link>
-          <span>|</span>
-          <a>没有账号？</a>
         </div>
-        <mu-raised-button label="登录" class="demo-raised-button login_btn" fullWidth primary/>
+        <mu-raised-button :to="{name: 'home'}" label="登录" class="demo-raised-button submit_btn" fullWidth primary/>
         <div class="oauth_login">
-          <h3>第三方账号登录</h3>  
-          <i class="iconfont icon-qq-copy"></i>
-          <i class="iconfont icon-weixin-copy"></i>
-          <i class="iconfont icon-433-github"></i>
+          <h3>第三方账号登录</h3> 
+          <mu-icon-button class="oauth_btn">
+            <i class="iconfont icon-qq-copy"></i>
+          </mu-icon-button> 
+          <mu-icon-button class="oauth_btn">
+            <i class="iconfont icon-weixin-copy"></i>
+          </mu-icon-button>
+          <mu-icon-button class="oauth_btn">
+            <i class="iconfont icon-433-github"></i>
+          </mu-icon-button>
         </div>
-      </mu-col>
+        </mu-col>
     </mu-row>
   </div>
-</div>
 </template>
 <script>
 export default{
@@ -39,42 +41,8 @@ export default{
   }
 };
 </script>
-<style lang="less">
-body{
-  background: url('../assets/images/01.jpg') no-repeat top center!important;
-  background-size: cover;
-}
-.login{
-  width: 100%;
-  margin-top: 120px;
-  padding: 10px 0;
-  background: rgba(255, 255, 255, 0.9)!important;
-  position: relative;
-  box-shadow: 2px 1px 10px 1px #000;
-  .photo{
-    @size: 130px;
-    width: @size;
-    height: @size;
-    border-radius: 50%;
-    border: 5px solid #fff;
-    overflow: hidden;
-    position: absolute;
-    left: 50%;
-    top: -65px;
-    transform: translateX(-50%);
-    img{
-      width: 100%;
-      height: 100%;
-    }
-  }
-  .form{
-    // width:30%;
-    margin: 0 auto;
-    overflow: hidden;
-    h2{
-      margin: 70px 0 20px 0; 
-      text-align: center;
-    }
+<style lang="less" scoped>
+ .form{
     .remeber_me{
       float: left;
     }
@@ -89,11 +57,8 @@ body{
         }
       }
     }
-    .login_btn{
-      margin: 15px 0;
-    }
     .oauth_login{
-      width: 210px;
+      width: 220px;
       padding: 20px 0;
       margin: 0 auto;
       h3{
@@ -111,11 +76,14 @@ body{
         margin-right: 0;
         color: #444;
       }
+      .oauth_btn{
+        width: 70px;
+        height: 70px;
+      }
       i{
         transition: opacity 0.3s;
-        font-size: 40px;
-        cursor: pointer;
-        margin-right: 40px;      
+        font-size: 35px;
+        cursor: pointer;    
         opacity: 0.5;  
         &:hover{
           opacity: 1;
@@ -123,5 +91,4 @@ body{
       }
     }
   }
-}
 </style>

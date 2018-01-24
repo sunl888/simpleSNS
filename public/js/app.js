@@ -47945,7 +47945,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 /***/ "./resources/assets/js/assets/images/01.jpg":
 /***/ (function(module, exports) {
 
-module.exports = "/images/01.jpg?b0f0dde5c3e43f32717e010c829654d7";
+module.exports = "/images/01.jpg?4f213e61e5d397a5705dbe7573bdccd6";
 
 /***/ }),
 

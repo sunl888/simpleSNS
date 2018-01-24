@@ -9,16 +9,18 @@
   "type": "project",
   "require": {
     "php": ">=7.0.0",
-    "flc/dysms": "^1.0",
-    "laravel/tinker": "~1.0",
-    "fideloper/proxy": "~3.3",
-    "ty666/cdn-pusher": "^1.1",
-    "league/fractal": "^0.17.0",
-    "tymon/jwt-auth": "^1.0@dev",
-    "laravel/framework": "5.5.*",
     "ezyang/htmlpurifier": "^4.9",
+    "fideloper/proxy": "~3.3",
+    "flc/dysms": "^1.0",
+    "laravel/framework": "5.5.*",
+    "laravel/tinker": "~1.0",
+    "league/fractal": "^0.17.0",
     "league/glide-laravel": "^1.0",
-    "overtrue/laravel-pinyin": "~3.0"
+    "overtrue/laravel-pinyin": "~3.0",
+    "overtrue/socialite": "^2.0",
+    "spatie/laravel-backup": "^3.0.0",
+    "ty666/cdn-pusher": "^1.1",
+    "tymon/jwt-auth": "^1.0@dev"
   },
   "require-dev": {
     "filp/whoops": "~2.0",

@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-01-22.
+    * Generated on 2018-01-23.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -64,6 +64,8 @@ namespace PHPSTORM_META {
         'App\Services\VisitorService' => \App\Services\VisitorService::class,
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
+        'League\Glide\Server' => \League\Glide\Server::class,
+        'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -219,6 +221,8 @@ namespace PHPSTORM_META {
         'App\Services\VisitorService' => \App\Services\VisitorService::class,
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
+        'League\Glide\Server' => \League\Glide\Server::class,
+        'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -374,6 +378,8 @@ namespace PHPSTORM_META {
         'App\Services\VisitorService' => \App\Services\VisitorService::class,
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
+        'League\Glide\Server' => \League\Glide\Server::class,
+        'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -529,6 +535,8 @@ namespace PHPSTORM_META {
         'App\Services\VisitorService' => \App\Services\VisitorService::class,
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
+        'League\Glide\Server' => \League\Glide\Server::class,
+        'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -684,6 +692,8 @@ namespace PHPSTORM_META {
         'App\Services\VisitorService' => \App\Services\VisitorService::class,
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
+        'League\Glide\Server' => \League\Glide\Server::class,
+        'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -839,6 +849,8 @@ namespace PHPSTORM_META {
         'App\Services\VisitorService' => \App\Services\VisitorService::class,
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
+        'League\Glide\Server' => \League\Glide\Server::class,
+        'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,
@@ -994,6 +1006,8 @@ namespace PHPSTORM_META {
         'App\Services\VisitorService' => \App\Services\VisitorService::class,
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
+        'League\Glide\Server' => \League\Glide\Server::class,
+        'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
         'Illuminate\Console\Scheduling\Schedule' => \Illuminate\Console\Scheduling\Schedule::class,
         'cache' => \Illuminate\Cache\CacheManager::class,

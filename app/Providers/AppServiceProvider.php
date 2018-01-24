@@ -14,6 +14,7 @@ use Illuminate\Support\ServiceProvider;
 use League\Fractal\Manager as FractalManager;
 use League\Glide\Responses\LaravelResponseFactory;
 use League\Glide\ServerFactory;
+use Overtrue\Socialite\SocialiteManager;
 use Schema;
 use Storage;
 
@@ -92,6 +93,14 @@ class AppServiceProvider extends ServiceProvider
                 'presets' => $config['presets'],
                 'defaults' => $config['default_style']
             ]);
+        });
+
+        $this->app->singleton(SocialiteManager::class, function ($app) {
+            return new SocialiteManager(
+                array_merge(
+                    config('socialite', []),
+                    config('services', [])
+                ), $app->make('request'));
         });
     }
 }

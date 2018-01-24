@@ -10,6 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::group(['namespace' => 'Web',], function () {
+Route::group(['namespace' => 'Web'], function () {
     Route::get('/', 'IndexController@index');
+});
+// oauth2
+Route::group(['prefix' => 'oauth', 'namespace' => 'Api'], function () {
+    Route::get('{driver}', 'AuthController@redirectToProvider');
+    Route::get('{driver}/callback', 'AuthController@handleProviderCallback');
 });

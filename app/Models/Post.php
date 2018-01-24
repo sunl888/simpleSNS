@@ -32,7 +32,7 @@ class Post extends BaseModel
 
     public function scopeApplyFilter($query, $data)
     {
-        $data = $data->only('status', 'category_id');
+        $data = $data->only('status', 'category_id','hot','');
 
         $query->byCategory($data['category_id'] ?? null)
             ->byStatus($data['status'] ?? null);
@@ -124,6 +124,7 @@ class Post extends BaseModel
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+    // todo 这里好像有问题
     public function likes()
     {
         return $this->hasMany(Like::class);

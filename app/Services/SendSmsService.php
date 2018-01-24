@@ -45,6 +45,6 @@ class SendSmsService
         if ($result->Code !== 'OK') {
             throw new SendSmsFailException($result->Message);
         }
-        return response()->isOk();
+        return response()->json(['message' => '验证码发送成功', 'code' => 200]);
     }
 }

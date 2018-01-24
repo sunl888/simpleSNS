@@ -85,3 +85,11 @@ if (!function_exists('clean')) {
     }
 }
 
+if (!function_exists('mb_unserialize')) {
+    function mb_unserialize($str)
+    {
+        return preg_replace_callback('#s:(\d+):"(.*?)";#s', function ($match) {
+            return 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
+        }, $str);
+    }
+}

@@ -15,12 +15,21 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->nullable()->comment('姓名');
+            $table->string('username')->nullable()->comment('用户名');
+            $table->char('tel_num', 11)->nullable()->comment('手机号码');
+            $table->char('email')->nullable()->comment('email');
+            $table->string('provider')->nullable()->comment('服务提供者');
             $table->string('nickname')->nullable()->comment('昵称');
-            $table->char('tel_num', 11)->unique()->comment('手机号码');
-            $table->char('email')->comment('email');
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('avatar')->nullable()->comment('头像');
             $table->string('introduction')->nullable()->comment('简介');
+            $table->enum('is_banned', ['yes', 'no'])->default('no')->index();
+            $table->string('city')->nullable();
+            $table->string('company')->nullable();
+            $table->string('location')->nullable()->comment('地址');
+            $table->string('oauth_token')->nullable()->comment('oauth token');
+            $table->timestampTz('last_actived_at')->nullable();
             $table->rememberToken();
             $table->timestampsTz();
         });

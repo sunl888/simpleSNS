@@ -3,9 +3,8 @@
 namespace App\Transformers;
 
 use App\Models\Follow;
-use League\Fractal\TransformerAbstract;
 
-class FollowTransformer extends TransformerAbstract
+class FollowTransformer extends BaseTransformer
 {
     protected $availableIncludes = [];
 

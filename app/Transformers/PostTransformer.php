@@ -3,33 +3,26 @@
 namespace App\Transformers;
 
 use App\Models\Post;
-use League\Fractal\TransformerAbstract;
 
-class PostTransformer extends TransformerAbstract
+class PostTransformer extends BaseTransformer
 {
-    protected $availableIncludes = ['user', 'post_content', 'category', 'attachments', 'tags'];
+    protected $availableIncludes = ['user', 'post_content', 'category', 'tags', 'likes'];
 
     public function transform(Post $post)
     {
         return [
             'id' => $post->id,
+            'user_id' => $post->user_id,
             'title' => $post->title,
             'slug' => $post->slug,
             'excerpt' => $post->excerpt,
-            'cover' => $post->cover,
-            'cover_url' => $post->cover,
+            'cover' => image_url($post->cover),
             'category_id' => $post->category_id,
             'status' => $post->status,
-            'type' => $post->type,
-            'views_count' => $post->views_count,
-            'template' => $post->template,
-            'preview_url' => $post->getPresenter()->url(),
+            'views' => $post->views,
+            'likes' => $post->likes,
             'order' => $post->order,
-            'top' => !is_null($post->top),
-            'top_at' => is_null($post->top) ? null : $post->top->toDateTimeString(),
-            'top_expired_at' => is_null($post->top_expired_at) ? null : $post->top_expired_at->toDateTimeString(),
-            'fields' => $post->fields,
-            'published_at' => $post->published_at->toDateTimeString(),
+            'published_at' => $post->published_at,
             'created_at' => $post->created_at->toDateTimeString(),
             'updated_at' => $post->updated_at->toDateTimeString()
         ];
@@ -64,15 +57,6 @@ class PostTransformer extends TransformerAbstract
         return $this->item($category, new CategoryTransformer());
     }
 
-    public function includeAttachments(Post $post)
-    {
-        $attachments = $post->attachments()->recent()->get();
-        if (is_null($attachments)) {
-            return $this->null();
-        }
-        return $this->collection($attachments, new AttachmentTransformer());
-    }
-
     public function includeTags(Post $post)
     {
         $tags = $post->tags;
@@ -80,5 +64,14 @@ class PostTransformer extends TransformerAbstract
             return $this->null();
         }
         return $this->collection($tags, new TagTransformer());
+    }
+
+    public function includeLikes(Post $post)
+    {
+        $likes = $post->likes()->get();
+        if (is_null($likes)) {
+            return $this->null();
+        }
+        return $this->collection($likes, new LikeTransformer());
     }
 }

@@ -4,9 +4,8 @@ namespace App\Transformers;
 
 use App\Models\User;
 use League\Fractal\ParamBag;
-use League\Fractal\TransformerAbstract;
 
-class UserTransformer extends TransformerAbstract
+class UserTransformer extends BaseTransformer
 {
     protected $availableIncludes = ['posts', 'follows', 'likes'];
 
@@ -16,7 +15,7 @@ class UserTransformer extends TransformerAbstract
     {
         return [
             'id' => $user->id,
-            'nickname' => $user->nick_name,
+            'nickname' => $user->nickname,
             'email' => $user->email,
             'avatar' => $user->avatar,
             'tel_num' => $user->tel_num,
@@ -31,7 +30,7 @@ class UserTransformer extends TransformerAbstract
         if ($params->getIterator()->count() <= 0) {
             $posts = $user->posts;
         } else {
-            verificationParams($params, $this->validParams);
+            $this->verificationParams($params, $this->validParams);
 
             list($limit, $offset) = $params->get('limit') ?? [config('sns.default_per_page'), 1];
 
@@ -53,17 +52,19 @@ class UserTransformer extends TransformerAbstract
         if ($params->getIterator()->count() <= 0) {
             $follows = $user->follows;
         } else {
-            verificationParams($params, $this->validParams);
+            $this->verificationParams($params, $this->validParams);
 
             list($limit, $offset) = $params->get('limit') ?? [config('sns.default_per_page'), 1];
 
             list($orderCol, $orderBy) = $params->get('order') ?? ['created_at', 'desc'];
 
-            $follows = $user->follows
-                ->take($limit)
-                ->skip($offset)
-                ->orderBy($orderCol, $orderBy)
-                ->get();
+            if (strtolower($orderBy) == 'asc') {
+                $follows = $user->follows
+                    ->forPage($limit, $offset)->sortBy($orderCol);
+            } else {
+                $follows = $user->follows
+                    ->forPage($limit, $offset)->sortByDesc($orderCol);
+            }
         }
         return $this->collection($follows, new FollowTransformer());
     }
@@ -73,17 +74,19 @@ class UserTransformer extends TransformerAbstract
         if ($params->getIterator()->count() <= 0) {
             $likes = $user->likes;
         } else {
-            verificationParams($params, $this->validParams);
+            $this->verificationParams($params, $this->validParams);
 
             list($limit, $offset) = $params->get('limit') ?? [config('sns.default_per_page'), 1];
 
             list($orderCol, $orderBy) = $params->get('order') ?? ['created_at', 'desc'];
 
-            $likes = $user->likes
-                ->take($limit)
-                ->skip($offset)
-                ->orderBy($orderCol, $orderBy)
-                ->get();
+            if (strtolower($orderBy) == 'asc') {
+                $likes = $user->likes
+                    ->forPage($limit, $offset)->sortBy($orderCol);
+            } else {
+                $likes = $user->likes
+                    ->forPage($limit, $offset)->sortByDesc($orderCol);
+            }
         }
         return $this->collection($likes, new LikeTransformer());
     }

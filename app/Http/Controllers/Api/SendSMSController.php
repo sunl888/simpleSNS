@@ -18,6 +18,11 @@ use Illuminate\Http\Request;
 
 class SendSMSController extends ApiController
 {
+    /**
+     * @param Request $request
+     * @return \App\Support\Response\Response
+     * @throws \App\Exceptions\SendSmsFailException
+     */
     public function sendSMSVerificationCode(Request $request)
     {
         $data = $this->validate($request, [

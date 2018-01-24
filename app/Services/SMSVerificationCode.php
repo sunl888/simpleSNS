@@ -28,11 +28,11 @@ class SMSVerificationCode
     public function check($phoneNumber, $value)
     {
         $verificationCodeModel = $this->verificationCodeRepository->retrieveByTelNum($phoneNumber);
-        if (is_null($verificationCodeModel) || Carbon::now()->diffInSeconds($verificationCodeModel->created_at, true) > $this->config['term_of_validity'])
+        if (is_null($verificationCodeModel) || Carbon::now()->diffInSeconds($verificationCodeModel['created_at'], true) > $this->config['term_of_validity'])
             // 验证码不存在或者验证码已经过期
             return false;
 
-        $hashedCode = $verificationCodeModel->hashed_code;
+        $hashedCode = $verificationCodeModel['hashed_code'];
 
         if ($this->hasher->check(strtolower($value), $hashedCode)) {
             $this->verificationCodeRepository->delete($phoneNumber);
@@ -77,24 +77,25 @@ class SMSVerificationCode
         if ($res->Code !== 'OK') {
             throw new SendVerificationCodeException($res->Message);
         }*/
-        app(SendSmsService::class)->send($phoneNumber, ['code' => $verificationCode], $signName, $templateCode, $outId);
         $this->verificationCodeRepository->create([
             'tel_num' => $phoneNumber,
             'hashed_code' => $this->hasher->make(strtolower($verificationCode))
         ]);
+        app(SendSmsService::class)->send($phoneNumber, ['code' => $verificationCode], $signName, $templateCode, $outId);
     }
 
     protected function generateVerificationCode($phoneNumber)
     {
         $verificationCodeModel = $this->verificationCodeRepository->retrieveByTelNum($phoneNumber);
+
         if ($verificationCodeModel) {
-            $diffSeconds = Carbon::now()->diffInSeconds($verificationCodeModel->created_at, true);
+            $diffSeconds = Carbon::now()->diffInSeconds($verificationCodeModel['created_at'], true);
             if ($diffSeconds < $this->config['interval'])
                 // todo 语言包
                 throw new GenerateVerificationCodeException(sprintf('验证码已经发送！请 %d 秒后重试！', $this->config['interval'] - $diffSeconds));
         }
 
-        $code = rand(1000, 9999);
+        $code = get_mobile_code(5);
 
         return $code;
     }

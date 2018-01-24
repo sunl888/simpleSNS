@@ -2,29 +2,26 @@
 
 namespace App\Repositories;
 
-
-use App\Models\VerificationCode;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
-class VerificationCodeRepository extends BaseRepository
+class VerificationCodeRepository
 {
-    public function model()
-    {
-        return VerificationCode::class;
-    }
-
-    public function preCreate(array &$data)
-    {
-        $data[Model::CREATED_AT] = Carbon::now();
-        return $data;
-    }
-
     public function retrieveByTelNum($telNum)
     {
         if (!$this->isValidTelNum($telNum))
             return null;
-        return $this->model->where('tel_num', $telNum)->latest()->first();
+        return Cache::get($telNum);
+    }
+
+    public function create(array $data)
+    {
+        $term_of_validity = config('alidayu.term_of_validity');
+        $minutes = $term_of_validity ? $term_of_validity / 60 : 5;
+        $expiresAt = Carbon::now()->addMinutes($minutes);
+        $data['created_at'] = Carbon::now();
+
+        Cache::put($data['tel_num'], $data, $expiresAt);
     }
 
     protected function isValidTelNum($telNum)
@@ -36,6 +33,6 @@ class VerificationCodeRepository extends BaseRepository
     {
         if (!$this->isValidTelNum($telNum))
             return;
-        $this->model->where('tel_num', $telNum)->delete();
+        return Cache::pull($telNum);
     }
 }

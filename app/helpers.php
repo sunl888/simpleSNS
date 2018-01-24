@@ -7,7 +7,6 @@
  */
 
 use App\Repositories\SettingRepository;
-use App\Services\SettingCacheService;
 
 if (!function_exists('toIso8601String')) {
     function toIso8601String($date)
@@ -91,5 +90,20 @@ if (!function_exists('mb_unserialize')) {
         return preg_replace_callback('#s:(\d+):"(.*?)";#s', function ($match) {
             return 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
         }, $str);
+    }
+}
+/**
+ * 手机验证码生成
+ */
+if (!function_exists('get_mobile_code')) {
+    function get_mobile_code($length)
+    {
+        // 过滤中国移动和电信的数字黑名单
+        $forbidden_num = "1989:10086:12590:1259:10010:10001:10000:";
+        do {
+            // microtime() 返回当前 Unix 时间戳的微秒数
+            $mobile_code = substr(microtime(), 2, $length);
+        } while (preg_match("/{$mobile_code}:/i", $forbidden_num));
+        return $mobile_code;
     }
 }

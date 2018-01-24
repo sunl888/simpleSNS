@@ -11,7 +11,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\SendVerificationCodeException;
 use App\Http\Controllers\ApiController;
-use App\Rules\FieldHasExisted;
 use App\Rules\SMSTemplateHasExisted;
 use App\Services\SMSVerificationCode as SMSVerificationCodeService;
 use Illuminate\Http\Request;

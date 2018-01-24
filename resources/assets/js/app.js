@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import MuseUI from 'muse-ui';
 import router from './routes';
+import 'animate.css/animate.min.css';
 import 'muse-ui/dist/muse-ui.css';
 import 'muse-ui/dist/theme-light.css';
 import App from './App.vue';

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <transition :name="transitionName"> 
-      <router-view></router-view>
+    <transition enter-active-class="bounceInLeft" leave-active-class="bounceOutRight"> 
+      <router-view class="animated"></router-view>
     </transition>
   </div>
 </template>
@@ -9,6 +9,7 @@
 export default{
   data () {
     return {
+      show: false,
       transitionName: 'slide_right'
     };
   },
@@ -30,8 +31,9 @@ export default{
   margin: 0;
   padding: 0;
 }
-body{
-  background: #f1f1f1;
+html, body, #app{
+  width: 100%;
+  height: 100%;
 }
 .clear_fixed:after{
   content: "";

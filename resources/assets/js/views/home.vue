@@ -17,17 +17,14 @@ export default{
   margin: 0;
   padding: 0;
 }
-body{
+.home{
+  width: 100%;
+  height: 100%;
   background: #f1f1f1;
 }
 .clear_fixed:after{
   content: "";
   clear: both;
   display: block;
-}
-.home{
-    width: 100%;
-    height: 100%;
-    background: #f1f1f1;
 }
 </style>

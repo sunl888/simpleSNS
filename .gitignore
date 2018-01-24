@@ -9,7 +9,10 @@ app/storage/
 # Laravel 5 & Lumen specific
 public/storage
 public/hot
+public/js
+public/mix-manifest.json
 storage/*.key
+.gitignore
 .env.*.php
 .env.php
 .env

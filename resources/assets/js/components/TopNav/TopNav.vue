@@ -11,17 +11,16 @@
     <search-tool></search-tool>
     <div class="person_tool clear_fixed">
       <div v-for="(value, index) in personInformation" :key="index">
-        <i @click="currentIcon = index" class="material-icons">{{value.icon}}</i>
-        <tiny-panel v-if="currentIcon === index" :botOffset="index * 40">
-          {{index}}
+        <i @click="currentIcon = index" :class="{'active_icon' : currentIcon === index}" class="material-icons">{{value.icon}}</i>
+        <tiny-panel v-if="currentIcon === index" :botOffset="index * 40" :templateType = "index">
         </tiny-panel>
       </div>
     </div>
   </div>
 </template>
 <script>
-import SearchTool from '../SearchTool/SearchTool.vue'
-import TinyPanel from '../TinyPanel/TinyPanel.vue'
+import SearchTool from '../SearchTool/SearchTool.vue';
+import TinyPanel from '../TinyPanel/TinyPanel.vue';
 export default{
   components: {
     SearchTool,
@@ -31,38 +30,22 @@ export default{
     return {
       // 当前选中的小图标
       currentIcon: null,
-      // 折叠小面板
-      isPanel: [false, false, false],
       personInformation: [
         {icon: 'apps'},
         {icon: 'new_releases'},
         {icon: 'face'}
       ]
-    }
+    };
   },
   methods: {
-    // collapsePanel (index) {
-    //   // this.isPanel = [false, false, false];
-    //   console.log(this.isPanel[index]);
-    //   if(this.isPanel[index] === false){
-    //     this.isPanel[index] = true;
-    //   }
-    //   else{
-    //     this.isPanel[index] = false;
-    //   }
-    //       console.log(this.isPanel[index]);
-    // }
   }
-}
+};
 </script>
 <style lang="less">
 .top_nav{
     width: 100%;
     height: 70px;
     background: #fff;
-    i{
-      // font-size:28px;
-    }
     .menu_btn>i{
 
     }
@@ -73,9 +56,11 @@ export default{
         margin-right: 20px;
         color: #666;
         font-size: 18px;
+        float: left;
+        line-height: 70px;
       }
     }
-    .menu_btn>i,h3,span{
+    .menu_btn>i{
         float: left;
         line-height: 70px;
     }
@@ -89,7 +74,7 @@ export default{
     .menu_btn>i{
       margin-left: 30px;
     }
-    .menu_btn>i,  .person_tool>div{
+    .menu_btn>i, .person_tool>div{
       margin-right: 15px;
       font-size: 28px;
       cursor: pointer;
@@ -103,6 +88,9 @@ export default{
       // position: relative;
       float: left;
     }
+}
+.active_icon{
+  color: #20a0ff;
 }
 </style>
 

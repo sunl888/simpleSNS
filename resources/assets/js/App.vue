@@ -1,15 +1,29 @@
 <template>
-  <div>
-    <top-nav></top-nav>
+  <div id="app">
+    <transition :name="transitionName"> 
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 <script>
-import TopNav from './components/TopNav/TopNav.vue'
 export default{
-  components: {
-    TopNav
+  data () {
+    return {
+      transitionName: 'slide_right'
+    };
+  },
+  watch: {
+    '$route' (to, from) {
+      let isBack = this.$router.isBack;
+      if (isBack) {
+        this.transitionName = 'slide_right';
+      } else {
+        this.transitionName = 'slide_left';
+      }
+      this.$router.isBack = false;
+    }
   }
-}
+};
 </script>
 <style>
 *{
@@ -23,5 +37,8 @@ body{
   content: "";
   clear: both;
   display: block;
+}
+.mu-text-field-input{
+  background-color: transparent!important;
 }
 </style>

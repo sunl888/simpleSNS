@@ -5,18 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="../../fonts/iconfont/iconfont.css">
     <title>simpleSNS</title>
     <style>
          @font-face {
             font-family: 'Material Icons';
             font-style: normal;
             font-weight: 400;
-            src: url(../../fonts/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+            src: url(../../fonts/MaterialIcons/MaterialIcons-Regular.eot); /* For IE6-8 */
             src: local('Material Icons'),
             local('MaterialIcons-Regular'),
-            url(../../fonts/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
-            url(../../fonts/iconfont/MaterialIcons-Regular.woff) format('woff'),
-            url(../../fonts/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+            url(../../fonts/MaterialIcons/MaterialIcons-Regular.woff2) format('woff2'),
+            url(../../fonts/MaterialIcons/MaterialIcons-Regular.woff) format('woff'),
+            url(../../fonts/MaterialIcons/MaterialIcons-Regular.ttf) format('truetype');
         }
         .material-icons {
             font-family: 'Material Icons';

@@ -7,17 +7,17 @@
 </template>
 <script>
 export default{
-    data () {
-        return {
-            // 搜索关键字
-            keyword: null
-        }
-    },
-    methods: {
-        searchData () {
-        }
+  data () {
+    return {
+      // 搜索关键字
+      keyword: null
+    };
+  },
+  methods: {
+    searchData () {
     }
-}
+  }
+};
 </script>
 <style lang="less">
 .search_tool{

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Ty666\LaravelVote\Traits\CanVote;
 
 class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubject
 {
-    use Notifiable;
+    use Notifiable, CanVote;
 
     protected $fillable = [
         'nickname', 'tel_num', 'avatar_hash', 'email', 'password', 'introduction', 'is_banned', 'city', 'oauth_token', 'location', 'company', 'username', 'name', 'provider', 'last_actived_at',
@@ -16,6 +17,7 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     protected $hidden = [
         'password', 'remember_token',
     ];
+    protected $dates = ['last_active_at'];
 
     public function getJWTIdentifier()
     {
@@ -25,6 +27,11 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function avatar()
+    {
+        return $this->hasOne(Image::class, 'hash', 'avatar_hash');
     }
 
     public function posts()
@@ -39,20 +46,6 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     public function follows()
     {
         return $this->belongsTo(Follow::class, 'user_id', 'id');
-    }
-
-    /**
-     * 我赞过的文章
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
-    }
-
-    public function avatar()
-    {
-        return $this->hasOne(Image::class, 'hash', 'avatar_hash');
     }
 
     /**

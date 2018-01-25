@@ -5,15 +5,21 @@ namespace App\Models;
 use App\Models\Traits\HasSlug;
 use App\Models\Traits\Listable;
 use App\Models\Traits\Sortable;
+use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
+use Ty666\LaravelVote\Traits\CanBeVoted;
+use Ty666\LaravelVote\Traits\CanCountUpVotes;
 
 
-class Post extends BaseModel
+class Post extends BaseModel implements CanCountUpVotesModel
 {
     use Listable, Sortable, HasSlug;
+    use CanBeVoted, CanCountUpVotes;
 
     const STATUS_PUBLISH = 'publish', STATUS_DRAFT = 'draft';
-    protected $fillable = ['title', 'user_id', 'slug', 'excerpt', 'views', 'cover', 'likes', 'status', 'published_at', 'category_id', 'order'];
+    protected $fillable = ['title', 'user_id', 'slug', 'excerpt', 'views', 'cover', 'up_votes_count', 'comment_count','status', 'published_at', 'category_id', 'order'];
     protected $dates = ['published_at', 'created_at', 'updated_at'];
+
+    protected $upVotesCountField = 'up_votes_count';
 
     public function scopeRecent($query)
     {
@@ -24,6 +30,10 @@ class Post extends BaseModel
     {
         return $this->belongsTo(User::class);
     }
+    public function cover()
+    {
+        return $this->hasOne(Image::class, 'hash', 'cover');
+    }
 
     public function category()
     {
@@ -32,7 +42,7 @@ class Post extends BaseModel
 
     public function scopeApplyFilter($query, $data)
     {
-        $data = $data->only('status', 'category_id','hot','');
+        $data = $data->only('status', 'category_id', 'hot', '');
 
         $query->byCategory($data['category_id'] ?? null)
             ->byStatus($data['status'] ?? null);
@@ -84,23 +94,8 @@ class Post extends BaseModel
     }
 
     /**
-     * 文章点赞数量加 1
-     * @return int
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function addLikes()
-    {
-        return $this->increment('likes');
-    }
-
-    /**
-     * 文章点赞数量减 1
-     * @return int
-     */
-    public function subLikes()
-    {
-        return $this->decrement('likes');
-    }
-
     public function postContent()
     {
         return $this->hasOne(PostContent::class);
@@ -116,6 +111,13 @@ class Post extends BaseModel
         return $this->status == static::STATUS_DRAFT;
     }
 
+    public function scopeByUser($query, $user)
+    {
+        if ($user instanceof User)
+            $user = $user->id;
+        $query->where('user_id', $user);
+    }
+
     /**
      * 标签
      */
@@ -124,15 +126,9 @@ class Post extends BaseModel
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
-    // todo 这里好像有问题
-    public function likes()
+    public function comments()
     {
-        return $this->hasMany(Like::class);
-    }
-
-    public function slugMode()
-    {
-        return config('sns.default_slug_mode');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
 }

@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 孙龙
- * Date: 2018/1/21
- * Time: 21:04
- */
 
 namespace App\Transformers;
-
 
 use App\Models\Image;
 

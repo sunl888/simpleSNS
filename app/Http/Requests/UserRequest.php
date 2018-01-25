@@ -36,7 +36,7 @@ class UserRequest extends Request
                     'tel_num' =>      ['bail', 'nullable', 'string', 'regex:/\d{11}/', new FieldHasExisted()],// 手机号码
                     //'password' =>     ['bail', 'nullable', 'string', 'min:6'],// 密码
                     'nickname' =>     ['bail', 'nullable', 'string', 'min:4'],// 昵称
-                    'avatar' =>       ['bail', 'nullable', 'string', 'max:255'],// 头像
+                    'avatar_hash' => 'bail|nullable|size:32|exists:images,hash',
                     'introduction' => ['bail', 'nullable', 'string', 'max:128'],// 简介
                     'city' =>         ['bail', 'nullable', 'string', 'between:3,128'],// 所属城市
                     'location' =>     ['bail', 'nullable', 'string'],// 地址

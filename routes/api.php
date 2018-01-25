@@ -1,6 +1,6 @@
 <?php
 
-// http://sns.local/api/auth/login?tel_num=15705547511&password=admin
+// http://sns.local/api/auth/login?username=15705547511&password=admin
 Route::group(['namespace' => 'Api',], function () {
 
     Route::group(['prefix' => 'auth'], function () {
@@ -35,12 +35,8 @@ Route::group(['namespace' => 'Api',], function () {
          * delete posts/{postID} 删除文章
          */
         Route::apiResource('posts', 'PostController')->except('index');
-        // 点赞
-        Route::post('posts/{post}/add_like', 'PostController@addLikes');
-        // 取消点赞
-        Route::post('posts/{post}/sub_like', 'PostController@subLikes');
         //
-        Route::apiResource('tags', 'TagsController');
+        //Route::apiResource('tags', 'TagsController');
 
         /**
          * 用户管理
@@ -55,6 +51,16 @@ Route::group(['namespace' => 'Api',], function () {
         Route::apiResource('users', 'UserController');
 
         Route::post('ajax_upload_image', 'ImageController@upload');
+
+        // 文章赞和踩
+        Route::vote('post', 'PostController');
+        // 对评论赞
+        Route::vote('comment', 'CommentController', ['except' => 'down_vote']);
+
+        // 获取文章的评论
+        Route::get('posts/{post}/comments', 'PostController@showComments');
+        // 对文章进行评论
+        Route::post('posts/{post}/comment', 'PostController@storeComment');
     });
 
 });

@@ -4,15 +4,23 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\PostHasBeenRead;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
+use App\Repositories\CommentRepository;
 use App\Repositories\PostRepository;
+use App\Transformers\CommentTransformer;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Ty666\LaravelVote\Contracts\VoteController;
+use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
-class PostController extends ApiController
+class PostController extends ApiController implements VoteController
 {
+    use VoteControllerHelper;
+
+    protected $resourceClass = Post::class;
+
     /**
      * 文章列表
      *
@@ -70,26 +78,25 @@ class PostController extends ApiController
      *
      * @param Post $post
      * @return \App\Support\Response\Response
+     * @throws \Exception
      */
     public function destroy(Post $post)
     {
-        try {
-            $post->delete();
-        } catch (\Exception $e) {
-            throw new HttpException('500', '文章删除失败.');
-        }
+        $post->delete();
         return $this->response()->noContent();
     }
 
-    public function addLikes(Post $post, PostRepository $postRepository)
+    public function storeComment(Post $post, CommentRequest $request, CommentRepository $commentRepository)
     {
-        $postRepository->addLikes($post);
-        return $this->response()->noContent();
+        $data = $request->validated();
+        $comment = $commentRepository->createComment($post, $data);
+
+        return $this->response()->item($comment, new CommentTransformer());
     }
 
-    public function subLikes(Post $post, PostRepository $postRepository)
+    public function showComments(Post $post)
     {
-        $postRepository->subLike($post);
-        return $this->response()->noContent();
+        $comments = $post->comments()->latest()->with('user', 'user.avatar')->paginate($this->perPage());
+        return $this->response()->item($comments, new CommentTransformer());
     }
 }

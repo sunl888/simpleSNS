@@ -7,7 +7,8 @@ use League\Fractal\ParamBag;
 
 class UserTransformer extends BaseTransformer
 {
-    protected $availableIncludes = ['posts', 'follows', 'likes'];
+    protected $availableIncludes = ['posts', 'follows', 'likes', 'avatar'];
+    protected $defaultIncludes = ['avatar'];
 
     private $validParams = ['limit', 'order'];
 
@@ -17,7 +18,8 @@ class UserTransformer extends BaseTransformer
             'id' => $user->id,
             'nickname' => $user->nickname,
             'email' => $user->email,
-            'avatar' => $user->avatar(),
+            'avatar_hash' => $user->avatar_hash,
+            //'avatar' => $this->formateCover($user,'avatar'),
             'tel_num' => $user->tel_num,
             'introduction' => $user->introduction,
             'city' => $user->city,
@@ -28,6 +30,14 @@ class UserTransformer extends BaseTransformer
             'created_at' => toIso8601String($user->created_at),
             'updated_at' => toIso8601String($user->updated_at)
         ];
+    }
+
+    public function includeAvatar(User $user)
+    {
+        if (!$user->avatar) {
+            return $this->null();
+        }
+        return $this->item($user->avatar, new ImageTransformer());
     }
 
     public function includePosts(User $user, ParamBag $params = null)

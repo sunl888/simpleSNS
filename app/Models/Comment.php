@@ -1,15 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 孙龙
- * Date: 2018/1/21
- * Time: 20:16
- */
 
 namespace App\Models;
 
-class Comment extends BaseModel
+
+use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
+use Ty666\LaravelVote\Traits\CanBeVoted;
+use Ty666\LaravelVote\Traits\CanCountUpVotes;
+
+class Comment extends BaseModel implements CanCountUpVotesModel
 {
-    protected $fillable = ['user_id', 'post_id', 'parent_id', 'likes', 'content', 'is_show'];
+    use CanBeVoted, CanCountUpVotes;
+
+    protected $upVotesCountField = 'up_votes_count';
+
+    protected $fillable = ['content', 'user_id'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

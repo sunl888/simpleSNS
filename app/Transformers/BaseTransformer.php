@@ -9,6 +9,7 @@
 namespace App\Transformers;
 
 use GuzzleHttp\Exception\TransferException;
+use Illuminate\Database\Eloquent\Model;
 use League\Fractal\TransformerAbstract;
 
 abstract class BaseTransformer extends TransformerAbstract
@@ -30,4 +31,18 @@ abstract class BaseTransformer extends TransformerAbstract
             ));
         }
     }
+
+    /**
+     * @param Model $model
+     * @param null|string $attribute
+     * @return \League\Fractal\Resource\Item|\League\Fractal\Resource\NullResource
+     */
+    /*public function includeCover(Model $model, ?string $attribute)
+    {
+        if (is_null($attribute)) {
+            return $this->null();
+        } else {
+            return $this->item($model->{$attribute}()->first(), new ImageTransformer());
+        }
+    }*/
 }

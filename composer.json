@@ -21,6 +21,7 @@
     "predis/predis": "1.0.*",
     "spatie/laravel-backup": "^3.0.0",
     "ty666/cdn-pusher": "^1.1",
+    "ty666/laravel-vote": "^1.6",
     "tymon/jwt-auth": "^1.0@dev"
   },
   "require-dev": {

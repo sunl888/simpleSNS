@@ -9,9 +9,11 @@ $factory->define(Post::class, function (Faker $faker) {
         'title' => str_random(10),
         'slug' => str_random(10),
         'excerpt' => str_random(128),
+        'user_id' => 1,
         'views' => 0,
         'cover' => $faker->imageUrl(),
-        'likes' => 0,
+        'up_votes_count' => 0,
+        'comments_count' => 0,
         'category_id' => function () {
             $categoryIDs = Category::all()->pluck('id');
             return $categoryIDs->random(1)->first();

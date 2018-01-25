@@ -35,6 +35,8 @@ class PostRepository extends BaseRepository
 
         $data['user_id'] = Auth::id();
         $data['slug'] = $this->model->generateSlug($data['title']);
+        $data['up_votes_count'] = 0;
+        $data['comment_count'] = 0;
         return $data;
     }
 
@@ -117,17 +119,4 @@ class PostRepository extends BaseRepository
         }
     }
 
-    public function addLikes(Post $post)
-    {
-        $post->addLikes();
-        $attributes = ['user_id' => Auth::id(), 'post_id' => $post->id];
-        $post->likes()->where($attributes)->firstOrCreate($attributes);
-    }
-
-    public function subLike(Post $post)
-    {
-        $post->subLikes();
-        $attributes = ['user_id' => Auth::id(), 'post_id' => $post->id];
-        $post->likes()->where($attributes)->delete();
-    }
 }

@@ -3,8 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Models\Post;
-use App\Rules\ImageName;
-use App\Rules\ImageNameExist;
 use App\Rules\TagExist;
 use Illuminate\Validation\Rule;
 
@@ -37,12 +35,12 @@ class PostRequest extends Request
                     'excerpt' => ['nullable', 'string', 'between:1,512'],
                     'content' => ['required', 'string'],
                     // todo 图片尺寸验证
-                    'cover' => ['bail', 'nullable', new ImageName(), new ImageNameExist()],
+                    'cover' => ['bail', 'nullable', 'exists:images,hash'],
                     'status' => ['nullable', Rule::in([Post::STATUS_PUBLISH, Post::STATUS_DRAFT])],
                     'order' => ['nullable', 'integer'],
                     'category_id' => ['bail', 'required', 'integer', Rule::exists('categories', 'id')],
                     'published_at' => ['nullable', 'date'],
-                    'tag_ids' => ['nullable', 'array',new TagExist()],
+                    'tag_ids' => ['nullable', 'array', new TagExist()],
                 ];
             case 'PUT':
             case 'PATCH':
@@ -51,12 +49,12 @@ class PostRequest extends Request
                     'excerpt' => ['nullable', 'string', 'between:1,512'],
                     'content' => ['nullable', 'string'],
                     // todo 图片尺寸验证
-                    'cover' => ['bail', 'nullable', new ImageName(), new ImageNameExist()],
+                    'cover' => ['bail', 'nullable', 'exists:images,hash'],
                     'status' => ['nullable', Rule::in([Post::STATUS_PUBLISH, Post::STATUS_DRAFT])],
                     'order' => ['nullable', 'integer'],
                     'category_id' => ['bail', 'nullable', 'integer', Rule::exists('categories', 'id')],
                     'published_at' => ['nullable', 'date'],
-                    'tag_ids' => ['nullable', 'array',new TagExist()],
+                    'tag_ids' => ['nullable', 'array', new TagExist()],
                 ];
             default:
                 return [];

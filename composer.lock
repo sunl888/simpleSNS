@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e294cc64ac461f58ef0e91b4af67fb5b",
+    "content-hash": "2551ab3b019b5b05d2203ef79908dde9",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3355,6 +3355,59 @@
             "time": "2017-12-02T15:26:14+00:00"
         },
         {
+            "name": "ty666/laravel-vote",
+            "version": "1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/3tnet/laravel-vote.git",
+                "reference": "a9b1d8a6c17c6fc2bd0ccbfc999a8b0e647b1193"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/3tnet/laravel-vote/a9b1d8a6c17c6fc2bd0ccbfc999a8b0e647b1193.zip",
+                "reference": "a9b1d8a6c17c6fc2bd0ccbfc999a8b0e647b1193",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "laravel/laravel": "5.*",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Ty666\\LaravelVote\\LaravelVoteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ty666\\LaravelVote\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ty666",
+                    "email": "1255803549@qq.com"
+                }
+            ],
+            "description": "vote",
+            "homepage": "https://github.com/3tnet/laravel-vote",
+            "keywords": [
+                "laravel",
+                "vote"
+            ],
+            "time": "2018-01-25T15:05:37+00:00"
+        },
+        {
             "name": "tymon/jwt-auth",
             "version": "dev-develop",
             "source": {
@@ -5252,16 +5305,16 @@
         },
         {
             "name": "symfony/thanks",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/thanks.git",
-                "reference": "8c12bbe4baabcb8e640efaaaab40e3a4497c9fb4"
+                "reference": "02034a974d29fbc8a59a5e875d3742ca99866a1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/symfony/thanks/8c12bbe4baabcb8e640efaaaab40e3a4497c9fb4.zip",
-                "reference": "8c12bbe4baabcb8e640efaaaab40e3a4497c9fb4",
+                "url": "https://files.phpcomposer.com/files/symfony/thanks/02034a974d29fbc8a59a5e875d3742ca99866a1c.zip",
+                "reference": "02034a974d29fbc8a59a5e875d3742ca99866a1c",
                 "shasum": ""
             },
             "require": {
@@ -5291,7 +5344,7 @@
                 }
             ],
             "description": "Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers (not limited to Symfony components)!",
-            "time": "2018-01-19T16:12:41+00:00"
+            "time": "2018-01-25T06:48:53+00:00"
         },
         {
             "name": "theseer/tokenizer",

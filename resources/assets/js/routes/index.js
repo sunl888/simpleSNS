@@ -23,6 +23,11 @@ export default new Router({
           path: '/forget_pass',
           name: 'forget_pass',
           component: require('../views/account/forgetPass.vue')
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: require('../views/account/forgetPass.vue')
         }
       ]
     },

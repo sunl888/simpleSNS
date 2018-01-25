@@ -1,9 +1,9 @@
 <template>
-    <div class="search_tool clear_fixed">
-       <i class="material-icons">search</i>
-       <input type="text" @keyup.enter="searchData()" v-model="keyword" placeholder="搜索simple+">
-       <i v-if="keyword !== null" @click="keyword = null" class="material-icons empty">highlight_off</i>
-    </div>
+  <div class="search_tool clear_fixed">
+      <i class="material-icons">search</i>
+      <input type="text" @keyup.enter="searchData()" v-model="keyword" placeholder="搜索simple+">
+      <i v-if="keyword !== null" @click="keyword = null" class="material-icons empty">highlight_off</i>
+  </div>
 </template>
 <script>
 export default{
@@ -21,7 +21,7 @@ export default{
 </script>
 <style lang="less">
 .search_tool{
-    // width: 100%;
+    width: 100%;
     height: 50px;
     margin-top: 10px;
     float: left;

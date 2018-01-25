@@ -5,6 +5,10 @@ export function getCsrfToken () {
   const tokenMeta = document.head.querySelector('meta[name="csrf-token"]');
   return tokenMeta ? tokenMeta.content : '';
 }
+export function isLogin () {
+  let jwtToken = localStorage.getItem('jwt_token');
+  return !!jwtToken;
+}
 export function getFrontendUrl () {
   const frontendUrlMeta = document.head.querySelector('meta[name="frontend_url"]');
   return frontendUrlMeta ? frontendUrlMeta.content : '';

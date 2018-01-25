@@ -4,7 +4,7 @@
       <img src="../../assets/images/temp.jpg" alt="">
     </div>
     <mu-row gutter>
-      <mu-col  class="form clear_fixed" width="90" tablet="50" desktop="25">
+      <mu-col  class="form clear_fixed" width="90" tablet="50" desktop="30">
         <h2>登录</h2>
         <mu-text-field icon="account_circle" hintText="请输入手机号" type="text" fullWidth v-model="formData.userId"/><br/>
         <mu-text-field icon="lock" hintText="请输入密码" type="password" fullWidth v-model="formData.userPassword"/><br/>
@@ -16,7 +16,7 @@
         <div class="oauth_login">
           <h3>第三方账号登录</h3> 
           <mu-icon-button v-for="(values, index) in icons" class="oauth_btn" :key="index">
-            <i :class="values.icon" @click="loginByOauth(values.type)"></i>
+            <a :href="'/oauth/' + values.type"><i :class="values.icon"></i></a>          
           </mu-icon-button>
         </div>
         </mu-col>
@@ -41,12 +41,10 @@ export default{
       }
     };
   },
+  created () {
+    console.log(123);
+  },
   methods: {
-    loginByOauth (type) {
-      this.$http.get('oauth/' + type).then(res => {
-        console.log(res);
-      });
-    }
   }
 };
 </script>
@@ -54,6 +52,7 @@ export default{
  .form{
     .remeber_me{
       float: left;
+      margin-left: 17px;
     }
     .logon{
       float: right;
@@ -68,7 +67,7 @@ export default{
     }
     .oauth_login{
       width: 220px;
-      padding: 20px 0;
+      // padding: 20px 0;
       margin: 0 auto;
       h3{
         text-align: center;

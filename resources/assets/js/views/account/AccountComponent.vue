@@ -59,7 +59,8 @@ export default{
       text-align: center;
     }
     .submit_btn{
-      margin: 15px 0;
+      width: calc(~"100% - 17px");
+      margin: 20px 17px;
     }
   }
 }

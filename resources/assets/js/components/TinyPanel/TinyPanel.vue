@@ -13,13 +13,15 @@
             <input type="file">
           </div>
           <div class="my_profile_text">
-            <h3>朱雅琪</h3>
-            <p>157****0566</p>
-            <a>更多资料</a>
+            <h3>{{me.username}}</h3>
+            <p>{{me.tel_num}}</p>
+            <p>{{me.email}}</p>
+            <a class="theme_btn">{{me.tel_num === null ? '完善资料' : '更多资料'}}</a>
           </div>
         </div>
         <div class="my_profile_tool clear_fixed">
-          <router-link :to="{name: 'login'}">切换账号</router-link>
+          <router-link :to="{name: 'register'}">添加账号</router-link>
+          <a @click="logout" :to="{name: 'login'}">退出</a>
         </div>
       </div>
     </slot>
@@ -33,15 +35,30 @@ export default{
     // 小面板的模板类型
     templateType: 0
   },
+  computed: {
+    // 获取个人信息
+    me () {
+      return this.$store.state.me === null ? {} : this.$store.state.me;
+    }
+  },
   methods: {
     // 关闭小面板
     closeWindow () {
       this.$parent.currentIcon = null;
+    },
+    // 退出登录
+    async logout () {
+      await this.$http.get('auth/logout');
+      localStorage.removeItem('jwt_token');
+      localStorage.removeItem('expiry_time');
+      this.$store.commit('UPDATE_ME', null);
+      this.$parent.isLogin = false;
+      this.$alert('已经退出账号啦 ┭┮﹏┭┮', 'primary');
     }
   }
 };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .tiny_panel{
     width:350px; 
     padding: 10px 0 0 0;
@@ -136,22 +153,6 @@ export default{
       p{
         font-size: 14px;
       }
-      a{
-        margin-top: 5px;
-        display: block;
-        width: 70px;
-        padding: 2px 0;
-        text-align: center;
-        background: #4d90fe;
-        border: 1px solid #3079ed;
-        color:#fff;
-        font-size: 12px;
-        border-radius: 2px;
-        line-height: 20px;
-      }
-      a:hover{
-        background: #3884fd;
-      }
     }
   }
   .my_profile_tool{
@@ -163,12 +164,16 @@ export default{
       width: 70px;
       line-height: 20px;
       float: right;
+      text-align: center;
+      padding: 3px 0;
       text-decoration: none;
-      padding: 5px 7px;
       background: #f8f8f8;
       border: 1px solid #c6c6c6;
       color: #666;
       transition: background 0.5s;
+      &:first-child{
+        float: left;
+      }
       &:hover{
         background: #fefefe;
       }

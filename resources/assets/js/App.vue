@@ -6,12 +6,16 @@
   </div>
 </template>
 <script>
+import { isLogin } from './utils/utils';
 export default{
   data () {
     return {
-      show: false,
-      transitionName: 'slide_right'
     };
+  },
+  mounted () {
+    if (isLogin()) {
+      this.$store.dispatch('updateMe');
+    }
   }
 };
 </script>
@@ -29,7 +33,20 @@ html, body, #app{
   clear: both;
   display: block;
 }
-.mu-text-field-input{
-  background-color: transparent!important;
+.theme_btn{
+  margin-top: 5px;
+  display: block;
+  width: 70px;
+  padding: 2px 0;
+  text-align: center;
+  background: #4d90fe;
+  border: 1px solid #3079ed;
+  color:#fff;
+  font-size: 12px;
+  border-radius: 2px;
+  line-height: 20px;
+  &:hover{
+    background: #3884fd;
+  }
 }
 </style>

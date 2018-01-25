@@ -9,6 +9,8 @@ import TopNav from '../components/TopNav/TopNav.vue';
 export default{
   components: {
     TopNav
+  },
+  mounted () {
   }
 };
 </script>

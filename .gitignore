@@ -15,6 +15,7 @@ storage/*.key
 .env.*.php
 .env.php
 .env
+package-lock.json
 Homestead.yaml
 Homestead.json
 .rocketeer/

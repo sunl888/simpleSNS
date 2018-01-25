@@ -33,7 +33,8 @@
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^13.7.0",
     "vue-router": "^3.0.1",
-    "vue-style-loader": "^3.0.3"
+    "vue-style-loader": "^3.0.3",
+    "vuex": "^3.0.1"
   },
   "dependencies": {
     "less": "^2.7.3",

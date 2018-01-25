@@ -34,7 +34,7 @@ Route::group(['namespace' => 'Api',], function () {
          * put posts/{postID} 更新文章
          * delete posts/{postID} 删除文章
          */
-        Route::apiResource('posts', 'PostController');
+        Route::apiResource('posts', 'PostController')->except('index');
         // 点赞
         Route::post('posts/{post}/add_like', 'PostController@addLikes');
         // 取消点赞

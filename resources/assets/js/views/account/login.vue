@@ -6,8 +6,8 @@
     <mu-row gutter>
       <mu-col  class="form clear_fixed" width="90" tablet="50" desktop="25">
         <h2>登录</h2>
-        <mu-text-field hintText="请输入手机号" type="text" fullWidth v-model="userId"/><br/>
-        <mu-text-field hintText="请输入密码" type="password" fullWidth v-model="userPassword"/><br/>
+        <mu-text-field icon="account_circle" hintText="请输入手机号" type="text" fullWidth v-model="formData.userId"/><br/>
+        <mu-text-field icon="lock" hintText="请输入密码" type="password" fullWidth v-model="formData.userPassword"/><br/>
         <mu-checkbox label="记住我" class="demo-checkbox remeber_me"/>
         <div class="logon">
           <router-link :to="{name: 'forget_pass'}">忘记密码</router-link>
@@ -15,14 +15,8 @@
         <mu-raised-button :to="{name: 'home'}" label="登录" class="demo-raised-button submit_btn" fullWidth primary/>
         <div class="oauth_login">
           <h3>第三方账号登录</h3> 
-          <mu-icon-button class="oauth_btn">
-            <i class="iconfont icon-qq-copy"></i>
-          </mu-icon-button> 
-          <mu-icon-button class="oauth_btn">
-            <i class="iconfont icon-weixin-copy"></i>
-          </mu-icon-button>
-          <mu-icon-button class="oauth_btn">
-            <i class="iconfont icon-433-github"></i>
+          <mu-icon-button v-for="(values, index) in icons" class="oauth_btn" :key="index">
+            <i :class="values.icon" @click="loginByOauth(values.type)"></i>
           </mu-icon-button>
         </div>
         </mu-col>
@@ -33,11 +27,26 @@
 export default{
   data () {
     return {
-      // 用户id
-      userId: null,
-      // 用户密码
-      userPassword: null
+      icons: [
+        {icon: 'iconfont icon-qq-copy', type: 'qq'},
+        {icon: 'iconfont icon-weixin-copy', type: 'weixin'},
+        {icon: 'iconfont icon-433-github', type: 'github'}
+      ],
+      // 表单数据
+      formData: {
+        // 用户id
+        userId: null,
+        // 用户密码
+        userPassword: null
+      }
     };
+  },
+  methods: {
+    loginByOauth (type) {
+      this.$http.get('oauth/' + type).then(res => {
+        console.log(res);
+      });
+    }
   }
 };
 </script>

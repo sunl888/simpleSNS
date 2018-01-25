@@ -12,17 +12,6 @@ export default{
       show: false,
       transitionName: 'slide_right'
     };
-  },
-  watch: {
-    '$route' (to, from) {
-      let isBack = this.$router.isBack;
-      if (isBack) {
-        this.transitionName = 'slide_right';
-      } else {
-        this.transitionName = 'slide_left';
-      }
-      this.$router.isBack = false;
-    }
   }
 };
 </script>

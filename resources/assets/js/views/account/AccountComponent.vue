@@ -1,6 +1,6 @@
 <template>
 <div class="login_box">
-  <transition enter-active-class="slideInLeft" leave-active-class="slideOutRight"> 
+  <transition enter-active-class="bounceInLeft" leave-active-class="bounceOutRight"> 
     <router-view class="animated"></router-view>
   </transition>
 </div>
@@ -22,16 +22,18 @@ export default{
   width: 100%;
   height: 100%;
   background: url(../../assets/images/01.jpg);
+  background-size: cover;
   background-attachment: fixed;
 }
 .login{
   width: 100%;
-  padding: 40px 0;
+  min-height: 80%;
+  padding: 18px 0;
   background: rgba(255, 255, 255, 0.9)!important;
   position: absolute;
-  top: 30%;
+  bottom: 0;
   // transform: translateY(-50%);
-  box-shadow: 2px 1px 10px 1px #000;
+  box-shadow: 2px 0px 10px 1px #444;
   .photo{
     @size: 150px;
     width: @size;

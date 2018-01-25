@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\ApiController;
+use App\Models\Image;
 use App\Models\User;
+use App\Services\ImageService;
 use App\Transformers\UserTransformer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Overtrue\Socialite\SocialiteManager;
@@ -67,29 +70,32 @@ class AuthController extends ApiController
 
     public function handleProviderCallback($driver)
     {
-        $user = app(SocialiteManager::class)->driver($driver)->user();
+        $userInfo = app(SocialiteManager::class)->driver($driver)->user();
+        $user = User::where(['username' => $userInfo->username, 'provider' => strtolower($userInfo->provider)])->first();
+        if (is_null($user)) {
+            $image = app(ImageService::class)->store($userInfo->getAvatar());
+            $data['name'] = $userInfo->getName();
+            $data['email'] = $userInfo->getEmail();
+            $data['avatar_hash'] = $image->hash;
+            $data['username'] = $userInfo->getUsername();
+            $data['nickname'] = $userInfo->getNickname();
+            $data['provider'] = strtolower($userInfo->getProviderName());
+            $data['company'] = $userInfo->getOriginal()['company'];
+            $data['location'] = $userInfo->getOriginal()['location'];
+            $data['oauth_token'] = json_encode($userInfo->getToken()->toArray());
+            $data['last_active_at'] = Carbon::now();
 
-        $data['name'] = $user->getName();
-        $data['email'] = $user->getEmail();
-        $data['avatar'] = $user->getAvatar();
-        $data['username'] = $user->getUsername();
-        $data['nickname'] = $user->getNickname();
-        $data['provider'] = strtolower($user->getProviderName());
-        $data['company'] = $user->getOriginal()['company'];
-        $data['location'] = $user->getOriginal()['location'];
-        $data['oauth_token'] = json_encode($user->getToken()->toArray());
+            // 保存用户信息
+            $user = User::create($data);
 
-        $credentials = [
-            'email' => $data['email'],
-            'username' => $data['username'],
-            'provider' => $data['provider']
-        ];
-        $user = User::firstOrCreate($credentials, $data);
-        if (!$token = $this->guard()->fromUser($user)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            // 头像存储
+            Image::where('hash', $image->hash)->update(['creator_id' => $user->id]);
         }
 
-        return $this->respondWithToken($token);
+        if (!$token = $this->guard()->login($user)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        return view('logging', ['access_token' => $token, 'expires_in' => $this->guard()->factory()->getTTL() * 60, 'user' => $user]);
     }
 
     public function guard()

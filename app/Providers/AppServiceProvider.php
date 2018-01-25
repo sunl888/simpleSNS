@@ -81,20 +81,6 @@ class AppServiceProvider extends ServiceProvider
             return new HTMLPurifier($app['files']);
         });
 
-        $this->app->singleton(\League\Glide\Server::class, function ($app) {
-            $config = config('images');
-            return ServerFactory::create([
-                'response' => new LaravelResponseFactory($this->app->make('request')),
-                'source' => Storage::disk($config['source_disk'])->getDriver(),
-                'cache' => Storage::disk($config['cache_disk'])->getDriver(),
-                'source_path_prefix' => $config['source_path_prefix'],
-                'cache_path_prefix' => $config['cache_path_prefix'],
-                'base_url' => $config['base_url'],
-                'presets' => $config['presets'],
-                'defaults' => $config['default_style']
-            ]);
-        });
-
         $this->app->singleton(SocialiteManager::class, function ($app) {
             return new SocialiteManager(
                 array_merge(

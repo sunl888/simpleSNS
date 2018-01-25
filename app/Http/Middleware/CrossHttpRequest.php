@@ -16,6 +16,7 @@ class CrossHttpRequest
 
     public function handle($request, Closure $next)
     {
+
         if ($request->isMethod('OPTIONS')) {
             $response = response('', 200);
         } else {
@@ -24,14 +25,14 @@ class CrossHttpRequest
         if (!method_exists($response, 'header')) {
             return $response;
         }
-        $response->header('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS');
-        $response->header(
+        $response->headers->set('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS');
+        $response->headers->set(
             'Access-Control-Allow-Headers',
             'Content-Type, Content-Length, Authorization, Accept, X-Requested-With, Token'
         );
-        $response->header('Access-Control-Allow-Origin', '*');
-        $response->header('Access-Control-Max-Age', 86400);
-
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Max-Age', 86400);
         return $response;
     }
+
 }

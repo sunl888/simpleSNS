@@ -7,8 +7,8 @@ return [
     'cache_path_prefix' => 'uploads/images/.cache',
     'base_url' => 'img',
     'default_style' => [
-        'q' => 90,
-        'fit' => 'crop'
+        //  'q' => 90,
+        // 'fit' => 'crop'
     ],
     // xs < sm < md < lg
     'presets' => [
@@ -27,16 +27,12 @@ return [
             'h' => 160,
             'fit' => 'crop',
         ],
-        'case_cover' => [
-            'w' => 255,
-            'h' => 180,
+        'joke_cover' => [
+            'w' => 300,
             'fit' => 'crop',
+            'fm' => 'jpg',
         ],
-        'list_news_cover' => [
-            'w' => 350,
-            'h' => 230,
-            'fit' => 'crop',
-        ],
+
     ],
     'upload_key' => 'image',
     'route_name' => 'image'

@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('provider')->nullable()->comment('服务提供者');
             $table->string('nickname')->nullable()->comment('昵称');
             $table->string('password')->nullable();
-            $table->string('avatar')->nullable()->comment('头像');
+            $table->char('avatar_hash', 32)->nullable()->comment('头像');
             $table->string('introduction')->nullable()->comment('简介');
             $table->enum('is_banned', ['yes', 'no'])->default('no')->index();
             $table->string('city')->nullable();

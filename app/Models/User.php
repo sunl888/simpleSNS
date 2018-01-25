@@ -10,7 +10,7 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     use Notifiable;
 
     protected $fillable = [
-        'nickname', 'tel_num', 'avatar', 'email', 'password', 'introduction', 'is_banned', 'city', 'oauth_token', 'location', 'company', 'username', 'name', 'provider', 'last_actived_at',
+        'nickname', 'tel_num', 'avatar_hash', 'email', 'password', 'introduction', 'is_banned', 'city', 'oauth_token', 'location', 'company', 'username', 'name', 'provider', 'last_actived_at',
     ];
 
     protected $hidden = [
@@ -48,6 +48,11 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     public function likes()
     {
         return $this->hasMany(Like::class);
+    }
+
+    public function avatar()
+    {
+        return $this->hasOne(Image::class, 'hash', 'avatar_hash');
     }
 
     /**

@@ -53,6 +53,8 @@ Route::group(['namespace' => 'Api',], function () {
          * delete users/{usersID} 删除用户 【暂时禁用】
          */
         Route::apiResource('users', 'UserController');
+
+        Route::post('ajax_upload_image', 'ImageController@upload');
     });
 
 });

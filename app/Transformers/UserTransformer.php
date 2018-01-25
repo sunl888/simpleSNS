@@ -17,7 +17,7 @@ class UserTransformer extends BaseTransformer
             'id' => $user->id,
             'nickname' => $user->nickname,
             'email' => $user->email,
-            'avatar' => $user->avatar,
+            'avatar' => $user->avatar(),
             'tel_num' => $user->tel_num,
             'introduction' => $user->introduction,
             'city' => $user->city,
@@ -25,8 +25,8 @@ class UserTransformer extends BaseTransformer
             'company' => $user->company,
             'username' => $user->username,
             'name' => $user->name,
-            'created_at' => $user->created_at->toDateTimeString(),
-            'updated_at' => $user->updated_at->toDateTimeString()
+            'created_at' => toIso8601String($user->created_at),
+            'updated_at' => toIso8601String($user->updated_at)
         ];
     }
 

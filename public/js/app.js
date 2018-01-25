@@ -1682,18 +1682,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       show: false,
       transitionName: 'slide_right'
     };
-  },
-
-  watch: {
-    '$route': function $route(to, from) {
-      var isBack = this.$router.isBack;
-      if (isBack) {
-        this.transitionName = 'slide_right';
-      } else {
-        this.transitionName = 'slide_left';
-      }
-      this.$router.isBack = false;
-    }
   }
 });
 
@@ -1953,21 +1941,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      // 用户id
-      userId: null,
-      // 用户密码
-      userPassword: null
+      icons: [{ icon: 'iconfont icon-qq-copy', type: 'qq' }, { icon: 'iconfont icon-weixin-copy', type: 'weixin' }, { icon: 'iconfont icon-433-github', type: 'github' }],
+      // 表单数据
+      formData: {
+        // 用户id
+        userId: null,
+        // 用户密码
+        userPassword: null
+      }
     };
+  },
+
+  methods: {
+    loginByOauth: function loginByOauth(type) {
+      this.$http.get('oauth/' + type).then(function (res) {
+        console.log(res);
+      });
+    }
   }
 });
 
@@ -4449,7 +4443,7 @@ exports = module.exports = __webpack_require__("./node_modules/css-loader/lib/cs
 
 
 // module
-exports.push([module.i, "\n.login_box {\n  width: 100%;\n  height: 100%;\n  background: url(" + escape(__webpack_require__("./resources/assets/js/assets/images/01.jpg")) + ");\n  background-attachment: fixed;\n}\n.login {\n  width: 100%;\n  padding: 40px 0;\n  background: rgba(255, 255, 255, 0.9) !important;\n  position: absolute;\n  top: 30%;\n  box-shadow: 2px 1px 10px 1px #000;\n}\n.login .photo {\n  width: 150px;\n  height: 150px;\n  border-radius: 50%;\n  border: 5px solid #fff;\n  overflow: hidden;\n  position: absolute;\n  left: 50%;\n  top: -75px;\n  transform: translateX(-50%);\n}\n.login .photo img {\n  width: 100%;\n  height: 100%;\n}\n.login .form {\n  margin: 0 auto;\n  overflow: hidden;\n  padding: 0 20px;\n}\n.login .form h2 {\n  margin: 60px 0 20px 0;\n  text-align: center;\n}\n.login .form .submit_btn {\n  margin: 15px 0;\n}\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);\n}\n.slide-fade-enter,\n.slide-fade-leave-to {\n  transform: translateX(10px);\n  opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n.login_box {\n  width: 100%;\n  height: 100%;\n  background: url(" + escape(__webpack_require__("./resources/assets/js/assets/images/01.jpg")) + ");\n  background-size: cover;\n  background-attachment: fixed;\n}\n.login {\n  width: 100%;\n  min-height: 80%;\n  padding: 18px 0;\n  background: rgba(255, 255, 255, 0.9) !important;\n  position: absolute;\n  bottom: 0;\n  box-shadow: 2px 0px 10px 1px #444;\n}\n.login .photo {\n  width: 150px;\n  height: 150px;\n  border-radius: 50%;\n  border: 5px solid #fff;\n  overflow: hidden;\n  position: absolute;\n  left: 50%;\n  top: -75px;\n  transform: translateX(-50%);\n}\n.login .photo img {\n  width: 100%;\n  height: 100%;\n}\n.login .form {\n  margin: 0 auto;\n  overflow: hidden;\n  padding: 0 20px;\n}\n.login .form h2 {\n  margin: 60px 0 20px 0;\n  text-align: center;\n}\n.login .form .submit_btn {\n  margin: 15px 0;\n}\n.slide-fade-enter-active {\n  transition: all .3s ease;\n}\n.slide-fade-leave-active {\n  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);\n}\n.slide-fade-enter,\n.slide-fade-leave-to {\n  transform: translateX(10px);\n  opacity: 0;\n}\n", ""]);
 
 // exports
 
@@ -33276,8 +33270,8 @@ var render = function() {
         "transition",
         {
           attrs: {
-            "enter-active-class": "slideInLeft",
-            "leave-active-class": "slideOutRight"
+            "enter-active-class": "bounceInLeft",
+            "leave-active-class": "bounceOutRight"
           }
         },
         [_c("router-view", { staticClass: "animated" })],
@@ -33747,32 +33741,34 @@ var render = function() {
               _vm._v(" "),
               _c("mu-text-field", {
                 attrs: {
+                  icon: "account_circle",
                   hintText: "请输入手机号",
                   type: "text",
                   fullWidth: ""
                 },
                 model: {
-                  value: _vm.userId,
+                  value: _vm.formData.userId,
                   callback: function($$v) {
-                    _vm.userId = $$v
+                    _vm.$set(_vm.formData, "userId", $$v)
                   },
-                  expression: "userId"
+                  expression: "formData.userId"
                 }
               }),
               _c("br"),
               _vm._v(" "),
               _c("mu-text-field", {
                 attrs: {
+                  icon: "lock",
                   hintText: "请输入密码",
                   type: "password",
                   fullWidth: ""
                 },
                 model: {
-                  value: _vm.userPassword,
+                  value: _vm.formData.userPassword,
                   callback: function($$v) {
-                    _vm.userPassword = $$v
+                    _vm.$set(_vm.formData, "userPassword", $$v)
                   },
-                  expression: "userPassword"
+                  expression: "formData.userPassword"
                 }
               }),
               _c("br"),
@@ -33811,19 +33807,24 @@ var render = function() {
                 [
                   _c("h3", [_vm._v("第三方账号登录")]),
                   _vm._v(" "),
-                  _c("mu-icon-button", { staticClass: "oauth_btn" }, [
-                    _c("i", { staticClass: "iconfont icon-qq-copy" })
-                  ]),
-                  _vm._v(" "),
-                  _c("mu-icon-button", { staticClass: "oauth_btn" }, [
-                    _c("i", { staticClass: "iconfont icon-weixin-copy" })
-                  ]),
-                  _vm._v(" "),
-                  _c("mu-icon-button", { staticClass: "oauth_btn" }, [
-                    _c("i", { staticClass: "iconfont icon-433-github" })
-                  ])
+                  _vm._l(_vm.icons, function(values, index) {
+                    return _c(
+                      "mu-icon-button",
+                      { key: index, staticClass: "oauth_btn" },
+                      [
+                        _c("i", {
+                          class: values.icon,
+                          on: {
+                            click: function($event) {
+                              _vm.loginByOauth(values.type)
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  })
                 ],
-                1
+                2
               )
             ],
             1
@@ -47900,12 +47901,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__routes__ = __webpack_require__("./resources/assets/js/routes/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_animate_css_animate_min_css__ = __webpack_require__("./node_modules/animate.css/animate.min.css");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_animate_css_animate_min_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_animate_css_animate_min_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_muse_ui_dist_muse_ui_css__ = __webpack_require__("./node_modules/muse-ui/dist/muse-ui.css");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_muse_ui_dist_muse_ui_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_muse_ui_dist_muse_ui_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_muse_ui_dist_theme_light_css__ = __webpack_require__("./node_modules/muse-ui/dist/theme-light.css");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_muse_ui_dist_theme_light_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_muse_ui_dist_theme_light_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__App_vue__ = __webpack_require__("./resources/assets/js/App.vue");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__App_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_tHttp__ = __webpack_require__("./resources/assets/js/utils/tHttp.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_muse_ui_dist_muse_ui_css__ = __webpack_require__("./node_modules/muse-ui/dist/muse-ui.css");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_muse_ui_dist_muse_ui_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_muse_ui_dist_muse_ui_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_muse_ui_dist_theme_light_css__ = __webpack_require__("./node_modules/muse-ui/dist/theme-light.css");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_muse_ui_dist_theme_light_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_muse_ui_dist_theme_light_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__App_vue__ = __webpack_require__("./resources/assets/js/App.vue");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__App_vue__);
+
 
 
 
@@ -47925,6 +47928,10 @@ __webpack_require__("./resources/assets/js/bootstrap.js");
 
 window.Vue = __webpack_require__("./node_modules/vue/dist/vue.common.js");
 
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4__utils_tHttp__["a" /* default */], {
+  router: __WEBPACK_IMPORTED_MODULE_2__routes__["a" /* default */]
+});
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -47937,7 +47944,7 @@ new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
   el: '#app',
   router: __WEBPACK_IMPORTED_MODULE_2__routes__["a" /* default */],
   template: '<App/>',
-  components: { App: __WEBPACK_IMPORTED_MODULE_6__App_vue___default.a }
+  components: { App: __WEBPACK_IMPORTED_MODULE_7__App_vue___default.a }
 });
 
 /***/ }),
@@ -48188,11 +48195,6 @@ module.exports = Component.exports
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
-// 判断当前路由是否为后退行为
-__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */].prototype.goBack = function () {
-  this.isBack = true;
-  window.history.go(-1);
-};
 // const parentComponent = {template: '<router-view></router-view>'};
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   routes: [{
@@ -48225,6 +48227,102 @@ __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */].prototype.goBack = f
     component: __webpack_require__("./resources/assets/js/views/home.vue")
   }]
 }));
+
+/***/ }),
+
+/***/ "./resources/assets/js/utils/tHttp.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__("./node_modules/axios/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils_utils__ = __webpack_require__("./resources/assets/js/utils/utils.js");
+
+
+
+var token = Object(__WEBPACK_IMPORTED_MODULE_1__utils_utils__["a" /* getCsrfToken */])();
+
+var tHttp = {};
+
+tHttp.config = {};
+
+tHttp.install = function (Vue, _ref) {
+  var baseURL = _ref.baseURL,
+      router = _ref.router;
+
+  tHttp.config = {
+    baseURL: baseURL
+  };
+  tHttp.config['X-CSRF-TOKEN'] = token.content;
+  Vue.prototype.$http = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create({
+    baseURL: baseURL,
+    timeout: 6000,
+    responseType: 'json',
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest'
+    }
+  });
+  Vue.prototype.$http.interceptors.response.use(function (response) {
+    return response;
+  }, function (error) {
+    if (error.code === 'ECONNABORTED') {
+      Vue.prototype.$message('请求超时');
+    } else if (error.response.status === 401 && error.response.data.code === '401.1') {
+      Vue.prototype.$message({ type: 'info', msg: '请先登录' });
+      Vue.router.replace({ name: 'login' });
+    } else if (error.response.status === 422) {
+      var errors = error.response.data.errors;
+      var errStr = '';
+      for (var errIndex in errors) {
+        errStr += errors[errIndex] + ' ';
+      }
+      Vue.prototype.$message(errStr);
+    } else {
+      if (error.config.noErrorTip) {
+        return Promise.reject(error);
+      }
+      if (error.response.data.message) {
+        Vue.prototype.$message(error.response.data.message);
+      }
+    }
+    return Promise.reject(error);
+  });
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (tHttp);
+
+/***/ }),
+
+/***/ "./resources/assets/js/utils/utils.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export getBaseUrl */
+/* harmony export (immutable) */ __webpack_exports__["a"] = getCsrfToken;
+/* unused harmony export getFrontendUrl */
+/* unused harmony export strLimit */
+function getBaseUrl() {
+  return window.location.pathname.split('backend')[0];
+}
+function getCsrfToken() {
+  var tokenMeta = document.head.querySelector('meta[name="csrf-token"]');
+  return tokenMeta ? tokenMeta.content : '';
+}
+function getFrontendUrl() {
+  var frontendUrlMeta = document.head.querySelector('meta[name="frontend_url"]');
+  return frontendUrlMeta ? frontendUrlMeta.content : '';
+}
+function strLimit(str, limit) {
+  var end = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '...';
+
+  if (!str) {
+    return '';
+  }
+  if (str.length < limit) {
+    return str;
+  }
+  return str.substr(0, limit) + '...';
+}
 
 /***/ }),
 

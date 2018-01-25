@@ -2,6 +2,7 @@ import Vue from 'vue';
 import MuseUI from 'muse-ui';
 import router from './routes';
 import 'animate.css/animate.min.css';
+import tHttp from './utils/tHttp';
 import 'muse-ui/dist/muse-ui.css';
 import 'muse-ui/dist/theme-light.css';
 import App from './App.vue';
@@ -16,6 +17,10 @@ Vue.use(MuseUI);
 require('./bootstrap');
 
 window.Vue = require('vue');
+
+Vue.use(tHttp, {
+  router
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

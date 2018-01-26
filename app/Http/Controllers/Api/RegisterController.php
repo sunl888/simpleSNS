@@ -97,7 +97,7 @@ class RegisterController extends APIController
             'tel_num' => ['bail', 'required', 'string', 'regex:/\d{11}/', new FieldHasExisted()],
             // TODO 这里如果没有tel_num会报错
             'sms_verification_code' => ['bail', 'required', new SMSVerificationCode($data['tel_num'])],
-            'email' => ['bail', 'required', 'string', 'email', new FieldHasExisted()],
+            //'email' => ['bail', 'required', 'string', 'email', new FieldHasExisted()],
             'password' => ['bail', 'required', 'string', 'min:6'],
         ]);
     }
@@ -111,7 +111,7 @@ class RegisterController extends APIController
     protected function create(array $data)
     {
         $userRepository = app(UserRepository::class);
-        return $userRepository->create(array_only($data, ['tel_num', 'email', 'password']));
+        return $userRepository->create(array_only($data, ['tel_num', 'password']));
     }
 
     protected function update(array $data, Model $model)

@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable()->comment('姓名');
             $table->string('username')->nullable()->comment('用户名');
-            $table->char('tel_num', 11)->nullable()->comment('手机号码');
+            $table->char('tel_num', 11)->unique()->nullable()->comment('手机号码');
             $table->char('email')->nullable()->comment('email');
             $table->string('provider')->nullable()->comment('服务提供者');
             $table->string('nickname')->nullable()->comment('昵称');

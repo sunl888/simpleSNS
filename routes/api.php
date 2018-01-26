@@ -6,7 +6,13 @@ Route::group(['namespace' => 'Api',], function () {
     Route::group(['prefix' => 'auth'], function () {
         // 登录 params: tel_num password
         Route::post('login', 'AuthController@login');
+
         // 发送验证码 params: tel_num sms_template:user_register,user_reset_pwd
+        //    阿里云短信服务接口触发天级流控Permits:10，这是个阿里云返回来的错误信息。
+        //    错误原因是因为短信发送有默认的频率限制：
+        //    限制如下：
+        //    短信验证码 ：使用同一个签名，对同一个手机号码发送短信验证码，支持1条/分钟，5条/小时 ，累计10条/天。
+        //    短信通知： 使用同一个签名和同一个短信模板ID，对同一个手机号码发送短信通知，支持50条/日
         Route::post('send_sms_code', 'SendSMSController@sendSMSVerificationCode');
         // 注册 params: tel_num sms_verification_code email password
         Route::post('register', 'RegisterController@register');

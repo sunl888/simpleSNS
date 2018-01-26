@@ -35,7 +35,7 @@ class AuthController extends ApiController
             return null;
         }
         $token = $this->guard()->fromUser($user);
-        return $token;
+        return $this->respondWithToken($token);;
     }
 
     /**
@@ -59,6 +59,7 @@ class AuthController extends ApiController
         if (is_null($credentials['password']) || is_null($credentials['username'])) {
             return false;
         }
+
         return true;
     }
 

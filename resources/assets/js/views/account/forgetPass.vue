@@ -11,13 +11,13 @@
       <mu-raised-button :disabled="isValidCode" :label="validText" @click="getVaildCode()" class="demo-raised-button get_vaild_code"/>
       <mu-text-field icon="lock" hintText="请输入新密码" type="password" fullWidth v-model="formData.newPassword"/>
       <mu-text-field icon="lock" hintText="请重复输入新密码" type="password" fullWidth v-model="formData.confirmPassword"/>
-      <mu-raised-button :to="{name: 'home'}" label="确定" class="demo-raised-button submit_btn" fullWidth primary/>
+      <mu-raised-button @click="register" :to="{name: 'home'}" label="确定" class="demo-raised-button submit_btn" fullWidth primary/>
     </mu-col>
   </mu-row>
   <mu-row v-else gutter>
     <mu-col class="form clear_fixed" width="90" tablet="50" desktop="30">
        <h2>注册</h2>
-      <mu-text-field @blur="vaildForm('userId')" icon="phone" hintText="请输入手机号" type="text" fullWidth v-model="formData.userId"/>
+      <mu-text-field icon="phone" hintText="请输入手机号" type="text" fullWidth v-model="formData.userId"/>
       <mu-text-field icon="comment" class="vaild_code" hintText="请输入短信验证码" type="text" v-model="formData.vaildCode"/>
       <mu-raised-button :disabled="isValidCode" :label="validText" @click="getVaildCode()" class="demo-raised-button get_vaild_code"/>
       <mu-text-field icon="lock" hintText="请输入新密码" type="password" fullWidth v-model="formData.newPassword"/>
@@ -33,6 +33,7 @@ export default{
     return {
       // 表单错误提示
       inputErrorText: '',
+      timer: null,
       // 获取验证码是否可用
       isValidCode: false,
       // 验证码按钮文字
@@ -67,22 +68,14 @@ export default{
     // }
   },
   mounted () {
-    if (localStorage.i < 59) {
-      let timer = window.setInterval(() => {
-        this.isValidCode = true;
-        localStorage.i--;
-        this.validText = localStorage.i + 's后再次获取';
-        if (localStorage.i < 1) {
-          this.isValidCode = false;
-          this.validText = '获取验证码';
-          clearInterval(timer);
-        }
-      }, 1000);
+    if (localStorage.i < 58) {
+      this.vaildBtn();
     }
   },
   methods: {
     // 获取验证码
     getVaildCode () {
+      localStorage.i = 59;
       if (localStorage.i < 59) {
         this.validText = localStorage.i + 's后再次获取';
       }
@@ -96,45 +89,46 @@ export default{
         this.$http.post('auth/send_sms_code', {
           tel_num: this.formData.userId,
           sms_template: url
+        }).catch(() => {
+          clearInterval(this.timer);
         });
-        localStorage.i = 59;
-        let timer = window.setInterval(() => {
-          this.isValidCode = true;
-          localStorage.i--;
-          this.validText = localStorage.i + 's后再次获取';
-          if (localStorage.i < 1) {
-            this.isValidCode = false;
-            this.validText = '获取验证码';
-            clearInterval(timer);
-          }
-        }, 1000);
+        this.vaildBtn();
       }
     },
-    // 验证表单
-    vaildForm (value) {
-      if (value.match('userId')) {
-      }
+    // 验证码按钮
+    vaildBtn () {
+      this.timer = window.setInterval(() => {
+        this.isValidCode = true;
+        localStorage.i--;
+        this.validText = localStorage.i + 's后再次获取';
+        if (localStorage.i < 1) {
+          this.isValidCode = false;
+          this.validText = '获取验证码';
+          clearInterval(this.timer);
+        }
+      }, 1000);
     },
-    // 注册
+    // 注册&忘记密码
     async register () {
       if (this.formData.newPassword !== this.formData.confirmPassword) {
         this.$alert('两次输入的密码不同', 'error');
       } else {
-        await this.$http.post('auth/register', {
+        let url = this.$route.name === 'register' ? 'register' : 'reset_password';
+        await this.$http.post('auth/' + url, {
           tel_num: this.formData.userId,
           sms_verification_code: this.formData.vaildCode,
           password: this.formData.newPassword
         }).then(res => {
-          // localStorage.jwt_token = res.data.access_token;
+          localStorage.jwt_token = res.data.access_token;
           this.$http.post('auth/login', {
             username: this.formData.userId,
             password: this.formData.newPassword
           }).then(res => {
             localStorage.jwt_token = res.data.access_token;
-            this.$store.dispatch('updateMe');
-            this.$router.push({name: 'home'});
           });
         });
+        this.$store.dispatch('updateMe');
+        this.$router.push({name: 'home'});
       }
     }
   }

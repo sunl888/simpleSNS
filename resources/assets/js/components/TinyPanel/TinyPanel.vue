@@ -8,12 +8,12 @@
       <div v-if="templateType === 2" class="my_profile">
         <div class="my_profile_top clear_fixed">
           <div class="my_photo">
-            <img src="../../assets/images/temp.jpg" alt="">
-            <span>更改</span>
+            <img :src="me.avatar.data.url" alt="">
+            <!-- <span>更改</span> -->
             <input type="file">
           </div>
           <div class="my_profile_text">
-            <h3>{{me.username}}</h3>
+            <h3>{{me.nickname}}</h3>
             <p>{{me.tel_num}}</p>
             <p>{{me.email}}</p>
             <a class="theme_btn">{{me.tel_num === null ? '完善资料' : '更多资料'}}</a>
@@ -44,15 +44,17 @@ export default{
   methods: {
     // 关闭小面板
     closeWindow () {
-      this.$parent.currentIcon = null;
+      this.$parent.$parent.currentIcon = null;
     },
     // 退出登录
     async logout () {
-      await this.$http.get('auth/logout');
+      await this.$http.get('auth/logout', {
+        token: localStorage.jwt_token
+      });
       localStorage.removeItem('jwt_token');
       localStorage.removeItem('expiry_time');
       this.$store.commit('UPDATE_ME', null);
-      this.$parent.isLogin = false;
+      this.$parent.$parent.isLogin = false;
       this.$alert('已经退出账号啦 ┭┮﹏┭┮', 'primary');
     }
   }

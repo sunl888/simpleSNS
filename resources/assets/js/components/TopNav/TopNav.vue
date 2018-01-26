@@ -1,7 +1,9 @@
 <template>
   <div class="top_nav clear_fixed">
     <div class="menu_btn">
-      <i class="material-icons">menu</i>
+      <mu-icon-button>
+        <i class="material-icons">menu</i>
+      </mu-icon-button>
     </div>
     <div class="logo clear_fixed">
       <h3>simple SNS</h3>
@@ -11,12 +13,18 @@
     <search-tool></search-tool>
     <div v-if="isLogin" class="person_tool clear_fixed">
       <div v-for="(value, index) in personInformation" :key="index">  
-        <i @click="currentIcon = index" :class="{'active_icon' : currentIcon === index}" class="material-icons">{{value.icon}}</i>
-        <tiny-panel class="animated rubberBand" v-if="currentIcon === index" :botOffset="index * 40" :templateType = "index">
+        <mu-icon-button @click="currentIcon = index" >
+          <i :class="{'active_icon' : currentIcon === index}"class="material-icons">{{value.icon}}</i>
+        </mu-icon-button>
+        <tiny-panel class="animated rubberBand" v-if="currentIcon === index" :botOffset="index * 45" :templateType = "index">
         </tiny-panel>
       </div>
     </div>
-    <router-link  v-else :to="{name: 'login'}" class="theme_btn expect_style">登录</router-link>
+    <div class="expect_style" v-else>
+      <mu-raised-button :to="{name: 'register'}"  label="注册" class="demo-raised-button"/>
+      <mu-raised-button :to="{name: 'login'}"  label="登录" class="demo-raised-button" primary/>
+    </div>
+
   </div>
 </template>
 <script>
@@ -54,9 +62,9 @@ export default{
     .expect_style{
       float: right;
       margin: 20px 20px 0 0;
-      padding: 4px 0;
-    }
-    .menu_btn>i{
+      .mu-raised-button{
+        margin-left: 10px;
+      }
     }
     .logo{
       float: left;
@@ -71,9 +79,10 @@ export default{
         line-height: 70px;
       }
     }
-    .menu_btn>i{
+    .menu_btn>.mu-icon-button{
         float: left;
-        line-height: 70px;
+        margin: 0 15px 0 30px;
+        margin-top: 10px;
     }
     .search_tool{
       width: 50%;
@@ -82,17 +91,14 @@ export default{
       float: right;
       margin-right: 15px;
     }
-    .menu_btn>i{
-      margin-left: 30px;
-    }
-    .menu_btn>i, .person_tool>div{
-      margin-right: 15px;
+    .person_tool>div{
+      // margin-right: 15px;
       font-size: 28px;
       cursor: pointer;
       line-height: 70px;
       color: #666;
     }
-    .menu_btn>i:hover, .person_tool>i:hover{
+    .menu_btn>.mu-icon-button:hover, .person_tool>i:hover{
       color: #000;
     }
     .person_tool>div{

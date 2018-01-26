@@ -82,14 +82,14 @@ export default{
     border-width:10px; 
     border-style:solid dashed dashed; 
     border-color: transparent transparent #ccc; 
-    left:240px; 
+    left:230px; 
     top: -20px;
 }
 .tiny_panel>span.top{
     border-width:10px; 
     border-style:solid dashed dashed; 
     border-color:transparent transparent #ffffff ; 
-    left:240px; 
+    left:230px; 
     top:-19px;
 }    
 .close_window{

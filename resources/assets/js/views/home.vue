@@ -10,7 +10,26 @@ export default{
   components: {
     TopNav
   },
+  computed: {
+    // 获取个人信息
+    // me () {
+    //   return this.$store.state.me === null ? {} : this.$store.state.me;
+    // }
+  },
   mounted () {
+    this.welcomeUser();
+  },
+  async beforeRouteEnter (to, from, next) {
+    console.log(from);
+    if (from.name === 'login') {
+      console.log('欢迎回来，');
+    }
+    next();
+  },
+  methods: {
+    welcomeUser () {
+      this.$alert();
+    }
   }
 };
 </script>

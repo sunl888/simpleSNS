@@ -12,7 +12,7 @@
         <div class="logon">
           <router-link :to="{name: 'forget_pass'}">忘记密码</router-link>
         </div>
-        <mu-raised-button :to="{name: 'home'}" label="登录" class="demo-raised-button submit_btn" fullWidth primary/>
+        <mu-raised-button @click="login" label="登录" class="demo-raised-button submit_btn" fullWidth primary/>
         <div class="oauth_login">
           <h3>第三方账号登录</h3> 
           <mu-icon-button v-for="(values, index) in icons" class="oauth_btn" :key="index">
@@ -45,6 +45,17 @@ export default{
     console.log(123);
   },
   methods: {
+    // 登录
+    async login () {
+      await this.$http.post('auth/login', {
+        username: this.formData.userId,
+        password: this.formData.userPassword
+      }).then(res => {
+        localStorage.jwt_token = res.data.access_token;
+      });
+      this.$router.push({name: 'home'});
+      this.$store.dispatch('updateMe');
+    }
   }
 };
 </script>

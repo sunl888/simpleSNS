@@ -31,9 +31,10 @@ export default {
 .primary, .warning, .error {
   width: 100%;
   opacity: .9;
-  height: 48px;
+  // height: 48px;
   color: #fff;
-  line-height: 48px;
+  padding: 5px 10px;
+  line-height: 1.8em;
   display: flex;
   align-items: center;
   justify-content: center;

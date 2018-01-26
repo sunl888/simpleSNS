@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+// import { getToken } from '../utils/utils.js';
 
 Vue.use(Vuex);
 
@@ -16,7 +17,11 @@ export default new Vuex.Store({
   },
   actions: {
     updateMe ({ commit }) {
-      Vue.prototype.$http.get('auth/me').then(res => {
+      Vue.prototype.$http.get('auth/me', {
+        params: {
+          token: window.localStorage.jwt_token
+        }
+      }).then(res => {
         commit('UPDATE_ME', res.data.data);
       });
     }

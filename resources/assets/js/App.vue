@@ -19,7 +19,7 @@ export default{
   }
 };
 </script>
-<style>
+<style lang="less">
 *{
   margin: 0;
   padding: 0;
@@ -47,6 +47,18 @@ html, body, #app{
   line-height: 20px;
   &:hover{
     background: #3884fd;
+  }
+}
+@media (min-width: 993px) {
+  @MenuBar: 20%;
+  .menu_bar{
+    width: @MenuBar;
+  }
+}
+@media (max-width: 600px) {
+  @MenuBar: 100%;
+  .menu_bar{
+    width: @MenuBar;
   }
 }
 </style>

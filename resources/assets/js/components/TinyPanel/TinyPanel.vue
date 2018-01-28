@@ -48,8 +48,11 @@ export default{
     },
     // 退出登录
     async logout () {
+      console.log(localStorage.jwt_token);
       await this.$http.get('auth/logout', {
-        token: localStorage.jwt_token
+        params: {
+          token: localStorage.getItem('jwt_token')
+        }
       });
       localStorage.removeItem('jwt_token');
       localStorage.removeItem('expiry_time');

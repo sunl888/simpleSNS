@@ -1,10 +1,10 @@
 <template>
 <mu-appbar class="top_nav clear_fixed" title="Title">
-  <mu-icon-button class="menu_btn" icon="menu" slot="left"/>
+  <mu-icon-button @click="expendMenu()" class="menu_btn" icon="menu" slot="left"/>
     <div class="logo clear_fixed">
       <h3>simple SNS</h3>
       <span>|</span>
-      <span>首页</span>
+      <span>{{$route.meta.title}}</span>
     </div>
     <search-tool></search-tool>
     <div v-if="isLogin" class="person_tool clear_fixed" slot="right">
@@ -23,7 +23,9 @@
 </mu-appbar>
 </template>
 <script>
+// 搜索框组件
 import SearchTool from '../SearchTool/SearchTool.vue';
+// 小面板组件
 import TinyPanel from '../TinyPanel/TinyPanel.vue';
 import { isLogin } from '../../utils/utils';
 export default{
@@ -35,18 +37,29 @@ export default{
     return {
       // 判断是否登录
       isLogin: isLogin(),
-      // 当前选中的小图标
+      // 是否显示菜单
+      isMenu: true,
+      // 顶部导航选中的小图标
       currentIcon: null,
       // 图标
       personInformation: [
         {icon: 'apps'},
-        {icon: 'new_releases'},
+        {icon: 'notifications'},
         {icon: 'face'}
       ]
     };
   },
   mounted () {
-    console.log(this.isLogin);
+    if (window.screen.width < 600) {
+      this.isMenu = false;
+      this.$parent.$children[1].show = this.isMenu;
+    }
+  },
+  methods: {
+    expendMenu () {
+      this.isMenu = !this.isMenu;
+      this.$parent.$children[1].show = this.isMenu;
+    }
   }
 };
 </script>
@@ -62,9 +75,10 @@ export default{
     }
     .expect_style{
       float: right;
-      margin: 20px 20px 0 0;
+      margin: 20px 0 0 0;
       .mu-raised-button{
         margin-left: 10px;
+        min-width: 60px;
         font-size: 14px;
       }
     }

@@ -20,8 +20,8 @@
       <mu-text-field icon="phone" hintText="请输入手机号" type="text" fullWidth v-model="formData.userId"/>
       <mu-text-field icon="comment" class="vaild_code" hintText="请输入短信验证码" type="text" v-model="formData.vaildCode"/>
       <mu-raised-button :disabled="isValidCode" :label="validText" @click="getVaildCode()" class="demo-raised-button get_vaild_code"/>
-      <mu-text-field icon="lock" hintText="请输入新密码" type="password" fullWidth v-model="formData.newPassword"/>
-      <mu-text-field icon="lock" hintText="请重复输入新密码" type="password" fullWidth v-model="formData.confirmPassword"/>
+      <mu-text-field icon="lock" hintText="请输入密码" type="password" fullWidth v-model="formData.newPassword"/>
+      <mu-text-field icon="lock" hintText="请重复输入密码" type="password" fullWidth v-model="formData.confirmPassword"/>
       <mu-raised-button @click="register" label="确定" class="demo-raised-button submit_btn" fullWidth primary/>
     </mu-col>
   </mu-row>
@@ -51,32 +51,16 @@ export default{
       }
     };
   },
-  watch: {
-    // 'route' () {
-    //   if (this.$route.name === 'register') {
-    //     this.formData = {
-    //       // 手机号
-    //       userId: null,
-    //       // 验证码
-    //       vaildCode: null,
-    //       // 新密码
-    //       newPassword: null,
-    //       // 验证密码
-    //       confirmPassword: null
-    //     }
-    //   }
-    // }
-  },
   mounted () {
-    if (localStorage.i < 58) {
+    if (localStorage.i < 59) {
       this.vaildBtn();
     }
   },
   methods: {
     // 获取验证码
     getVaildCode () {
-      localStorage.i = 59;
-      if (localStorage.i < 59) {
+      localStorage.i = 60;
+      if (localStorage.i < 60) {
         this.validText = localStorage.i + 's后再次获取';
       }
       if (this.formData.userId === null) {
@@ -119,16 +103,12 @@ export default{
           sms_verification_code: this.formData.vaildCode,
           password: this.formData.newPassword
         }).then(res => {
-          localStorage.jwt_token = res.data.access_token;
-          this.$http.post('auth/login', {
-            username: this.formData.userId,
-            password: this.formData.newPassword
-          }).then(res => {
-            localStorage.jwt_token = res.data.access_token;
-          });
+          localStorage.setItem('jwt_token', res.data.access_token);
         });
-        this.$store.dispatch('updateMe');
+        await this.$store.dispatch('updateMe');
         this.$router.push({name: 'home'});
+        clearInterval(this.timer);
+        localStorage.removeItem('i');
       }
     }
   }

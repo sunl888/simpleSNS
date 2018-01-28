@@ -6,6 +6,10 @@
       <mu-menu-item title="个人资料" leftIcon="person_pin"/>
       <mu-menu-item title="人脉" leftIcon="person_pin"/>
       <mu-menu-item title="通知" leftIcon="notifications"/>
+      <mu-divider />
+      <mu-menu-item title="设置"/>
+      <mu-menu-item title="联系我们"/>
+      <mu-menu-item title="帮助"/>
     </mu-menu>
   </mu-popup>
 </template>

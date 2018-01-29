@@ -42,7 +42,7 @@ export default{
     };
   },
   created () {
-    console.log(123);
+    // console.log(123);
   },
   methods: {
     // 登录
@@ -51,10 +51,10 @@ export default{
         username: this.formData.userId,
         password: this.formData.userPassword
       }).then(res => {
-        localStorage.jwt_token = res.data.access_token;
+        localStorage.setItem('jwt_token', res.data.access_token);
+        this.$store.dispatch('updateMe');
       });
       this.$router.push({name: 'home'});
-      this.$store.dispatch('updateMe');
     }
   }
 };

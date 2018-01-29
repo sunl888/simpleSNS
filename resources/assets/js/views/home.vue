@@ -1,14 +1,18 @@
 <template>
   <div class="home">
     <top-nav></top-nav>
+    <menu-bar></menu-bar>
     <router-view></router-view>
   </div>
 </template>
 <script>
 import TopNav from '../components/TopNav/TopNav.vue';
+// 左侧菜单组件
+import MenuBar from '../components/MenuBar/MenuBar.vue';
 export default{
   components: {
-    TopNav
+    TopNav,
+    MenuBar
   },
   computed: {
     // 获取个人信息
@@ -16,15 +20,13 @@ export default{
     //   return this.$store.state.me === null ? {} : this.$store.state.me;
     // }
   },
-  mounted () {
-    this.welcomeUser();
-  },
-  async beforeRouteEnter (to, from, next) {
-    console.log(from);
-    if (from.name === 'login') {
-      console.log('欢迎回来，');
+  watch: {
+    '$route' (to, from) {
+      console.log(123);
     }
-    next();
+  },
+  mounted () {
+    console.log(this.$route);
   },
   methods: {
     welcomeUser () {
@@ -33,7 +35,7 @@ export default{
   }
 };
 </script>
-<style scoped>
+<style lang="less">
 *{
   margin: 0;
   padding: 0;
@@ -42,10 +44,5 @@ export default{
   width: 100%;
   height: 100%;
   background: #f1f1f1;
-}
-.clear_fixed:after{
-  content: "";
-  clear: both;
-  display: block;
 }
 </style>

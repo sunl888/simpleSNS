@@ -19,7 +19,7 @@ export default new Vuex.Store({
     updateMe ({ commit }) {
       Vue.prototype.$http.get('auth/me', {
         params: {
-          token: window.localStorage.jwt_token
+          token: localStorage.getItem('jwt_token')
         }
       }).then(res => {
         commit('UPDATE_ME', res.data.data);

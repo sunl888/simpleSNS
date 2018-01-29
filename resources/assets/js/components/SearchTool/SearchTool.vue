@@ -23,7 +23,7 @@ export default{
 .search_tool{
     width: 100%;
     height: 50px;
-    margin-top: 10px;
+    margin-top: 17px;
     float: left;
     background: #E5E5E5;
     border-radius: 3px;
@@ -51,5 +51,6 @@ export default{
         font-size: 16px;
         background: transparent;
     }
+    
 }
 </style>

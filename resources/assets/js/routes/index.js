@@ -40,6 +40,7 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
+      meta: {title: '首页'},
       component: require('../views/home.vue')
     }
   ]

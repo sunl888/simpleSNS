@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 class CreateFollowsTable extends Migration
 {
     /**
-     * Run the migrations.
+     * 关注表.
      *
      * @return void
      */
@@ -15,19 +15,10 @@ class CreateFollowsTable extends Migration
     {
         Schema::create('follows', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')->index()->comment('当前用户ID');
-            $table->unsignedInteger('follow_user_id')->index()->comment('喜欢的用户ID');
+            $table->unsignedInteger('user_id')->index()->comment('用户ID');
+            $table->string('follow_type');
+            $table->unsignedInteger('follow_id');
             $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-
-            $table->foreign('follow_user_id')
-                ->references('id')->on('users')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
         });
     }
 

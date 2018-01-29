@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Sortable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Ty666\LaravelVote\Traits\CanVote;
 
 class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubject
 {
-    use Notifiable, CanVote;
+    use Notifiable, CanVote, Sortable;
 
     protected $fillable = [
         'nickname', 'tel_num', 'avatar_hash', 'email', 'password', 'introduction', 'is_banned', 'city', 'oauth_token', 'location', 'company', 'username', 'name', 'provider', 'last_actived_at',
@@ -19,14 +20,11 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     ];
     protected $dates = ['last_active_at'];
 
-    public function getJWTIdentifier()
+    public function scopeApplyFilter($query, $data)
     {
-        return $this->getKey();
-    }
-
-    public function getJWTCustomClaims()
-    {
-        return [];
+        $data = $data->only('');
+        // todo 这里过滤
+        return $query->ordered()->recent();
     }
 
     public function avatar()
@@ -40,12 +38,11 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     }
 
     /**
-     * 关注我的用户
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * 获得此用户的所有关注者。
      */
     public function follows()
     {
-        return $this->belongsTo(Follow::class, 'user_id', 'id');
+        return $this->hasMany(Follow::class, 'follow_id')->byType(get_class($this));
     }
 
     /**
@@ -74,4 +71,13 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
         return $query->where('provider', null);
     }
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }

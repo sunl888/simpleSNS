@@ -14,10 +14,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'cover' => $faker->imageUrl(),
         'up_votes_count' => 0,
         'comments_count' => 0,
-        'category_id' => function () {
-            $categoryIDs = Category::all()->pluck('id');
-            return $categoryIDs->random(1)->first();
-        },
+        'collection_id' => 1,
         'status' => array_random([Post::STATUS_PUBLISH, Post::STATUS_DRAFT], 1)[0],
         'published_at' => \Carbon\Carbon::now(),
     ];

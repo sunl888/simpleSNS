@@ -11,8 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // 文章分类
-        $this->call(CategorySeeder::class);
         factory(App\Models\User::class, 1)->create();
         factory(App\Models\Post::class, 1)->create();
         factory(App\Models\PostContent::class, 1)->create();
@@ -28,10 +26,5 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\User::where('id', 1)->first()->update(['nickname' => 'admin', 'tel_num' => '15705547511', 'email' => '2013855675@qq.com']);
 
-        // 用户互相关注
-        $this->call(FollowSeeder::class);
-
-        //创建tag
-        factory(\App\Models\Tag::class, 20)->create();
     }
 }

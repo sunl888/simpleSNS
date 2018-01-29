@@ -11,6 +11,7 @@ use App\Repositories\CommentRepository;
 use App\Repositories\PostRepository;
 use App\Transformers\CommentTransformer;
 use App\Transformers\PostTransformer;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
@@ -20,6 +21,12 @@ class PostController extends ApiController implements VoteController
     use VoteControllerHelper;
 
     protected $resourceClass = Post::class;
+
+    public function __construct()
+    {
+        // 验证是否登录
+        $this->middleware('auth:api')->except('index', 'show', 'showComments');
+    }
 
     /**
      * 文章列表
@@ -40,8 +47,27 @@ class PostController extends ApiController implements VoteController
      * @param Post $post
      * @return \App\Support\Response\TransformerResponse
      */
-    public function show(Post $post)
+    public function show($slug, Post $post)
     {
+        $queryBuilder = Post::bySlug($slug);
+        // 如果用户登录了
+        if (auth()->check()) {
+
+            $post = $queryBuilder->where(
+                function ($query) {
+                    $query->publishOrDraft();
+                }
+            )->firstOrFail();
+
+            if (!$post->isPublish()) {
+                // 管理员预览草稿或未发布的文章
+                throw new ModelNotFoundException('当前文章未发布!');
+            }
+
+        } else {
+            $post = $queryBuilder->publishPost()->firstOrFail();
+        }
+
         event(new PostHasBeenRead($post, request()->getClientIp()));
         return $this->response()->item($post, new PostTransformer());
     }

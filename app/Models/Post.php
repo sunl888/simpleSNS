@@ -16,49 +16,65 @@ class Post extends BaseModel implements CanCountUpVotesModel
     use CanBeVoted, CanCountUpVotes;
 
     const STATUS_PUBLISH = 'publish', STATUS_DRAFT = 'draft';
-    protected $fillable = ['title', 'user_id', 'slug', 'excerpt', 'views', 'cover', 'up_votes_count', 'comment_count','status', 'published_at', 'category_id', 'order'];
+    protected $fillable = [
+        'title', 'user_id', 'slug', 'excerpt', 'views', 'cover', 'up_votes_count', 'comment_count',
+        'status', 'published_at', 'collection_id', 'order'
+    ];
     protected $dates = ['published_at', 'created_at', 'updated_at'];
-
     protected $upVotesCountField = 'up_votes_count';
 
-    public function scopeRecent($query)
+    public function scopeApplyFilter($query, $data)
     {
-        return $query->orderBy('published_at', 'desc')->orderBy('created_at', 'desc');
+        $data = $data->only('user_id', 'collection_id');
+        // todo 这里过滤
+        if (isset($data['user_id']))
+            $query->where('user_id', $data['user_id']);
+        if (isset($data['slug']))
+            $query->where('slug', $data['slug']);
+        if (isset($data['collection_id']))
+            $query->where('collection_id', $data['collection_id']);
+
+        return $query->ordered()->recent();
+    }
+
+    // 文章所属收藏集
+    public function collection()
+    {
+        return $this->hasOne(Collection::class, 'id', 'collection_id');
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
     public function cover()
     {
         return $this->hasOne(Image::class, 'hash', 'cover');
     }
 
-    public function category()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function postContent()
     {
-        return $this->belongsTo(Category::class);
+        return $this->hasOne(PostContent::class);
     }
 
-    public function scopeApplyFilter($query, $data)
+    public function comments()
     {
-        $data = $data->only('status', 'category_id', 'hot', '');
-
-        $query->byCategory($data['category_id'] ?? null)
-            ->byStatus($data['status'] ?? null);
-
-        return $query->ordered()->recent();
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function scopeByCategory($query, $category)
+    public function scopeByCollection($query, $collection)
     {
-        if ($category instanceof Category) {
-            $category = $category->id;
+        if ($collection instanceof Collection) {
+            $collection = $collection->id;
         } else {
-            $category = intval($category);
+            $collection = intval($collection);
         }
-        if ($category)
-            $query->where('category_id', $category);
+        if ($collection)
+            $query->where('collection_id', $collection);
     }
 
     public function scopeByStatus($query, $status)
@@ -84,6 +100,18 @@ class Post extends BaseModel implements CanCountUpVotesModel
         return $query->byStatus(static::STATUS_DRAFT);
     }
 
+    public function scopeByUser($query, $user)
+    {
+        if ($user instanceof User)
+            $user = $user->id;
+        $query->where('user_id', $user);
+    }
+
+    public function scopeRecent($query)
+    {
+        return $query->orderBy('published_at', 'desc')->orderBy('created_at', 'desc');
+    }
+
     /**
      * 文章浏览量增加
      * @return int
@@ -91,14 +119,6 @@ class Post extends BaseModel implements CanCountUpVotesModel
     public function addViews()
     {
         return $this->increment('views');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function postContent()
-    {
-        return $this->hasOne(PostContent::class);
     }
 
     public function isPublish()
@@ -110,25 +130,4 @@ class Post extends BaseModel implements CanCountUpVotesModel
     {
         return $this->status == static::STATUS_DRAFT;
     }
-
-    public function scopeByUser($query, $user)
-    {
-        if ($user instanceof User)
-            $user = $user->id;
-        $query->where('user_id', $user);
-    }
-
-    /**
-     * 标签
-     */
-    public function tags()
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
-    }
-
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
 }

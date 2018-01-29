@@ -6,30 +6,32 @@ use App\Models\Post;
 
 class PostTransformer extends BaseTransformer
 {
-    protected $availableIncludes = ['user', 'post_content', 'category', 'tags', 'cover'];
-    protected $defaultIncludes = ['cover'];
+    //protected $availableIncludes = ['user', 'post_content', 'cover'];
+    //protected $defaultIncludes = ['cover'];
 
     public function transform(Post $post)
     {
         return [
             'id' => $post->id,
-            'user_id' => $post->user_id,
+            'user' => $post->user,
             'title' => $post->title,
             'slug' => $post->slug,
+            'cover' => $post->cover,
             'excerpt' => $post->excerpt,
-            'category_id' => $post->category_id,
+            'collection' => $post->collection,
             'status' => $post->status,
             'views' => $post->views,
             'order' => $post->order,
             'up_voters' => $post->upVoters,// 赞
             'down_voters' => $post->downVoters,// 踩
             'published_at' => $post->published_at,
+            'post_content' => $post->post_content,
             'created_at' => $post->created_at->toDateTimeString(),
             'updated_at' => $post->updated_at->toDateTimeString()
         ];
     }
 
-    public function includeCover(Post $post)
+    /*public function includeCover(Post $post)
     {
         if (!$post->cover) {
             return $this->null();
@@ -55,32 +57,6 @@ class PostTransformer extends BaseTransformer
         } else {
             return $this->item($content, new PostContentTransformer());
         }
-    }
-
-    public function includeCategory(Post $post)
-    {
-        $category = $post->category;
-        if (is_null($category)) {
-            return $this->null();
-        }
-        return $this->item($category, new CategoryTransformer());
-    }
-
-    public function includeTags(Post $post)
-    {
-        $tags = $post->tags;
-        if (is_null($tags)) {
-            return $this->null();
-        }
-        return $this->collection($tags, new TagTransformer());
-    }
-
-    /*public function includeVoters(Post $post)
-    {
-        $votes = $post->voters();
-        if (is_null($votes)) {
-            return $this->null();
-        }dd($votes->get());
-        return $this->collection($votes, new VoteTransformer());
     }*/
+
 }

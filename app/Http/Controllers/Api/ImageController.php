@@ -14,6 +14,7 @@ class ImageController extends APIController
 
     public function __construct()
     {
+        $this->middleware('auth:api');
         $this->imageService = app(ImageService::class);
     }
 

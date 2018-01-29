@@ -34,8 +34,7 @@ class AuthController extends ApiController
         if (is_null($user) || !\Hash::check($credentials['password'], $user->password)) {
             return null;
         }
-        $token = $this->guard()->fromUser($user);
-        return $this->respondWithToken($token);;
+        return $token = $this->guard()->fromUser($user);
     }
 
     /**

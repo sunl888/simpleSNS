@@ -23,7 +23,7 @@ class CreatePostsTable extends Migration
             $table->string('excerpt', 512)->nullable();
             // 文章封面
             $table->string('cover')->nullable()->comment('文章封面');
-            $table->unsignedInteger('category_id')->index()->comment('分类 id');
+            $table->unsignedInteger('collection_id')->index()->comment('收藏集 id');
             $table->char('status', 10)->default('publish')->comment('文章状态：publish 发布 draft 草稿');
             // 浏览量
             $table->unsignedInteger('views')->default(0);

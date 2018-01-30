@@ -11,10 +11,12 @@ trait FollowTrait
     {
         $data['follow_type'] = static::$model;
         $data['follow_id'] = $id;
-        if ($type == 'create')
-            $followRepository->createFollow($data);
-        else
-            $followRepository->cancelFollow($data);
+        if (auth()->check()) {
+            if ($type == 'create')
+                $followRepository->createFollow($data);
+            else
+                $followRepository->cancelFollow($data);
+        }
 
         return $this->response()->noContent();
     }

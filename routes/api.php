@@ -11,22 +11,19 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('register', 'RegisterController@register');
         // 忘记密码 params: tel_num sms_verification_code password
         Route::post('reset_password', 'RegisterController@resetPassword');
-        // 要登录的接口
-        Route::group(['middleware' => 'auth:api'], function () {
-            // 退出 params: token
-            Route::get('logout', 'AuthController@logout');
-            // 刷新token params: token
-            Route::get('refresh', 'AuthController@refresh');
-            // 个人信息 params: token
-            Route::get('me', 'AuthController@me');
-        });
+        // 退出 params: token
+        Route::get('logout', 'AuthController@logout');
+        // 刷新token params: token
+        Route::get('refresh', 'AuthController@refresh');
+        // 个人信息 params: token
+        Route::get('me', 'AuthController@me');
     });
     // 文章管理
     Route::apiResource('posts', 'PostController');
     // 收藏集管理
     Route::apiResource('collections', 'CollectionController');
-    // 用户信息更新
-    Route::match(['put', 'patch'], 'me', 'UserController@update');
+    // 用户信息更新 put请求 api/user
+    Route::match(['put', 'patch'], 'user', 'UserController@update');
     // 头像上传
     Route::post('ajax_upload_image', 'ImageController@upload');
     // 文章赞和踩
@@ -45,5 +42,12 @@ Route::group(['namespace' => 'Api'], function () {
     Route::post('collections/{collection}/store_follow', 'CollectionController@storeFollow');
     // 取消关注收藏集
     Route::post('collections/{collection}/cancel_follow', 'CollectionController@cancelFollow');
+
+    // 通知
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('unread_count', 'NotificationController@showUnreadNotificationsCount');
+        Route::get('/', 'NotificationController@getNotifications');
+        Route::patch('read/{id?}', 'NotificationController@markAsRead');
+    });
 
 });

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\Followed;
 use App\Events\PostHasBeenRead;
+use App\Listeners\FollowedEventListener;
 use App\Listeners\PostEventListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -17,6 +19,11 @@ class EventServiceProvider extends ServiceProvider
         PostHasBeenRead::class => [
             PostEventListener::class
         ],
+        Followed::class=>[
+            FollowedEventListener::class,
+
+        ],
+
     ];
 
     /**

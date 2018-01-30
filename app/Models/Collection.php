@@ -38,6 +38,11 @@ class Collection extends BaseModel
         return $this->hasMany(Follow::class, 'follow_id')->byType(get_class($this));
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function slugKey(): string
     {
         return 'collect_slug';
@@ -47,4 +52,5 @@ class Collection extends BaseModel
     {
         return config('sns.default_slug_mode');
     }
+
 }

@@ -8,12 +8,20 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\CollectionRequest;
 use App\Models\Collection;
 use App\Repositories\CollectionRepository;
+use App\Traits\FollowTrait;
 use App\Transformers\CollectionTransformer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class CollectionController extends ApiController
 {
+    use FollowTrait;
+    protected static $model;
+
+    public function __construct()
+    {
+        static::$model = Collection::class;
+    }
 
     public function show(Collection $collection)
     {

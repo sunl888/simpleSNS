@@ -14,6 +14,7 @@ class PostTransformer extends BaseTransformer
         return [
             'id' => $post->id,
             'user' => $post->user,
+            'is_own' => $post->isOwn(),// 自己是不是作者
             'title' => $post->title,
             'slug' => $post->slug,
             'cover' => $post->cover,
@@ -24,8 +25,10 @@ class PostTransformer extends BaseTransformer
             'order' => $post->order,
             'up_voters' => $post->upVoters,// 赞
             'down_voters' => $post->downVoters,// 踩
+            'up_voters_count' => $post->up_votes_count,// 赞
+            'down_voters_count' => $post->down_votes_count,// 赞
             'published_at' => $post->published_at,
-            'post_content' => $post->post_content,
+            'post_content' => $post->postContent,
             'created_at' => $post->created_at->toDateTimeString(),
             'updated_at' => $post->updated_at->toDateTimeString()
         ];

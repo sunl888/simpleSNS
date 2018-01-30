@@ -36,6 +36,14 @@ Route::group(['namespace' => 'Api'], function () {
     // 获取文章的评论
     Route::get('posts/{post}/comments', 'PostController@showComments');
     // 对文章进行评论
-    Route::post('posts/{post}/comment', 'PostController@storeComment')->middleware(['auth:api']);
+    Route::post('posts/{post}/comment', 'PostController@storeComment');
+    // 关注用户
+    Route::post('users/{user}/store_follow', 'UserController@storeFollow');
+    // 取消关注用户
+    Route::post('users/{user}/cancel_follow', 'UserController@cancelFollow');
+    // 关注收藏集
+    Route::post('collections/{collection}/store_follow', 'CollectionController@storeFollow');
+    // 取消关注收藏集
+    Route::post('collections/{collection}/cancel_follow', 'CollectionController@cancelFollow');
 
 });

@@ -40,9 +40,14 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     /**
      * 获得此用户的所有关注者。
      */
-    public function follows()
+    public function followUsers()
     {
-        return $this->hasMany(Follow::class, 'follow_id')->byType(get_class($this));
+        return $this->hasMany(Follow::class, 'user_id')->byType('App\Models\User');
+    }
+
+    public function followCollections()
+    {
+        return $this->hasMany(Follow::class, 'user_id')->byType('App\Models\Collection');
     }
 
     /**

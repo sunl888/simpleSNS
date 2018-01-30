@@ -6,13 +6,18 @@ use App\Http\Controllers\ApiController;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
+use App\Traits\FollowTrait;
 use App\Transformers\UserTransformer;
 
 class UserController extends ApiController
 {
+    use FollowTrait;
+    protected static $model;
+
     public function __construct()
     {
         $this->middleware('auth:api');
+        static::$model = User::class;
     }
 
     /**

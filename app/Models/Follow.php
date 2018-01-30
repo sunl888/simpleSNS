@@ -8,22 +8,13 @@
 
 namespace App\Models;
 
-
 class Follow extends BaseModel
 {
-    protected $fillable = ['user_id', 'follow_type','follow_id'];
-
-    /**
-     * 获得拥有此关注的模型。
-     */
-    public function followable()
-    {
-        return $this->morphTo();
-    }
+    protected $fillable = ['user_id', 'follow_type', 'follow_id'];
 
     public function scopeByType($query, $type)
     {
-        return $query->where('follow_type',$type);
+        return $query->where('follow_type', $type);
     }
 
 }

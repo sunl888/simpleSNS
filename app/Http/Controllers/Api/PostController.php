@@ -6,13 +6,14 @@ use App\Events\PostHasBeenRead;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PostRequest;
+use App\Models\Collection;
 use App\Models\Post;
 use App\Repositories\CommentRepository;
 use App\Repositories\PostRepository;
 use App\Transformers\CommentTransformer;
 use App\Transformers\PostTransformer;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
@@ -36,8 +37,17 @@ class PostController extends ApiController implements VoteController
      */
     public function index(Request $request)
     {
-        $posts = Post::ApplyFilter($request)
+        $collectionIDs = collect();
+        if (auth()->check()) {
+            $collectionIDs = auth()->user()->followCollections->pluck('follow_id');
+        }
+        if ($collectionIDs->isEmpty()) {
+            $collectionIDs = Collection::all()->pluck('id');
+        }
+
+        $posts = Post::whereIn('collection_id', $collectionIDs->toArray())
             ->paginate($this->perPage());
+
         return $this->response()->paginator($posts, new PostTransformer());
     }
 
@@ -47,26 +57,9 @@ class PostController extends ApiController implements VoteController
      * @param Post $post
      * @return \App\Support\Response\TransformerResponse
      */
-    public function show($slug, Post $post)
+    public function show($slug)
     {
-        $queryBuilder = Post::bySlug($slug);
-        // 如果用户登录了
-        if (auth()->check()) {
-
-            $post = $queryBuilder->where(
-                function ($query) {
-                    $query->publishOrDraft();
-                }
-            )->firstOrFail();
-
-            if (!$post->isPublish()) {
-                // 管理员预览草稿或未发布的文章
-                throw new ModelNotFoundException('当前文章未发布!');
-            }
-
-        } else {
-            $post = $queryBuilder->publishPost()->firstOrFail();
-        }
+        $post = Post::bySlug($slug)->publishPost()->firstOrFail();
 
         event(new PostHasBeenRead($post, request()->getClientIp()));
         return $this->response()->item($post, new PostTransformer());
@@ -108,7 +101,12 @@ class PostController extends ApiController implements VoteController
      */
     public function destroy(Post $post)
     {
-        $post->delete();
+        // 如果文章作者是自己就可以删除
+        if ($post->isOwn()) {
+            $post->delete();
+        } else {
+            throw new HttpException(401, '删除失败,没有权限.');
+        }
         return $this->response()->noContent();
     }
 
@@ -122,7 +120,9 @@ class PostController extends ApiController implements VoteController
 
     public function showComments(Post $post)
     {
-        $comments = $post->comments()->latest()->with('user', 'user.avatar')->paginate($this->perPage());
+        $comments = $post->comments()
+            ->latest()
+            ->paginate($this->perPage());
         return $this->response()->item($comments, new CommentTransformer());
     }
 }

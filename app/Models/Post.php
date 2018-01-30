@@ -7,13 +7,14 @@ use App\Models\Traits\Listable;
 use App\Models\Traits\Sortable;
 use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
 use Ty666\LaravelVote\Traits\CanBeVoted;
+use Ty666\LaravelVote\Traits\CanCountDownVotes;
 use Ty666\LaravelVote\Traits\CanCountUpVotes;
 
 
 class Post extends BaseModel implements CanCountUpVotesModel
 {
     use Listable, Sortable, HasSlug;
-    use CanBeVoted, CanCountUpVotes;
+    use CanBeVoted, CanCountUpVotes, CanCountDownVotes;
 
     const STATUS_PUBLISH = 'publish', STATUS_DRAFT = 'draft';
     protected $fillable = [
@@ -22,6 +23,7 @@ class Post extends BaseModel implements CanCountUpVotesModel
     ];
     protected $dates = ['published_at', 'created_at', 'updated_at'];
     protected $upVotesCountField = 'up_votes_count';
+    protected $downVotesCountField = 'down_votes_count';
 
     public function scopeApplyFilter($query, $data)
     {
@@ -29,8 +31,6 @@ class Post extends BaseModel implements CanCountUpVotesModel
         // todo 这里过滤
         if (isset($data['user_id']))
             $query->where('user_id', $data['user_id']);
-        if (isset($data['slug']))
-            $query->where('slug', $data['slug']);
         if (isset($data['collection_id']))
             $query->where('collection_id', $data['collection_id']);
 
@@ -129,5 +129,10 @@ class Post extends BaseModel implements CanCountUpVotesModel
     public function isDraft()
     {
         return $this->status == static::STATUS_DRAFT;
+    }
+
+    public function isOwn()
+    {
+        return $this->user->id === auth()->id();
     }
 }

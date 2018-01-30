@@ -11,7 +11,6 @@ class CommentTransformer extends BaseTransformer
     {
         return [
             'id' => $comment->id,
-            'user_id' => $comment->user_id,
             'user' =>$comment->user,
             'up_votes_count' => $comment->up_votes_count,
             'content' => $comment->content,

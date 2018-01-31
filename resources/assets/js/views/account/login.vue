@@ -52,8 +52,8 @@ export default{
         password: this.formData.userPassword
       }).then(res => {
         localStorage.setItem('jwt_token', res.data.access_token);
-        this.$store.dispatch('updateMe');
       });
+      await this.$store.dispatch('updateMe');
       this.$router.push({name: 'home'});
     }
   }

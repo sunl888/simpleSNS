@@ -1,36 +1,40 @@
 <template>
-  <div class="home">
+  <div class="home clear_fixed">
     <top-nav></top-nav>
-    <menu-bar></menu-bar>
-    <router-view></router-view>
+    <mu-flexbox class="item" align="flex-start" justify="flex-start">
+      <mu-flexbox-item class="flex-demo">
+        <menu-bar></menu-bar>
+      </mu-flexbox-item>
+      <mu-flexbox-item class="item_inner">
+        <router-view></router-view>
+      </mu-flexbox-item>
+    </mu-flexbox>
+    <article-create-panel></article-create-panel>
   </div>
 </template>
 <script>
 import TopNav from '../components/TopNav/TopNav.vue';
 // 左侧菜单组件
 import MenuBar from '../components/MenuBar/MenuBar.vue';
+import {ArticleCreatePanel} from '../components/ArticleCreate';
 export default{
   components: {
     TopNav,
-    MenuBar
+    MenuBar,
+    ArticleCreatePanel
+  },
+  data () {
+    return {
+      // isMenu: null
+    };
   },
   computed: {
     // 获取个人信息
-    // me () {
-    //   return this.$store.state.me === null ? {} : this.$store.state.me;
-    // }
-  },
-  watch: {
-    '$route' (to, from) {
-      console.log(123);
-    }
-  },
-  mounted () {
-    console.log(this.$route);
-  },
-  methods: {
-    welcomeUser () {
-      this.$alert();
+    me () {
+      return this.$store.state.me === null ? {} : this.$store.state.me;
+    },
+    menu () {
+      return this.$children[0];
     }
   }
 };
@@ -44,5 +48,18 @@ export default{
   width: 100%;
   height: 100%;
   background: #f1f1f1;
+}
+.item{
+  padding: 15px;
+  height: calc(~"100% - 80px");
+}
+.item_inner{
+  height: 100%;
+  overflow: auto;
+  padding: 10px;
+  flex: 5 auto!important;
+}
+.active_menu{
+  flex: 0 0 auto;
 }
 </style>

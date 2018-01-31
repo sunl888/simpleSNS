@@ -10,12 +10,15 @@ import { isLogin } from './utils/utils';
 export default{
   data () {
     return {
+      winSize: window.screen.width
     };
   },
   mounted () {
     if (isLogin()) {
       this.$store.dispatch('updateMe');
     }
+  },
+  methods: {
   }
 };
 </script>
@@ -33,6 +36,14 @@ html, body, #app{
   clear: both;
   display: block;
 }
+.file-button{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0;
+}
 .theme_btn{
   margin-top: 5px;
   display: block;
@@ -47,18 +58,6 @@ html, body, #app{
   line-height: 20px;
   &:hover{
     background: #3884fd;
-  }
-}
-@media (min-width: 993px) {
-  @MenuBar: 20%;
-  .menu_bar{
-    width: @MenuBar;
-  }
-}
-@media (max-width: 600px) {
-  @MenuBar: 100%;
-  .menu_bar{
-    width: @MenuBar;
   }
 }
 </style>

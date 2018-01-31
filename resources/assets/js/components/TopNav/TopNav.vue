@@ -50,15 +50,15 @@ export default{
     };
   },
   mounted () {
-    if (window.screen.width < 600) {
-      this.isMenu = false;
-      this.$parent.$children[1].show = this.isMenu;
-    }
+    // if (window.screen.width < 600) {
+    //   this.isMenu = false;
+    //   this.$parent.$children[1].$children[0].show = this.isMenu;
+    // }
   },
   methods: {
     expendMenu () {
       this.isMenu = !this.isMenu;
-      this.$parent.$children[1].show = this.isMenu;
+      this.$parent.$children[1].$children[0].$children[0].isMenu = this.isMenu;
     }
   }
 };

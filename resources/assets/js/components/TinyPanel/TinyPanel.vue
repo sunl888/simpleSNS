@@ -8,7 +8,9 @@
       <div v-if="templateType === 2" class="my_profile">
         <div class="my_profile_top clear_fixed">
           <div class="my_photo">
-            <img :src="me.avatar.data.url" alt="">
+            <span v-if="me.avatar === null">{{me.nickname.substr(0, 1)}}</span>
+            <!-- <img v-else :src="me.avatar.data.url" alt="">   -->
+            
             <!-- <span>更改</span> -->
             <input type="file">
           </div>
@@ -48,7 +50,6 @@ export default{
     },
     // 退出登录
     async logout () {
-      console.log(localStorage.jwt_token);
       await this.$http.get('auth/logout', {
         params: {
           token: localStorage.getItem('jwt_token')
@@ -67,14 +68,13 @@ export default{
 .tiny_panel{
     width:350px; 
     padding: 10px 0 0 0;
-    // border:1px solid #888; 
     border: 1px solid #ccc;
     background: #fff;
     position:relative;
     position: absolute;
     box-shadow: 0 1px 2px rgba(0,0,0,.2);
     right: 20px;
-    // z-index: 10;
+    z-index: 10;
 }
 .tiny_panel>span{
     width:0; 
@@ -122,21 +122,14 @@ export default{
         height: 100%;
       }
       span{
-        display: block;
-        position: absolute;
+        font-size: 50px;
         color: #fff;
-        font-weight: bold;
-        background: rgba(0, 0, 0, 0.5);
-        bottom: 0;
-        font-size: 12px;
-        width: 100%;
-        line-height: 25px;
         text-align: center;
+        display: block;
       }
       input{
         width: 100%;
         height: 100%;
-        background: red;
         position: absolute;
         top: 0;
         opacity: 0;

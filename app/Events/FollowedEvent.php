@@ -5,13 +5,11 @@ namespace App\Events;
 use App\Models\Collection;
 use App\Models\Follow;
 use App\Models\User;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class Followed
+class FollowedEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use SerializesModels;
 
     public $follow;
     public $user;
@@ -41,15 +39,4 @@ class Followed
         $this->user = $user;
     }
 
-    public function broadcastOn()
-    {
-        //要发送的频道
-        return ['USER_ID' . $this->user->id];
-    }
-
-    public function broadcastWith()
-    {
-        //发送的数据
-        return $this->message;
-    }
 }

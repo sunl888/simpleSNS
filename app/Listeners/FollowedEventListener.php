@@ -2,7 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Events\Followed;
+use App\Events\FollowedEvent;
+use App\Notifications\FollowedNotification;
 use Illuminate\Support\Facades\Notification;
 
 class FollowedEventListener
@@ -10,11 +11,9 @@ class FollowedEventListener
 
     public function handle($event)
     {
-        if ($event instanceof Followed) {
-            // 实时消息
-            event(new \App\Events\PusherEvent($event->user, $event->message));
+        if ($event instanceof FollowedEvent) {
             // 发送通知
-            Notification::send($event->user, new \App\Notifications\Followed($event->follow, $event->message));
+            Notification::send($event->user, new FollowedNotification($event->message, $event->user));
         }
     }
 }

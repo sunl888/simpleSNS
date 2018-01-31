@@ -19,19 +19,17 @@
     "overtrue/laravel-pinyin": "~3.0",
     "overtrue/socialite": "^2.0",
     "predis/predis": "1.0.*",
-    "spatie/laravel-backup": "^3.0.0",
     "ty666/cdn-pusher": "^1.1",
     "ty666/laravel-vote": "^1.6",
-    "tymon/jwt-auth": "^1.0@dev",
-    "pusher/pusher-php-server":"~2.0"
+    "tymon/jwt-auth": "^1.0@dev"
   },
   "require-dev": {
+    "barryvdh/laravel-ide-helper": "^2.4",
     "filp/whoops": "~2.0",
-    "symfony/thanks": "^1.0",
+    "fzaninotto/faker": "~1.4",
     "mockery/mockery": "~1.0",
     "phpunit/phpunit": "~6.0",
-    "fzaninotto/faker": "~1.4",
-    "barryvdh/laravel-ide-helper": "^2.4"
+    "symfony/thanks": "^1.0"
   },
   "autoload": {
     "classmap": [

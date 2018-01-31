@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Events\Followed;
+use App\Events\FollowedEvent;
 use App\Models\Follow;
 
 class FollowRepository extends BaseRepository
@@ -41,7 +41,8 @@ class FollowRepository extends BaseRepository
 
     public function created($data, $model)
     {
-        event(new Followed($model));
+        // 通知
+        event(new FollowedEvent($model));
     }
 
     public function filterData(array &$data)

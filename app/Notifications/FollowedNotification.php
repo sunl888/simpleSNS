@@ -2,15 +2,15 @@
 
 namespace App\Notifications;
 
-use App\Models\Follow;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
-class Followed extends Notification
+class FollowedNotification extends Notification
 {
     use Queueable;
 
-    protected $follow;
+    protected $user;
     protected $message;
 
     /**
@@ -18,12 +18,13 @@ class Followed extends Notification
      *
      * @return void
      */
-    public function __construct(Follow $follow, $message)
+    public function __construct($message, User $user)
     {
-        $this->follow = $follow;
+        $this->user = $user;
         $this->message = $message;
     }
 
+    // 发送到pusher的时候用toArray和broadcastWith()方法效果一样
     public function toArray($notifiable)
     {
         return $this->message;
@@ -31,6 +32,13 @@ class Followed extends Notification
 
     public function via($notifiable)
     {
-        return ['database'];
+        return ['broadcast', 'database'];
     }
+
+    public function broadcastOn()
+    {
+        //要发送的频道
+        return ['USER_ID_' . $this->user->id];
+    }
+
 }

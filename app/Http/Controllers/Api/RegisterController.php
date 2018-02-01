@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\ResetPasswrod;
+use App\Events\ResetPasswrodEvent;
 use App\Http\Controllers\ApiController;
 use App\Models\User;
 use App\Repositories\UserRepository;
@@ -70,7 +70,7 @@ class RegisterController extends APIController
             throw new ModelNotFoundException('该账号不存在');
         }
 
-        event(new ResetPasswrod($this->update($request->all(), $user)));
+        event(new ResetPasswrodEvent($this->update($request->all(), $user)));
 
         return $this->reseted($request, $data);
     }

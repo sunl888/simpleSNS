@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Events\Commented;
+use App\Events\CommentedEvent;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,7 +33,7 @@ class CommentRepository extends BaseRepository
         $data['user_id'] = auth()->id();
         $comment = $this->relation->comments()->create($data);
         $comment->up_votes_count = 0;
-        event(new Commented($comment, $this->relation, auth()->user()));
+        event(new CommentedEvent($comment, $this->relation, auth()->user()));
         return $data;
     }
 

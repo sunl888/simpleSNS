@@ -19,6 +19,7 @@
     "overtrue/laravel-pinyin": "~3.0",
     "overtrue/socialite": "^2.0",
     "predis/predis": "1.0.*",
+    "pusher/pusher-php-server": "^3.0",
     "ty666/cdn-pusher": "^1.1",
     "ty666/laravel-vote": "^1.6",
     "tymon/jwt-auth": "^1.0@dev"

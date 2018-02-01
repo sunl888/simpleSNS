@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2018-01-31.
+    * Generated on 2018-02-01.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -62,6 +62,9 @@ namespace PHPSTORM_META {
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
         'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
+        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
+        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
+        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
         'League\Glide\Server' => \League\Glide\Server::class,
         'App\Services\ImageService' => \App\Services\ImageService::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
@@ -72,6 +75,7 @@ namespace PHPSTORM_META {
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
+        'Illuminate\Contracts\Broadcasting\Broadcaster' => \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -162,9 +166,6 @@ namespace PHPSTORM_META {
         'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
         'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
         'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
-        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
-        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
-        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::make(0), map([
         '' => '@',
@@ -220,6 +221,9 @@ namespace PHPSTORM_META {
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
         'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
+        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
+        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
+        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
         'League\Glide\Server' => \League\Glide\Server::class,
         'App\Services\ImageService' => \App\Services\ImageService::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
@@ -230,6 +234,7 @@ namespace PHPSTORM_META {
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
+        'Illuminate\Contracts\Broadcasting\Broadcaster' => \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -320,9 +325,6 @@ namespace PHPSTORM_META {
         'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
         'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
         'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
-        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
-        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
-        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
     ]));
     override(\Illuminate\Contracts\Container\Container::makeWith(0), map([
         '' => '@',
@@ -378,6 +380,9 @@ namespace PHPSTORM_META {
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
         'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
+        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
+        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
+        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
         'League\Glide\Server' => \League\Glide\Server::class,
         'App\Services\ImageService' => \App\Services\ImageService::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
@@ -388,6 +393,7 @@ namespace PHPSTORM_META {
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
+        'Illuminate\Contracts\Broadcasting\Broadcaster' => \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -478,9 +484,6 @@ namespace PHPSTORM_META {
         'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
         'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
         'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
-        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
-        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
-        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
     ]));
     override(\App::make(0), map([
         '' => '@',
@@ -536,6 +539,9 @@ namespace PHPSTORM_META {
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
         'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
+        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
+        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
+        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
         'League\Glide\Server' => \League\Glide\Server::class,
         'App\Services\ImageService' => \App\Services\ImageService::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
@@ -546,6 +552,7 @@ namespace PHPSTORM_META {
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
+        'Illuminate\Contracts\Broadcasting\Broadcaster' => \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -636,9 +643,6 @@ namespace PHPSTORM_META {
         'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
         'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
         'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
-        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
-        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
-        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
     ]));
     override(\App::makeWith(0), map([
         '' => '@',
@@ -694,6 +698,9 @@ namespace PHPSTORM_META {
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
         'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
+        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
+        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
+        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
         'League\Glide\Server' => \League\Glide\Server::class,
         'App\Services\ImageService' => \App\Services\ImageService::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
@@ -704,6 +711,7 @@ namespace PHPSTORM_META {
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
+        'Illuminate\Contracts\Broadcasting\Broadcaster' => \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -794,9 +802,6 @@ namespace PHPSTORM_META {
         'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
         'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
         'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
-        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
-        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
-        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
     ]));
     override(\app(0), map([
         '' => '@',
@@ -852,6 +857,9 @@ namespace PHPSTORM_META {
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
         'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
+        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
+        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
+        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
         'League\Glide\Server' => \League\Glide\Server::class,
         'App\Services\ImageService' => \App\Services\ImageService::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
@@ -862,6 +870,7 @@ namespace PHPSTORM_META {
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
+        'Illuminate\Contracts\Broadcasting\Broadcaster' => \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -952,9 +961,6 @@ namespace PHPSTORM_META {
         'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
         'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
         'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
-        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
-        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
-        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
     ]));
     override(\resolve(0), map([
         '' => '@',
@@ -1010,6 +1016,9 @@ namespace PHPSTORM_META {
         'App\Services\SlugGenerator' => \App\Services\SlugGenerator::class,
         'HTMLPurifier' => \HTMLPurifier::class,
         'Overtrue\Socialite\SocialiteManager' => \Overtrue\Socialite\SocialiteManager::class,
+        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
+        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
+        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
         'League\Glide\Server' => \League\Glide\Server::class,
         'App\Services\ImageService' => \App\Services\ImageService::class,
         'blade.compiler' => \Illuminate\View\Compilers\BladeCompiler::class,
@@ -1020,6 +1029,7 @@ namespace PHPSTORM_META {
         'redis' => \Illuminate\Redis\RedisManager::class,
         'redis.connection' => \Illuminate\Redis\Connections\PredisConnection::class,
         'Illuminate\Broadcasting\BroadcastManager' => \Illuminate\Broadcasting\BroadcastManager::class,
+        'Illuminate\Contracts\Broadcasting\Broadcaster' => \Illuminate\Broadcasting\Broadcasters\PusherBroadcaster::class,
         'Illuminate\Bus\Dispatcher' => \Illuminate\Bus\Dispatcher::class,
         'command.cache.clear' => \Illuminate\Cache\Console\ClearCommand::class,
         'command.cache.forget' => \Illuminate\Cache\Console\ForgetCommand::class,
@@ -1110,9 +1120,6 @@ namespace PHPSTORM_META {
         'Ty666\CdnPusher\Cdn' => \Ty666\CdnPusher\Cdn::class,
         'cdn_pusher.push' => \Ty666\CdnPusher\Console\PushCommand::class,
         'cdn_pusher.clear' => \Ty666\CdnPusher\Console\ClearCommand::class,
-        'command.ide-helper.generate' => \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand::class,
-        'command.ide-helper.models' => \Barryvdh\LaravelIdeHelper\Console\ModelsCommand::class,
-        'command.ide-helper.meta' => \Barryvdh\LaravelIdeHelper\Console\MetaCommand::class,
     ]));
 
     override(\Illuminate\Support\Arr::add(0), type(0));

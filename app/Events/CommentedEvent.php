@@ -10,7 +10,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
-class Commented
+class CommentedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

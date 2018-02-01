@@ -2,21 +2,8 @@
 
 namespace App\Providers;
 
-use App\Repositories\VerificationCodeRepository;
-use App\Services\PostService;
-use App\Services\SendSmsService;
-use App\Services\SlugGenerator;
-use App\Services\SMSVerificationCode;
-use App\Services\VisitorService;
-use HTMLPurifier;
-use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Support\ServiceProvider;
-use League\Fractal\Manager as FractalManager;
-use League\Glide\Responses\LaravelResponseFactory;
-use League\Glide\ServerFactory;
-use Overtrue\Socialite\SocialiteManager;
 use Schema;
-use Storage;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         if ($this->app->environment() !== 'production') {
+            // IdeHelper
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
             \DB::listen(function ($query) {

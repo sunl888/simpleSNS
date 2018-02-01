@@ -12,8 +12,8 @@
             encrypted: true
         });
 
-        var channel = pusher.subscribe('my-channel');
-        channel.bind('my-event', function (data) {
+        var channel = pusher.subscribe('USER_ID_' + 1);
+        channel.bind('Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', function (data) {
             alert(data.message);
         });
     </script>

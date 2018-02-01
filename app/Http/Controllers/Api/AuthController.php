@@ -16,7 +16,7 @@ class AuthController extends ApiController
 {
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest')->except('logout','me','redirectToProvider','handleProviderCallback','refresh');
     }
 
     public function login(Request $request)
@@ -57,7 +57,7 @@ class AuthController extends ApiController
     /**
      * @param array $credentials
      */
-    public function beforeValid(array $credentials)
+    protected function beforeValid(array $credentials)
     {
         if (is_null($credentials['password']) || is_null($credentials['username'])) {
             return false;

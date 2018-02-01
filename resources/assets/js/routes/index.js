@@ -11,7 +11,6 @@ export default new Router({
     // 登录
     {
       path: '/login',
-      meta: { title: '首页' },
       component: require('../views/account/AccountComponent.vue'),
       children: [
         {
@@ -31,17 +30,18 @@ export default new Router({
         }
       ]
     },
-    {
-      path: '/logon',
-      name: 'logon',
-      component: require('../views/account/login.vue')
-    },
     // 首页
     {
       path: '/home',
-      name: 'home',
-      meta: {title: '首页'},
-      component: require('../views/home.vue')
+      component: require('../views/home.vue'),
+      children: [
+        {
+          path: '',
+          name: 'home',
+          meta: {title: '首页'},
+          component: require('../views/index.vue')
+        }
+      ]
     }
   ]
 });

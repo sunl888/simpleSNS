@@ -13,7 +13,7 @@ class FollowedEventListener
     {
         if ($event instanceof FollowedEvent) {
             // 发送通知
-            Notification::send($event->user, new FollowedNotification($event->message, $event->user));
+            Notification::send($event->from, new FollowedNotification($event->message, $event->to));
         }
     }
 }

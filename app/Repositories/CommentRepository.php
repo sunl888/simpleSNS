@@ -29,12 +29,25 @@ class CommentRepository extends BaseRepository
     public function preCreate(array &$data)
     {
         $this->filterData($data);
-
         $data['user_id'] = auth()->id();
-        $comment = $this->relation->comments()->create($data);
-        $comment->up_votes_count = 0;
-        event(new CommentedEvent($comment, $this->relation, auth()->user()));
         return $data;
+    }
+
+    public function created($data, $comment)
+    {
+        event(new CommentedEvent($comment, auth()->user()));
+    }
+
+    public function create(array $data)
+    {
+        if (method_exists($this, 'preCreate')) {
+            $data = $this->preCreate($data);
+        }
+        $comment = $this->relation->comments()->create($data);
+        if (method_exists($this, 'created')) {
+            $this->created($data, $comment);
+        }
+        return $comment;
     }
 
     public function filterData(array &$data)

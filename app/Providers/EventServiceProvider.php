@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\CommentedEvent;
 use App\Events\FollowedEvent;
 use App\Events\PostHasBeenRead;
+use App\Listeners\CommentEventListener;
 use App\Listeners\FollowedEventListener;
 use App\Listeners\PostEventListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         FollowedEvent::class => [
             FollowedEventListener::class,
+        ],
+        CommentedEvent::class => [
+            CommentEventListener::class,
         ],
 
     ];

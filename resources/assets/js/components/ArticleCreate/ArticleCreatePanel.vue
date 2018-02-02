@@ -57,11 +57,13 @@ export default{
 .mask{
   width: 100%;
   height: 100%;
-  position: absolute;
+  padding: 50px 400px;
+  position: fixed;
+  overflow: auto;
   top: 0;
   z-index: 11;
   left: 0;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.6);
 }
 .demo-popup-bottom{
   width: 55%;

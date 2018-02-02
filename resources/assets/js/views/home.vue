@@ -10,6 +10,7 @@
       </mu-flexbox-item>
     </mu-flexbox>
     <article-create-panel></article-create-panel>
+    <article-card :closeable="true"></article-card>
   </div>
 </template>
 <script>
@@ -17,11 +18,13 @@ import TopNav from '../components/TopNav/TopNav.vue';
 // 左侧菜单组件
 import MenuBar from '../components/MenuBar/MenuBar.vue';
 import {ArticleCreatePanel} from '../components/ArticleCreate';
+import ArticleCard from '../components/ArticleCard/ArticleCard.vue';
 export default{
   components: {
     TopNav,
     MenuBar,
-    ArticleCreatePanel
+    ArticleCreatePanel,
+    ArticleCard
   },
   data () {
     return {
@@ -47,6 +50,7 @@ export default{
 .home{
   width: 100%;
   height: 100%;
+  overflow: hidden;
   background: #f1f1f1;
 }
 .item{

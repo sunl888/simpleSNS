@@ -40,6 +40,18 @@ export default new Router({
           name: 'home',
           meta: {title: '首页'},
           component: require('../views/index.vue')
+        },
+        {
+          path: 'find',
+          name: 'find',
+          meta: {title: '发现'},
+          component: require('../views/find.vue')
+        },
+        {
+          path: 'profile',
+          name: 'profile',
+          meta: { title: '个人资料' },
+          component: require('../views/profile.vue')
         }
       ]
     }

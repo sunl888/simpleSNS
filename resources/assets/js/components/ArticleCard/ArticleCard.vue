@@ -1,6 +1,7 @@
 <template>
-<div class="article_card">
-  <span>热点信息</span>
+<div class="article_card"  :class="{'mask' : mask === true}" >
+  <slot></slot>
+  <mu-icon-button v-if="closeable" @click.native="closeArticleCard" icon="cancel"></mu-icon-button>
   <div @mouseenter="cardMenu = true" @click="chhoseThePanel()" :class="{'active_panel' : wasChoose === true}"  @mouseleave="cardMenu = false">
     <mu-card class="clear_fixed">
       <mu-card-header title="Myron Avatar" subTitle="sub title">
@@ -63,13 +64,21 @@
 export default{
   data () {
     return {
+      leftTop: {horizontal: 'left', vertical: 'top'},
       wasChoose: false,
       cardMenu: false
     };
   },
+  props: {
+    mask: false,
+    closeable: false
+  },
   methods: {
     chhoseThePanel () {
       this.wasChoose = !this.wasChoose;
+    },
+    closeArticleCard () {
+      this.mask = false;
     }
   },
   computed: {
@@ -81,10 +90,18 @@ export default{
 };
 </script>
 <style lang="less">
+.mask{
+  &>.mu-icon-button{
+    // float: right;
+    color: #fff;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+}
 .article_card{
   // float: right;
   // margin-right: 15px;
-  // width: 480px;
   span{
     color: #888;
     padding: 5px;

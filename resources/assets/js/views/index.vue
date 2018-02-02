@@ -3,14 +3,18 @@
     <mu-flexbox :gutter="40" align="flex-start" justify="center">
       <mu-flexbox-item class="flex-demo">
         <article-create></article-create>
-        <article-card v-for="x in 10" :key="x"></article-card>
+        <article-card v-for="x in 10" :key="x">
+          <span>热点信息</span>
+        </article-card>
       </mu-flexbox-item>
       <mu-flexbox-item v-if="this.column > 1" class="flex-demo">
-        <article-card v-for="x in 10" :key="x"></article-card>
-      </mu-flexbox-item>
+        <article-card v-for="x in 10" :key="x">
+          <span>热点信息</span>
+        </article-card>      </mu-flexbox-item>
       <mu-flexbox-item v-if="this.column > 2" class="flex-demo">
-        <article-card v-for="x in 10" :key="x"></article-card>
-      </mu-flexbox-item>
+        <article-card v-for="x in 10" :key="x">
+          <span>热点信息</span>
+        </article-card>      </mu-flexbox-item>
     </mu-flexbox>
   </div>
 </template>

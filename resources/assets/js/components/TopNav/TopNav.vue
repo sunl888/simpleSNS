@@ -57,8 +57,8 @@ export default{
   },
   methods: {
     expendMenu () {
-      this.isMenu = !this.isMenu;
-      this.$parent.$children[1].$children[0].$children[0].isMenu = this.isMenu;
+      // this.isMenu = !this.isMenu;
+      this.$parent.$children[1].$children[0].$children[0].isMenu = !this.$parent.$children[1].$children[0].$children[0].isMenu;
     }
   }
 };

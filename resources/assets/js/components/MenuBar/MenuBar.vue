@@ -1,9 +1,9 @@
 <template>
 <div class="menu_bar animated slideInLeft" :class="{'slideOutLeft' : isMenu === true}">
   <mu-menu>
-    <mu-menu-item title="首页" leftIcon="home"/>
-    <mu-menu-item title="发现" leftIcon="explore"/>
-    <mu-menu-item title="个人资料" leftIcon="person_pin"/>
+    <mu-menu-item title="首页"  :to="{name: 'home'}" leftIcon="home"/>
+    <mu-menu-item title="发现" :to="{name: 'find'}" leftIcon="explore"/>
+    <mu-menu-item title="个人资料" :to="{name: 'profile'}" leftIcon="person_pin"/>
     <mu-menu-item title="人脉" leftIcon="person_pin"/>
     <mu-menu-item title="通知" leftIcon="notifications"/>
     <mu-divider />

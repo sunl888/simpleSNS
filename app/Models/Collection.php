@@ -20,7 +20,7 @@ class Collection extends BaseModel
 
     public function scopeApplyFilter($query, $data)
     {
-        $data = $data->only('slug', 'user_id', 'hot', '');
+        $data = $data->only('slug', 'user_id');
 
         if (isset($data['slug']))
             $query->where('collect_slug', $data['slug']);

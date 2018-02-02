@@ -16,7 +16,7 @@ class AuthController extends ApiController
 {
     public function __construct()
     {
-        $this->middleware('guest')->except('logout','me','redirectToProvider','handleProviderCallback','refresh');
+        $this->middleware('guest')->except('logout', 'me', 'redirectToProvider', 'handleProviderCallback', 'refresh');
     }
 
     public function login(Request $request)
@@ -78,11 +78,11 @@ class AuthController extends ApiController
         $user = User::where(['username' => $userInfo->username, 'provider' => strtolower($userInfo->provider)])->first();
         if (is_null($user)) {
             $image = app(ImageService::class)->store($userInfo->getAvatar());
-            $data['name'] = $userInfo->getName();
+            $data['name'] = $userInfo->getName() ?? snake_case(str_random(10));
             $data['email'] = $userInfo->getEmail();
             $data['avatar_hash'] = $image->hash;
-            $data['username'] = $userInfo->getUsername();
-            $data['nickname'] = $userInfo->getNickname();
+            $data['username'] = $userInfo->getUsername() ?? str_random(10);
+            $data['nickname'] = $userInfo->getNickname() ?? str_random(10);
             $data['provider'] = strtolower($userInfo->getProviderName());
             $data['company'] = $userInfo->getOriginal()['company'];
             $data['location'] = $userInfo->getOriginal()['location'];

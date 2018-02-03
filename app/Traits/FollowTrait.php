@@ -4,6 +4,7 @@ namespace App\Traits;
 
 
 use App\Repositories\FollowRepository;
+use Tymon\JWTAuth\JWT;
 
 trait FollowTrait
 {

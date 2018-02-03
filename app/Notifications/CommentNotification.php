@@ -32,7 +32,7 @@ class CommentNotification extends Notification
 
     public function via($notifiable)
     {
-        return ['broadcast', 'database'];
+        return config('sns.notification.drivers');
     }
 
     public function broadcastOn()

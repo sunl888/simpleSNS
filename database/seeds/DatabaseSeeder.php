@@ -12,7 +12,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-
         factory(App\Models\User::class, 5)->create();
         factory(App\Models\Collection::class, 5)->create();
         // 生成文章

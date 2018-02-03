@@ -6,6 +6,22 @@
  * Time: 20:34
  */
 
+if (!function_exists('me')) {
+    function me()
+    {
+        return auth()->user() ?? null;
+    }
+}
+
+if (!function_exists('subtext')) {
+    function subtext($text, $length)
+    {
+        if(mb_strlen($text, 'utf8') > $length)
+            return mb_substr($text, 0, $length, 'utf8').'...';
+        return $text;
+    }
+}
+
 if (!function_exists('toIso8601String')) {
     function toIso8601String($date)
     {

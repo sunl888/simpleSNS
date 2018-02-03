@@ -3,14 +3,21 @@
 namespace App\Models;
 
 use App\Models\Traits\Sortable;
+use App\Transformers\ImageTransformer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+use Overtrue\LaravelFollow\Traits\CanFollow;
+use Overtrue\LaravelFollow\Traits\CanSubscribe;
 use Ty666\LaravelVote\Traits\CanVote;
 
 class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubject
 {
-    use Notifiable, CanVote, Sortable;
+    // 通知 排序
+    use Notifiable, Sortable;
+    // 赞 关注 被关注 订阅
+    use CanVote, CanFollow, CanBeFollowed, CanSubscribe;
 
     protected $fillable = [
         'nickname',
@@ -35,9 +42,14 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     ];
     protected $dates = ['last_active_at'];
 
+    // 头像信息
+    public function getAvatarHashAttribute($value)
+    {
+        return app(ImageTransformer::class)->transform(Image::find($value));
+    }
+
     public function scopeApplyFilter($query, $data)
     {
-        //$data = $data->only('');
         // todo 这里过滤
         return $query->ordered()->recent();
     }
@@ -50,19 +62,6 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     public function posts()
     {
         return $this->hasMany(Post::class);
-    }
-
-    /**
-     * 获得此用户的所有关注者。
-     */
-    public function followUsers()
-    {
-        return $this->hasMany(Follow::class, 'user_id')->byType('App\Models\User');
-    }
-
-    public function followCollections()
-    {
-        return $this->hasMany(Follow::class, 'user_id')->byType('App\Models\Collection');
     }
 
     /**

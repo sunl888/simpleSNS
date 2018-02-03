@@ -11,7 +11,7 @@ return [
     'default_user_password' => 'admin',
 
     'max_per_page' => 40,
-    'default_per_page' => 3,
+    'default_per_page' => 10,
 
     // 默认 slug 模式
     'default_slug_mode' => 'pinyin',

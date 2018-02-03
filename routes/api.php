@@ -18,7 +18,7 @@ Route::group(['namespace' => 'Api'], function () {
         // 个人信息 params: token
         Route::get('me', 'AuthController@me');
     });
-    // 文章管理
+    // 文章管理 ?include=post_content
     Route::apiResource('posts', 'PostController');
     // 收藏集管理
     Route::apiResource('collections', 'CollectionController');
@@ -26,23 +26,18 @@ Route::group(['namespace' => 'Api'], function () {
     Route::match(['put', 'patch'], 'user', 'UserController@update');
     // 头像上传
     Route::post('ajax_upload_image', 'ImageController@upload');
-    // 文章赞和踩
+    // 对文章赞 and 踩
     Route::vote('post', 'PostController');
     // 对评论赞
     Route::vote('comment', 'CommentController', ['except' => 'down_vote']);
-    // 获取文章的评论
+    // 获取文章评论
     Route::get('posts/{post}/comments', 'PostController@showComments');
-    // 对文章进行评论
+    // 文章评论
     Route::post('posts/{post}/comment', 'PostController@storeComment');
-    // 关注用户
-    Route::post('users/{user}/store_follow', 'UserController@storeFollow');
-    // 取消关注用户
-    Route::post('users/{user}/cancel_follow', 'UserController@cancelFollow');
-    // 关注收藏集
-    Route::post('collections/{collection}/store_follow', 'CollectionController@storeFollow');
-    // 取消关注收藏集
-    Route::post('collections/{collection}/cancel_follow', 'CollectionController@cancelFollow');
-
+    // 关注 / 取消关注 用户
+    Route::post('user_follow/{user}', 'UserController@toggleFollow');
+    // 订阅 / 取消订阅 收藏集
+    Route::post('collection_subscribe/{collection}', 'CollectionController@toggleSubscribe');
     // 通知
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('unread_count', 'NotificationController@showUnreadNotificationsCount');
@@ -50,4 +45,6 @@ Route::group(['namespace' => 'Api'], function () {
         Route::patch('read/{id?}', 'NotificationController@markAsRead');
     });
 
+    // 反馈 content
+    Route::post('feedback', 'FeedbackController@store');
 });

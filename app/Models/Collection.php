@@ -10,11 +10,13 @@ namespace App\Models;
 
 
 use App\Models\Traits\HasSlug;
-use App\Models\Traits\Sortable;
+use App\Transformers\ImageTransformer;
+use Overtrue\LaravelFollow\Traits\CanBeSubscribed;
 
 class Collection extends BaseModel
 {
-    use HasSlug, Sortable;
+    // slug 排序 被订阅
+    use HasSlug, CanBeSubscribed;
 
     protected $fillable = ['title', 'collect_slug', 'introduction', 'color', 'cover', 'user_id'];
 
@@ -23,19 +25,17 @@ class Collection extends BaseModel
         $data = $data->only('slug', 'user_id');
 
         if (isset($data['slug']))
-            $query->where('collect_slug', $data['slug']);
+            $query->bySlug($data['slug']);
         if (isset($data['user_id']))
             $query->where('user_id', $data['user_id']);
 
-        return $query->ordered()->recent();
+        return $query->latest();
     }
 
-    /**
-     * 获得此收藏集的所有关注者。
-     */
-    public function follows()
+    // 封面信息
+    public function getCoverAttribute($value)
     {
-        return $this->hasMany(Follow::class, 'follow_id')->byType(get_class($this));
+        return app(ImageTransformer::class)->transform(Image::find($value));
     }
 
     public function user()
@@ -48,9 +48,11 @@ class Collection extends BaseModel
         return 'collect_slug';
     }
 
-    public function slugMode()
+    /**
+     * @return bool
+     */
+    public function isAuthor(): bool
     {
-        return config('sns.default_slug_mode');
+        return $this->user_id === auth()->id();
     }
-
 }

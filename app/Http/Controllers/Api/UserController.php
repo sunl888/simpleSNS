@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\FollowedEvent;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use App\Traits\FollowTrait;
 use App\Transformers\UserTransformer;
 
 class UserController extends ApiController
 {
-    use FollowTrait;
-    protected static $model;
-
     public function __construct()
     {
         $this->middleware('auth:api');
-        static::$model = User::class;
+    }
+
+    public function toggleFollow(User $user)
+    {
+        $result = me()->toggleFollow($user);
+        if ($result['detached'] == []) {
+            event(new FollowedEvent($user, auth()->user()));
+        }
     }
 
     /**

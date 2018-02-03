@@ -2,11 +2,12 @@
 
 namespace App\Events;
 
+use App\Models\Feedback;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
 
-class FollowedEvent
+class FeedbackedEvent
 {
     use SerializesModels;
 
@@ -25,11 +26,11 @@ class FollowedEvent
 
     public function handle()
     {
-        if ($this->model instanceof User) {
+        if ($this->model instanceof Feedback) {
             // 接受通知的用户
-            $this->to = $this->model;
+            $this->to = User::find(1);
             $this->message = [
-                'message' => $this->from->username . '关注了你 (＾▽＾)ｺ 快去看看吧'
+                'message' => $this->from->username . '给你发了一条反馈 (＾▽＾)ｺ 快去看看吧'
             ];
         }
     }

@@ -65,13 +65,13 @@ JWT_BLACKLIST_GRACE_PERIOD=30
 
 添加队列任务
 ```shell
-ln -s /www/simpleSNS/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
+ln -s /home/vagrant/code/simpleSNS/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
 ```
 启动队列任务
  ```shell
 $ sudo supervisorctl reread
 $ sudo supervisorctl update
-$ sudo supervisorctl start yike-worker:*
+$ sudo supervisorctl start laravel-worker:*
 ```
 重启队列
 ```shell
@@ -98,11 +98,11 @@ php artisan storage:link
 
 系统日志：
 ```$xslt
-/www/simpleSNS/storage/logs/laravel*.log
+/home/vagrant/code/simpleSNS/storage/logs/laravel*.log
 ```
 队列日志：
 ```$xslt
-/www/simpleSNS/storage/logs/worker.log
+/home/vagrant/code/simpleSNS/storage/logs/worker.log
 ```
 
 ## License

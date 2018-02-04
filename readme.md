@@ -9,6 +9,8 @@ simpleSNS 是一个 SNS 社交网站，你可以通过你的Github帐户登录�
 - PHP >= 7.1
 - MySQL >= 5.7
 - Node >=8.0
+- Redis
+- Supervisor
 
 ## 开始安装
 ```shell
@@ -59,6 +61,24 @@ JWT_TTL=3600
 JWT_REFRESH_TTL=21600
 JWT_BLACKLIST_GRACE_PERIOD=30
 ```
+## 队列服务
+
+添加队列任务
+```shell
+ln -s /www/simpleSNS/laravel-worker.conf /etc/supervisor/conf.d/laravel-worker.conf
+```
+启动队列任务
+ ```shell
+$ sudo supervisorctl reread
+$ sudo supervisorctl update
+$ sudo supervisorctl start yike-worker:*
+```
+重启队列
+```shell
+sudo supervisorctl restart all
+```
+> 任何与**队列**代码相关的修改都需要重启队列服务！
+
 ## 开始使用
 生成密钥
 ```php
@@ -73,5 +93,17 @@ php artisan migrate --seed
 ```php
 php artisan storage:link
 ```
+
+# 日志
+
+系统日志：
+```$xslt
+/www/simpleSNS/storage/logs/laravel*.log
+```
+队列日志：
+```$xslt
+/www/simpleSNS/storage/logs/worker.log
+```
+
 ## License
 The project is open-sourced software licensed under the [MIT license](https://mit-license.org/).

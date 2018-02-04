@@ -35,9 +35,9 @@ Route::group(['namespace' => 'Api'], function () {
     // 文章评论
     Route::post('posts/{post}/comment', 'PostController@storeComment');
     // 关注 / 取消关注 用户
-    Route::post('user_follow/{user}', 'UserController@toggleFollow');
+    Route::post('users/{user}/follow', 'UserController@toggleFollow');
     // 订阅 / 取消订阅 收藏集
-    Route::post('collection_subscribe/{collection}', 'CollectionController@toggleSubscribe');
+    Route::post('collections/{collection}/subscribe', 'CollectionController@toggleSubscribe');
     // 通知
     Route::group(['prefix' => 'notifications'], function () {
         Route::get('unread_count', 'NotificationController@showUnreadNotificationsCount');

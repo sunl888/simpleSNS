@@ -60,7 +60,7 @@ class PostController extends ApiController implements VoteController
      */
     public function show(Post $post)
     {
-        if (!$post->isDraft) {
+        if (!$post->isDraft()) {
             throw new PermissionDeniedException('文章无法查看, 你的权限还不够喔 (╯︵╰,)');
         }
         event(new PostHasBeenRead($post, request()->getClientIp()));

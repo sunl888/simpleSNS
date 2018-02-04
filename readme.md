@@ -1,6 +1,10 @@
 # simpleSNS
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
+[![continuousphp](https://img.shields.io/continuousphp/git-hub/doctrine/dbal/master.svg)](https://github.com/wqer1019/simpleSNS)
+[![continuousphp](https://img.shields.io/badge/mysql-%3E%3D5.7-8B0A50.svg)](https://github.com/wqer1019/simpleSNS)
+[![continuousphp](https://img.shields.io/badge/php-%3E%3D7.1-blue.svg)](https://github.com/wqer1019/simpleSNS)
+[![continuousphp](https://img.shields.io/badge/node-%3E%3D8.0-ff69b4.svg)](https://github.com/wqer1019/simpleSNS)
+[![CocoaPods](https://img.shields.io/cocoapods/dm/AFNetworking.svg)](https://github.com/wqer1019/simpleSNS)
+[![Mozilla Add-on](https://img.shields.io/amo/stars/dustman.svg)](https://github.com/wqer1019/simpleSNS)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 ## 说明
 simpleSNS 是一个 SNS 社交网站，你可以通过你的Github帐户登录，在这个社交网站上你可以和不同兴趣的好友分享有趣的东西。

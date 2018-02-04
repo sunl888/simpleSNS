@@ -169,6 +169,7 @@ return [
          */
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         App\Providers\ServiceServiceProvider::class,
+        Spatie\Backup\BackupServiceProvider::class,
 
         /*
          * Application Service Providers...

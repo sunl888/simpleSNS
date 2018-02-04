@@ -14,6 +14,11 @@ use Illuminate\Http\Request;
 
 class CollectionController extends ApiController
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except(['show', 'index']);
+    }
+
     // 订阅/取消订阅收藏集
     public function toggleSubscribe(Collection $collection)
     {

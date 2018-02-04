@@ -1,5 +1,5 @@
 # simpleSNS
-[![continuousphp](https://img.shields.io/continuousphp/git-hub/doctrine/dbal/master.svg)](https://github.com/wqer1019/simpleSNS)
+[![Build Status](https://www.travis-ci.org/wqer1019/simpleSNS.svg?branch=master)](https://www.travis-ci.org/wqer1019/simpleSNS)
 [![continuousphp](https://img.shields.io/badge/mysql-%3E%3D5.7-8B0A50.svg)](https://github.com/wqer1019/simpleSNS)
 [![continuousphp](https://img.shields.io/badge/php-%3E%3D7.1-blue.svg)](https://github.com/wqer1019/simpleSNS)
 [![continuousphp](https://img.shields.io/badge/node-%3E%3D8.0-ff69b4.svg)](https://github.com/wqer1019/simpleSNS)

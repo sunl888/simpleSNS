@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,7 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         factory(App\Models\User::class, 5)->create();
         factory(App\Models\Collection::class, 5)->create();
         // 生成文章
@@ -22,13 +25,11 @@ class DatabaseSeeder extends Seeder
 
         App\Models\User::where('id', 1)->first()->update([
             'nickname' => 'admin',
-            'tel_num' => '15705547511',
-            'email' => '2013855675@qq.com'
+            'tel_num'  => '15705547511',
+            'email'    => '2013855675@qq.com',
         ]);
 
         // 清除缓存
         Artisan::call('cache:clear');
     }
 }
-
-

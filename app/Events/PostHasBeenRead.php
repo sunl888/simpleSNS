@@ -1,11 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Events;
 
 use App\Models\Post;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
 class PostHasBeenRead
 {
@@ -22,8 +26,9 @@ class PostHasBeenRead
     public function __construct(Post $post, $ip)
     {
         $this->post = $post;
-        if ($ip == '::1')
+        if ($ip == '::1') {
             $ip = '127.0.0.1';
+        }
         $this->ip = $ip;
     }
 }

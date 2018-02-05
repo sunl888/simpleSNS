@@ -1,5 +1,8 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
 
 namespace App\Exceptions;
 

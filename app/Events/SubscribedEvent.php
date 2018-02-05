@@ -1,11 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Events;
 
-use App\Models\Collection;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Collection;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Database\Eloquent\Model;
 
 class SubscribedEvent
 {
@@ -30,7 +34,7 @@ class SubscribedEvent
             // 接受通知的用户
             $this->to = $this->model->user;
             $this->message = [
-                'message' => $this->from->username . '订阅了你的收藏集: ' . subtext($this->model->title, 8) . ' (＾▽＾)ｺ 快去看看吧'
+                'message' => $this->from->username . '订阅了你的收藏集: ' . subtext($this->model->title, 8) . ' (＾▽＾)ｺ 快去看看吧',
             ];
         }
     }

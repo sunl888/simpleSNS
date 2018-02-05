@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Exceptions\Contract;
 
 interface MessageBagErrors

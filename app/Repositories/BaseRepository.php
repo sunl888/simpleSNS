@@ -1,10 +1,14 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Repositories;
 
 use App\Exceptions\RepositoryException;
-use Illuminate\Container\Container as Application;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Container\Container as Application;
 
 abstract class BaseRepository
 {
@@ -34,14 +38,15 @@ abstract class BaseRepository
     public function makeModel()
     {
         $model = $this->app->make($this->model());
-        if (!$model instanceof Model) {
+        if (! $model instanceof Model) {
             throw new RepositoryException("Class {$this->model()} must be an instance of Illuminate\\Database\\Eloquent\\Model");
         }
+
         return $this->model = $model;
     }
 
     /**
-     * Specify Model class name
+     * Specify Model class name.
      *
      * @return string
      */
@@ -56,6 +61,7 @@ abstract class BaseRepository
         if (method_exists($this, 'created')) {
             $this->created($data, $model);
         }
+
         return $model;
     }
 
@@ -69,16 +75,16 @@ abstract class BaseRepository
         if ($updated && method_exists($this, 'updated')) {
             $this->updated($data, $model);
         }
+
         return $updated;
     }
 
     public function findModel($model)
     {
-        if ($model instanceof Model)
+        if ($model instanceof Model) {
             return $model;
-        else {
+        } else {
             return $this->model->findOrFail($model);
         }
     }
-
 }

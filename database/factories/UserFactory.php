@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\User::class, function (Faker $faker) {
@@ -16,17 +20,17 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     $suffix = mt_rand(2000, 9000);
 
     return [
-        'nickname' => snake_case($faker->userName),
-        'name' => snake_case($faker->userName),
-        'username' => snake_case($faker->userName),
-        'tel_num' => $prefix . $middle . $suffix,
-        'email' => $faker->unique()->safeEmail,
-        'company' => $faker->company,
-        'city' => $faker->address,
-        'introduction' => $faker->text(30),
-        'password' => bcrypt(config('sns.default_user_password') ?? $password),
+        'nickname'        => snake_case($faker->userName),
+        'name'            => snake_case($faker->userName),
+        'username'        => snake_case($faker->userName),
+        'tel_num'         => $prefix . $middle . $suffix,
+        'email'           => $faker->unique()->safeEmail,
+        'company'         => $faker->company,
+        'city'            => $faker->address,
+        'introduction'    => $faker->text(30),
+        'password'        => bcrypt(config('sns.default_user_password') ?? $password),
         'last_actived_at' => \Carbon\Carbon::now(),
-        'created_at' => \Carbon\Carbon::now(),
-        'updated_at' => \Carbon\Carbon::now(),
+        'created_at'      => \Carbon\Carbon::now(),
+        'updated_at'      => \Carbon\Carbon::now(),
     ];
 });

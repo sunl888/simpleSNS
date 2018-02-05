@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Services;
 
 use Illuminate\Filesystem\Filesystem;
@@ -18,7 +22,7 @@ class HTMLPurifier
     public function getPurifier()
     {
         $c = config('purifier');
-        if (!$this->purifier) {
+        if (! $this->purifier) {
             $config = \HTMLPurifier_Config::createDefault();
             $config->set('HTML.Doctype', 'HTML 4.01 Transitional');
             $config->set('CSS.AllowTricky', true);
@@ -49,16 +53,16 @@ class HTMLPurifier
                 $def->addElement('figcaption', 'Inline', 'Flow', 'Common');
                 // http://developers.whatwg.org/the-video-element.html#the-video-element
                 $def->addElement('video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
-                    'src' => 'URI',
-                    'type' => 'Text',
-                    'width' => 'Length',
-                    'height' => 'Length',
-                    'poster' => 'URI',
-                    'preload' => 'Enum#auto,metadata,none',
+                    'src'      => 'URI',
+                    'type'     => 'Text',
+                    'width'    => 'Length',
+                    'height'   => 'Length',
+                    'poster'   => 'URI',
+                    'preload'  => 'Enum#auto,metadata,none',
                     'controls' => 'Bool',
                 ));
                 $def->addElement('source', 'Block', 'Flow', 'Common', array(
-                    'src' => 'URI',
+                    'src'  => 'URI',
                     'type' => 'Text',
                 ));
                 // http://developers.whatwg.org/text-level-semantics.html
@@ -85,18 +89,19 @@ class HTMLPurifier
             }
             $this->purifier = new \HTMLPurifier($config);
         }
+
         return $this->purifier;
     }
 
     /**
      * Check/Create cache directory
-     * Array $config
+     * Array $config.
      */
     private function checkCacheDirectory($config)
     {
         $cachePath = $config['cachePath'];
         if ($cachePath) {
-            if (!$this->files->isDirectory($cachePath)) {
+            if (! $this->files->isDirectory($cachePath)) {
                 $this->files->makeDirectory($cachePath, $config['cacheFileMode'] ?: 0755);
             }
         }

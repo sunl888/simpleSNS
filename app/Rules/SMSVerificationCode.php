@@ -1,9 +1,13 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Rules;
 
-use App\Services\SMSVerificationCode as SMSVerificationCodeService;
 use Illuminate\Contracts\Validation\Rule;
+use App\Services\SMSVerificationCode as SMSVerificationCodeService;
 
 class SMSVerificationCode implements Rule
 {

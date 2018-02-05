@@ -1,15 +1,17 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Services;
 
-
-use App\Exceptions\SendSmsFailException;
 use Flc\Dysms\Client;
 use Flc\Dysms\Request\SendSms;
+use App\Exceptions\SendSmsFailException;
 
 class SendSmsService
 {
-
     private $config = [];
 
     public function __construct($config)
@@ -45,6 +47,7 @@ class SendSmsService
         if ($result->Code !== 'OK') {
             throw new SendSmsFailException($result->Message);
         }
+
         return response()->json(['message' => '验证码发送成功', 'code' => 200]);
     }
 }

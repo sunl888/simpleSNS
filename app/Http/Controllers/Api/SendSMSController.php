@@ -1,20 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 孙龙
- * Date: 2018/1/24
- * Time: 18:18
+
+/*
+ * add .styleci.yml
  */
 
 namespace App\Http\Controllers\Api;
 
-
-use App\Exceptions\SendVerificationCodeException;
-use App\Http\Controllers\ApiController;
-use App\Rules\SMSTemplateHasExisted;
-use App\Services\SMSVerificationCode as SMSVerificationCodeService;
 use Illuminate\Http\Request;
-
+use App\Rules\SMSTemplateHasExisted;
+use App\Http\Controllers\ApiController;
+use App\Exceptions\SendVerificationCodeException;
+use App\Services\SMSVerificationCode as SMSVerificationCodeService;
 
 class SendSMSController extends ApiController
 {
@@ -26,8 +22,8 @@ class SendSMSController extends ApiController
     public function sendSMSVerificationCode(Request $request)
     {
         $data = $this->validate($request, [
-            'tel_num' => ['bail', 'required', 'string', 'regex:/\d{11}/'],
-            'sms_template' => ['bail', 'required', 'string', new SMSTemplateHasExisted()]
+            'tel_num'      => ['bail', 'required', 'string', 'regex:/\d{11}/'],
+            'sms_template' => ['bail', 'required', 'string', new SMSTemplateHasExisted()],
         ]);
 
         try {
@@ -35,6 +31,7 @@ class SendSMSController extends ApiController
         } catch (SendVerificationCodeException $e) {
             abort(500, '验证码发送失败！' . $e->getMessage());
         }
+
         return $this->response()->noContent();
     }
 }

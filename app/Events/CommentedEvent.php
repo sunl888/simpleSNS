@@ -1,23 +1,26 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Events;
 
-use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Foundation\Events\Dispatchable;
+use App\Models\Comment;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
 class CommentedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $comment;
-    public $from;// 消息触发者
-    public $to;// 消息接受者
-    public $message;// 通知正文
-
+    public $from; // 消息触发者
+    public $to; // 消息接受者
+    public $message; // 通知正文
 
     /**
      * Create a new event instance.
@@ -33,7 +36,7 @@ class CommentedEvent
             $post = Post::findOrFail($comment->commentable_id);
             $this->to = $post->user;
             $this->message = [
-                'message' => $from->username . '评论了你的文章：' . $post->title
+                'message' => $from->username . '评论了你的文章：' . $post->title,
             ];
         }
     }

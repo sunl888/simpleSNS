@@ -1,4 +1,9 @@
 <?php
+
+/*
+ * add .styleci.yml
+ */
+
 return [
 
     // vote 表名称
@@ -11,5 +16,5 @@ return [
 
     'user_foreign_key' => 'user_id',
 
-    'morph_prefix' => 'votable'
+    'morph_prefix' => 'votable',
 ];

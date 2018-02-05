@@ -1,10 +1,14 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Exceptions;
 
-use App\Exceptions\Contract\MessageBagErrors;
 use Exception;
 use Illuminate\Support\MessageBag;
+use App\Exceptions\Contract\MessageBagErrors;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class ResourceException extends HttpException implements MessageBagErrors
@@ -29,7 +33,7 @@ class ResourceException extends HttpException implements MessageBagErrors
      */
     public function __construct($message = null, $errors = null, Exception $previous = null, $headers = [], $code = 0)
     {
-        if (is_null($errors)) {
+        if (null === $errors) {
             $this->errors = new MessageBag;
         } else {
             $this->errors = is_array($errors) ? new MessageBag($errors) : $errors;
@@ -55,6 +59,6 @@ class ResourceException extends HttpException implements MessageBagErrors
      */
     public function hasErrors()
     {
-        return !$this->errors->isEmpty();
+        return ! $this->errors->isEmpty();
     }
 }

@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Exceptions\Debug;
+/*
+ * add .styleci.yml
+ */
 
+namespace App\Exceptions\Debug;
 
 use Illuminate\Http\Request;
 

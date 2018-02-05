@@ -1,14 +1,18 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Exceptions;
 
-use App\Exceptions\Contract\MessageBagErrors;
-use App\Exceptions\Debug\WantsJsonRequest;
 use Exception;
+use App\Exceptions\Debug\WantsJsonRequest;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Exceptions\Contract\MessageBagErrors;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -56,6 +60,7 @@ class Handler extends ExceptionHandler
         if (config('app.debug')) {
             $request = new WantsJsonRequest($request);
         }
+
         return parent::render($request, $exception);
     }
 
@@ -68,12 +73,12 @@ class Handler extends ExceptionHandler
     {
         $errorFormat = config('api.errorFormat');
         $statusCode = $this->getStatusCode($e);
-        if (!$message = $e->getMessage()) {
+        if (! $message = $e->getMessage()) {
             $message = sprintf('%d %s', $statusCode, isset(Response::$statusTexts[$statusCode]) ? Response::$statusTexts[$statusCode] : 'Unknown status code');
         }
 
         $replacements = [
-            ':message' => $message,
+            ':message'     => $message,
             ':status_code' => $statusCode,
         ];
 
@@ -86,8 +91,8 @@ class Handler extends ExceptionHandler
         }
         if (config('app.debug')) {
             $replacements[':debug'] = [
-                'line' => $e->getLine(),
-                'file' => $e->getFile(),
+                'line'  => $e->getLine(),
+                'file'  => $e->getFile(),
                 'class' => get_class($e),
                 'trace' => explode("\n", $e->getTraceAsString()),
             ];
@@ -97,6 +102,7 @@ class Handler extends ExceptionHandler
                 $value = $replacements[$value];
             }
         });
+
         return $this->recursivelyRemoveEmptyReplacements($errorFormat);
     }
 
@@ -115,7 +121,7 @@ class Handler extends ExceptionHandler
 
         return array_filter($input, function ($value) {
             if (is_string($value)) {
-                return !starts_with($value, ':');
+                return ! starts_with($value, ':');
             }
 
             return true;
@@ -128,7 +134,7 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * JWT 认证时token过期返回 JSON,而不redirect to login
+     * JWT 认证时token过期返回 JSON,而不redirect to login.
      *
      * @param \Illuminate\Http\Request $request
      * @param AuthenticationException $exception

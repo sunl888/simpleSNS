@@ -1,26 +1,28 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Controllers\Api;
 
-use App\Events\ResetPasswrodEvent;
-use App\Http\Controllers\ApiController;
-use App\Models\User;
-use App\Repositories\UserRepository;
-use App\Rules\FieldHasExisted;
-use App\Rules\SMSVerificationCode;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use JWTAuth;
-use App\Services\SMSVerificationCode as SMSVerificationCodeService;
+use App\Models\User;
+use Illuminate\Http\Request;
+use App\Rules\FieldHasExisted;
+use App\Events\ResetPasswrodEvent;
+use App\Rules\SMSVerificationCode;
+use App\Repositories\UserRepository;
+use Illuminate\Auth\Events\Registered;
+use App\Http\Controllers\ApiController;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class RegisterController extends APIController
 {
-
     use RegistersUsers;
 
     /**
@@ -34,7 +36,7 @@ class RegisterController extends APIController
     }
 
     /**
-     * 注册
+     * 注册.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -59,14 +61,14 @@ class RegisterController extends APIController
     {
         $data = $request->all();
         Validator::make($data, [
-            'tel_num' => ['bail', 'required', 'string', 'regex:/\d{11}/'],
+            'tel_num'               => ['bail', 'required', 'string', 'regex:/\d{11}/'],
             'sms_verification_code' => ['bail', 'required', new SMSVerificationCode($data['tel_num'])],
-            'password' => ['bail', 'required', 'string', 'min:6'],
+            'password'              => ['bail', 'required', 'string', 'min:6'],
         ])->validate();
 
         $user = User::where(['tel_num' => $data['tel_num'], 'provider' => null])->first();
 
-        if (!$user) {
+        if (! $user) {
             throw new ModelNotFoundException('该账号不存在');
         }
 
@@ -82,6 +84,7 @@ class RegisterController extends APIController
         if ($token = JWTAuth::attempt($credentials)) {
             return $this->respondWithToken($token);
         }
+
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
@@ -111,12 +114,14 @@ class RegisterController extends APIController
     protected function create(array $data)
     {
         $userRepository = app(UserRepository::class);
+
         return $userRepository->create(array_only($data, ['tel_num', 'password']));
     }
 
     protected function update(array $data, Model $model)
     {
         $userRepository = app(UserRepository::class);
+
         return $userRepository->update(array_only($data, ['password']), $model);
     }
 
@@ -132,6 +137,7 @@ class RegisterController extends APIController
         if ($token = JWTAuth::fromUser($user)) {
             return $this->respondWithToken($token);
         }
+
         return $this->response()->noContent();
     }
 
@@ -139,9 +145,8 @@ class RegisterController extends APIController
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'token_type'   => 'bearer',
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60,
         ]);
     }
-
 }

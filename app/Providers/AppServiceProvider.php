@@ -1,9 +1,13 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Schema;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,12 +35,11 @@ class AppServiceProvider extends ServiceProvider
             \DB::listen(function ($query) {
                 $sql = str_replace('?', '%s', $query->sql);
                 foreach ($query->bindings as $binding) {
-                    $binding = (string)$binding;
+                    $binding = (string) $binding;
                 }
                 $sql = sprintf($sql, ...$query->bindings);
                 \Log::info('sql', [$sql, $query->time, url()->current()]);
             });
         }
-
     }
 }

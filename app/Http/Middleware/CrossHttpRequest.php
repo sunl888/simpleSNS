@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -13,16 +17,14 @@ class CrossHttpRequest
      * @param  \Closure $next
      * @return mixed
      */
-
     public function handle($request, Closure $next)
     {
-
         if ($request->isMethod('OPTIONS')) {
             $response = response('', 200);
         } else {
             $response = $next($request);
         }
-        if (!method_exists($response, 'header')) {
+        if (! method_exists($response, 'header')) {
             return $response;
         }
         $response->headers->set('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS');
@@ -32,7 +34,7 @@ class CrossHttpRequest
         );
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Access-Control-Max-Age', 86400);
+
         return $response;
     }
-
 }

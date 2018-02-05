@@ -1,19 +1,23 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Controllers\Api;
 
-use App\Events\PostHasBeenRead;
-use App\Exceptions\PermissionDeniedException;
-use App\Http\Controllers\ApiController;
-use App\Http\Requests\CommentRequest;
-use App\Http\Requests\PostRequest;
-use App\Models\Collection;
 use App\Models\Post;
-use App\Repositories\CommentRepository;
-use App\Repositories\PostRepository;
-use App\Transformers\CommentTransformer;
-use App\Transformers\PostTransformer;
+use App\Models\Collection;
 use Illuminate\Http\Request;
+use App\Events\PostHasBeenRead;
+use App\Http\Requests\PostRequest;
+use App\Repositories\PostRepository;
+use App\Http\Requests\CommentRequest;
+use App\Transformers\PostTransformer;
+use App\Http\Controllers\ApiController;
+use App\Repositories\CommentRepository;
+use App\Transformers\CommentTransformer;
+use App\Exceptions\PermissionDeniedException;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
@@ -30,7 +34,7 @@ class PostController extends ApiController implements VoteController
     }
 
     /**
-     * 文章列表
+     * 文章列表.
      *
      * @param Request $request
      * @return \App\Support\Response\TransformerResponse
@@ -52,7 +56,7 @@ class PostController extends ApiController implements VoteController
     }
 
     /**
-     * 显示指定的文章
+     * 显示指定的文章.
      *
      * @param Post $post
      * @return \App\Support\Response\TransformerResponse
@@ -60,15 +64,16 @@ class PostController extends ApiController implements VoteController
      */
     public function show(Post $post)
     {
-        if (!$post->isDraft()) {
+        if (! $post->isDraft()) {
             throw new PermissionDeniedException('文章无法查看, 你的权限还不够喔 (╯︵╰,)');
         }
         event(new PostHasBeenRead($post, request()->getClientIp()));
+
         return $this->response()->item($post, new PostTransformer());
     }
 
     /**
-     * 更新文章
+     * 更新文章.
      *
      * @param Post $post
      * @param PostRequest $postRequest
@@ -78,11 +83,12 @@ class PostController extends ApiController implements VoteController
     public function update(Post $post, PostRequest $postRequest, PostRepository $postRepository)
     {
         $postRepository->update($postRequest->validated(), $post);
+
         return $this->response()->noContent();
     }
 
     /**
-     * 创建文章
+     * 创建文章.
      *
      * @param PostRequest $postRequest
      * @param PostRepository $postRepository
@@ -91,11 +97,12 @@ class PostController extends ApiController implements VoteController
     public function store(PostRequest $postRequest, PostRepository $postRepository)
     {
         $postRepository->create($postRequest->validated());
+
         return $this->response()->noContent();
     }
 
     /**
-     * 删除文章
+     * 删除文章.
      *
      * @param Post $post
      * @return \App\Support\Response\Response
@@ -104,11 +111,12 @@ class PostController extends ApiController implements VoteController
     public function destroy(Post $post)
     {
         // 如果文章作者是自己就可以删除
-        if (!$post->isAuthor()) {
+        if (! $post->isAuthor()) {
             throw new PermissionDeniedException('删除失败, 你的权限还不够喔 (╯︵╰,)');
         }
 
         $post->delete();
+
         return $this->response()->noContent();
     }
 
@@ -125,6 +133,7 @@ class PostController extends ApiController implements VoteController
         $comments = $post->comments()
             ->latest()
             ->paginate($this->perPage());
+
         return $this->response()->item($comments, new CommentTransformer());
     }
 }

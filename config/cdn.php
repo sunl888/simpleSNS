@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 return [
 
     'use_cdn' => env('USE_CDN', false),
@@ -17,8 +21,8 @@ return [
     */
     'include' => [
         'directories' => [public_path()],
-        'extensions' => [],
-        'patterns' => [],
+        'extensions'  => [],
+        'patterns'    => [],
     ],
 
     /*
@@ -34,10 +38,10 @@ return [
     */
     'exclude' => [
         'directories' => ['vendor'],
-        'files' => ['favicon.ico'],
-        'extensions' => ['php', 'txt', 'config', 'json'],
-        'patterns' => [],
-        'hidden' => true,
+        'files'       => ['favicon.ico'],
+        'extensions'  => ['php', 'txt', 'config', 'json'],
+        'patterns'    => [],
+        'hidden'      => true,
     ],
 
 ];

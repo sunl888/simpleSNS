@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 return [
 
     /*

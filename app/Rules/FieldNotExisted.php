@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Rules;
 
 use App\Models\User;
@@ -28,10 +32,10 @@ class FieldNotExisted implements Rule
     {
         $credentials = [
             $attribute => $value,
-            'provider' => null
+            'provider' => null,
         ];
         // 字段不存在则验证不通过
-        return !!User::where($credentials)->first();
+        return (bool) User::where($credentials)->first();
     }
 
     /**

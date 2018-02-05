@@ -1,12 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Controllers\API;
 
-
-use App\Exceptions\ImageUploadException;
-use App\Http\Controllers\APIController;
-use App\Services\ImageService;
 use Illuminate\Http\Request;
+use App\Services\ImageService;
+use App\Http\Controllers\APIController;
+use App\Exceptions\ImageUploadException;
 
 class ImageController extends APIController
 {
@@ -22,7 +25,7 @@ class ImageController extends APIController
     {
         $image = $request->file($this->imageService->uploadKey());
 
-        if (is_null($image) || !$image->isValid()) {
+        if (null === $image || ! $image->isValid()) {
             $error = $image ? $image->getErrorMessage() : '图片上传失败';
             throw new ImageUploadException($error);
         }
@@ -31,7 +34,7 @@ class ImageController extends APIController
 
         return [
             'image_hash' => $imageModel->hash,
-            'image_url' => $imageModel->url
+            'image_url'  => $imageModel->url,
         ];
     }
 }

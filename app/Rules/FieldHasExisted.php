@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Rules;
 
 use App\Models\User;
@@ -27,10 +31,10 @@ class FieldHasExisted implements Rule
     public function passes($attribute, $value)
     {
         $credentials = [
-            $attribute => $value
+            $attribute => $value,
         ];
         // 字段已经存在则验证不通过 return false
-        return !User::where($credentials)->providerWithNull()->first();
+        return ! User::where($credentials)->providerWithNull()->first();
     }
 
     /**

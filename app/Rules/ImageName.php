@@ -1,12 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
 class ImageName implements Rule
 {
-
     /**
      * Determine if the validation rule passes.
      *

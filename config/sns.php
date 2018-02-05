@@ -1,16 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 孙龙
- * Date: 2018/1/21
- * Time: 12:42
+
+/*
+ * add .styleci.yml
  */
 
 return [
     // mock 用户时的默认密码
     'default_user_password' => 'admin',
 
-    'max_per_page' => 40,
+    'max_per_page'     => 40,
     'default_per_page' => 10,
 
     // 默认 slug 模式
@@ -24,13 +22,13 @@ return [
         //通知将通过什么发送到用户
         'drivers' => [
             'broadcast',
-            'database'
+            'database',
         ],
     ],
 
     // 允许使用什么字段登陆
     'allow_login_fields' => [
         'tel_num',
-        'email'
+        'email',
     ],
 ];

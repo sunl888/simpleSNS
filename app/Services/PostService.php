@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Services;
+/*
+ * add .styleci.yml
+ */
 
+namespace App\Services;
 
 class PostService
 {
@@ -9,6 +12,7 @@ class PostService
     {
         $html = $content;
         $excerpt = trim(preg_replace('/\s\s+/', ' ', strip_tags($html)));
+
         return str_limit($excerpt, $limit);
     }
 }

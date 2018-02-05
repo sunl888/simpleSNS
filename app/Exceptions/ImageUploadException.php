@@ -1,8 +1,10 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
 
 namespace App\Exceptions;
-
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;

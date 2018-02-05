@@ -1,9 +1,13 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Repositories;
 
-use App\Events\CommentedEvent;
 use App\Models\Comment;
+use App\Events\CommentedEvent;
 use Illuminate\Database\Eloquent\Model;
 
 class CommentRepository extends BaseRepository
@@ -11,7 +15,7 @@ class CommentRepository extends BaseRepository
     protected $relation;
 
     /**
-     * Specify Model class name
+     * Specify Model class name.
      *
      * @return string
      */
@@ -23,6 +27,7 @@ class CommentRepository extends BaseRepository
     public function createComment(Model $relation, array $data)
     {
         $this->relation = $relation;
+
         return $this->create($data);
     }
 
@@ -30,6 +35,7 @@ class CommentRepository extends BaseRepository
     {
         $this->filterData($data);
         $data['user_id'] = auth()->id();
+
         return $data;
     }
 
@@ -47,15 +53,16 @@ class CommentRepository extends BaseRepository
         if (method_exists($this, 'created')) {
             $this->created($data, $comment);
         }
+
         return $comment;
     }
 
     public function filterData(array &$data)
     {
-        if (isset($data['content']))
+        if (isset($data['content'])) {
             $data['content'] = e($data['content']);
+        }
 
         return $data;
     }
-
 }

@@ -1,9 +1,13 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Middleware;
 
-use App\Services\VisitorService;
 use Closure;
+use App\Services\VisitorService;
 
 class RecordVisitor
 {
@@ -17,6 +21,7 @@ class RecordVisitor
     public function handle($request, Closure $next)
     {
         app(VisitorService::class)->record();
+
         return $next($request);
     }
 }

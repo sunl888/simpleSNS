@@ -1,10 +1,14 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Events;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Database\Eloquent\Model;
 
 class FollowedEvent
 {
@@ -29,7 +33,7 @@ class FollowedEvent
             // 接受通知的用户
             $this->to = $this->model;
             $this->message = [
-                'message' => $this->from->username . '关注了你 (＾▽＾)ｺ 快去看看吧'
+                'message' => $this->from->username . '关注了你 (＾▽＾)ｺ 快去看看吧',
             ];
         }
     }

@@ -1,14 +1,17 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Middleware;
 
-use Closure;
 use Auth;
+use Closure;
 use Request;
 
 class CheckUserIsItBanned
 {
-
     public function handle($request, Closure $next)
     {
         if (Auth::check() && Auth::user()->is_banned == 'yes' && Request::is('user-banned') == false) {

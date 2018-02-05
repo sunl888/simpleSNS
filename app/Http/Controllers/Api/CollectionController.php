@@ -1,16 +1,19 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Controllers\Api;
 
-
+use App\Models\Collection;
+use Illuminate\Http\Request;
 use App\Events\SubscribedEvent;
-use App\Exceptions\PermissionDeniedException;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\CollectionRequest;
-use App\Models\Collection;
 use App\Repositories\CollectionRepository;
 use App\Transformers\CollectionTransformer;
-use Illuminate\Http\Request;
+use App\Exceptions\PermissionDeniedException;
 
 class CollectionController extends ApiController
 {
@@ -36,6 +39,7 @@ class CollectionController extends ApiController
     public function store(CollectionRequest $request, CollectionRepository $collectionRepository)
     {
         $collectionRepository->create($request->validated());
+
         return $this->response()->noContent();
     }
 
@@ -48,7 +52,7 @@ class CollectionController extends ApiController
      */
     public function update(Collection $collection, CollectionRequest $request, CollectionRepository $collectionRepository)
     {
-        if (!$collection->isAuthor()) {
+        if (! $collection->isAuthor()) {
             throw new PermissionDeniedException('更新失败, 你的权限还不够喔 (╯︵╰,)');
         }
         $collectionRepository->update($request->validated(), $collection);
@@ -60,6 +64,7 @@ class CollectionController extends ApiController
     {
         $collections = Collection::ApplyFilter($request)
             ->paginate($this->perPage());
+
         return $this->response()->paginator($collections, new CollectionTransformer());
     }
 
@@ -71,11 +76,12 @@ class CollectionController extends ApiController
      */
     public function destroy(Collection $collection)
     {
-        if (!$collection->isAuthor()) {
+        if (! $collection->isAuthor()) {
             throw new PermissionDeniedException('删除失败, 你的权限还不够喔 (╯︵╰,)');
         }
 
         $collection->delete();
+
         return $this->response()->noContent();
     }
 }

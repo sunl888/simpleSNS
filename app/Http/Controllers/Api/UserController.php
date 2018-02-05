@@ -1,13 +1,17 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Controllers\Api;
 
-use App\Events\FollowedEvent;
-use App\Http\Controllers\ApiController;
-use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Events\FollowedEvent;
+use App\Http\Requests\UserRequest;
 use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
+use App\Http\Controllers\ApiController;
 
 class UserController extends ApiController
 {
@@ -25,7 +29,7 @@ class UserController extends ApiController
     }
 
     /**
-     * 显示指定用户信息
+     * 显示指定用户信息.
      * @param User $user
      * @return \App\Support\Response\TransformerResponse
      */
@@ -35,7 +39,7 @@ class UserController extends ApiController
     }
 
     /**
-     * 更新用户信息
+     * 更新用户信息.
      *
      * @param User $user
      * @param UserRequest $request
@@ -45,7 +49,7 @@ class UserController extends ApiController
     public function update(User $user, UserRequest $request, UserRepository $userRepository)
     {
         $userRepository->update($request->all(), $user);
+
         return $this->response()->noContent();
     }
-
 }

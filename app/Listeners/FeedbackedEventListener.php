@@ -1,14 +1,17 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Listeners;
 
 use App\Events\FeedbackedEvent;
-use App\Notifications\FeedbackedNotification;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\FeedbackedNotification;
 
 class FeedbackedEventListener
 {
-
     public function handle($event)
     {
         if ($event instanceof FeedbackedEvent) {

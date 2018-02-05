@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Requests;
 
 class CollectionRequest extends Request
@@ -27,20 +31,20 @@ class CollectionRequest extends Request
                 return [];
             case 'POST':
                 return [
-                    'title' => ['bail', 'required', 'string', 'between:1,20'],
+                    'title'        => ['bail', 'required', 'string', 'between:1,20'],
                     'introduction' => ['bail', 'required', 'string', 'between:1,100'],
-                    'color' => ['bail', 'required', 'string'],
-                    'cover' => ['bail', 'required', 'exists:images,hash'],
-                    'user_id' => ['bail', 'required', 'unique:user,id'],
+                    'color'        => ['bail', 'required', 'string'],
+                    'cover'        => ['bail', 'required', 'exists:images,hash'],
+                    'user_id'      => ['bail', 'required', 'unique:user,id'],
                 ];
             case 'PUT':
             case 'PATCH':
                 return [
-                    'title' => ['bail', 'nullable', 'string', 'between:1,20'],
+                    'title'        => ['bail', 'nullable', 'string', 'between:1,20'],
                     'introduction' => ['bail', 'nullable', 'string', 'between:1,100'],
-                    'color' => ['bail', 'nullable', 'string'],
-                    'cover' => ['bail', 'nullable', 'exists:images,hash'],
-                    'user_id' => ['bail', 'nullable', 'unique:user,id'],
+                    'color'        => ['bail', 'nullable', 'string'],
+                    'cover'        => ['bail', 'nullable', 'exists:images,hash'],
+                    'user_id'      => ['bail', 'nullable', 'unique:user,id'],
                 ];
             default:
                 return [];

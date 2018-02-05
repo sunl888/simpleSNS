@@ -1,21 +1,23 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Support\Response;
 
-
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Contracts\Pagination\Paginator;
-use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use League\Fractal\Scope;
 use Illuminate\Http\Request;
+use League\Fractal\Resource\Item;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Support\Responsable;
 use League\Fractal\Manager as FractalManager;
+use Illuminate\Contracts\Pagination\Paginator;
+use League\Fractal\Resource\ResourceInterface;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use League\Fractal\Resource\Collection as FractalCollection;
-use League\Fractal\Resource\Item;
-use League\Fractal\Resource\ResourceInterface;
-use League\Fractal\Scope;
-
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class TransformerResponse implements Responsable
 {
@@ -69,6 +71,7 @@ class TransformerResponse implements Responsable
     public function item($item, $transformer = null)
     {
         $this->resource = new Item($item, $transformer);
+
         return $this;
     }
 
@@ -78,6 +81,7 @@ class TransformerResponse implements Responsable
     public function collection(Collection $collection, $transformer = null)
     {
         $this->resource = new FractalCollection($collection, $transformer);
+
         return $this;
     }
 
@@ -89,6 +93,7 @@ class TransformerResponse implements Responsable
         $collection = $paginator->getCollection();
         $this->resource = new FractalCollection($collection, $transformer);
         $this->resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
+
         return $this;
     }
 
@@ -102,21 +107,22 @@ class TransformerResponse implements Responsable
 
     private function fractalCreateData($scopeIdentifier = null, Scope $parentScopeInstance = null)
     {
-
-        if (!isset(static::$fractalManager)) {
+        if (! isset(static::$fractalManager)) {
             static::setFractalManager(app(FractalManager::class));
         }
 
         $this->parseFractalIncludes(request());
-        if (!$this->resource->getTransformer()) {
+        if (! $this->resource->getTransformer()) {
             $this->resource->setTransformer($this->fetchDefaultTransformer($this->resource->getData()));
         }
 
         if ($this->shouldEagerLoad($this->resource)) {
             $eagerLoads = $this->mergeEagerLoads($this->resource->getTransformer(), static::$fractalManager->getRequestedIncludes());
-            if (!empty($eagerLoads))
+            if (! empty($eagerLoads)) {
                 $this->resource->getData()->load($eagerLoads);
+            }
         }
+
         return static::$fractalManager->createData($this->resource, $scopeIdentifier, $parentScopeInstance)->toArray();
     }
 
@@ -131,7 +137,7 @@ class TransformerResponse implements Responsable
     {
         $includes = $request->input($this->includeKey);
 
-        if (!is_array($includes)) {
+        if (! is_array($includes)) {
             $includes = array_filter(explode($this->includeSeparator, $includes));
         }
 
@@ -148,7 +154,7 @@ class TransformerResponse implements Responsable
     protected function fetchDefaultTransformer($data)
     {
         if (($data instanceof LengthAwarePaginator || $data instanceof Collection) && $data->isEmpty()) {
-            return null;
+            return;
         }
 
         $classname = $this->getClassnameFrom($data);
@@ -158,10 +164,11 @@ class TransformerResponse implements Responsable
         } else {
             $classBasename = class_basename($classname);
 
-            if (!class_exists($transformer = "App\\Transformers\\{$classBasename}Transformer")) {
+            if (! class_exists($transformer = "App\\Transformers\\{$classBasename}Transformer")) {
                 throw new \Exception("No transformer for {$classname}");
             }
         }
+
         return new $transformer;
     }
 
@@ -178,7 +185,7 @@ class TransformerResponse implements Responsable
             return get_class(array_first($object));
         }
 
-        if (!is_string($object) && !is_object($object)) {
+        if (! is_string($object) && ! is_object($object)) {
             throw new \Exception("No transformer of \"{$object}\"found.");
         }
 
@@ -194,7 +201,7 @@ class TransformerResponse implements Responsable
      */
     protected function hasDefaultTransformer($classname)
     {
-        return !is_null(config('api.transformers.' . $classname));
+        return null !== config('api.transformers.' . $classname);
     }
 
     /**
@@ -210,7 +217,7 @@ class TransformerResponse implements Responsable
             $data = $data->getCollection();
         }
 
-        return !is_null($resource->getTransformer()) && $this->eagerLoading && $data instanceof EloquentCollection;
+        return null !== $resource->getTransformer() && $this->eagerLoading && $data instanceof EloquentCollection;
     }
 
     /**
@@ -245,6 +252,7 @@ class TransformerResponse implements Responsable
     public function addMeta($key, $value)
     {
         $this->meta[$key] = $value;
+
         return $this;
     }
 
@@ -268,6 +276,7 @@ class TransformerResponse implements Responsable
     public function setMeta(array $meta)
     {
         $this->meta = $meta;
+
         return $this;
     }
 

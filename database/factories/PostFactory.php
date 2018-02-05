@@ -9,9 +9,9 @@ use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
     return [
-        'title'          => str_random(10),
+        /*'title'          => str_random(10),
         'slug'           => str_random(10),
-        'excerpt'        => str_random(128),
+        'excerpt'        => str_random(128),*/
         'user_id'        => random_int(1, 5),
         'views'          => 0,
         'cover'          => $faker->imageUrl(),

@@ -6,10 +6,10 @@
 
 namespace App\Repositories;
 
-use Auth;
-use Carbon\Carbon;
 use App\Models\Post;
 use App\Services\PostService;
+use Auth;
+use Carbon\Carbon;
 
 class PostRepository extends BaseRepository
 {
@@ -35,12 +35,12 @@ class PostRepository extends BaseRepository
             $data['status'] = Post::STATUS_DRAFT;
         }
 
-        if (! isset($data['excerpt'])) {
+        /*if (! isset($data['excerpt'])) {
             $data['excerpt'] = $postService->makeExcerpt($data['content']);
-        }
+        }*/
 
         $data['user_id'] = Auth::id();
-        $data['slug'] = $this->model->generateSlug($data['title']);
+        //$data['slug'] = $this->model->generateSlug($data['title']);
         $data['up_votes_count'] = 0;
         $data['comment_count'] = 0;
 
@@ -49,12 +49,12 @@ class PostRepository extends BaseRepository
 
     public function filterData(array &$data)
     {
-        if (isset($data['title'])) {
+        /*if (isset($data['title'])) {
             $data['title'] = e($data['title']);
         }
         if (isset($data['excerpt'])) {
             $data['excerpt'] = e($data['excerpt']);
-        }
+        }*/
         if (isset($data['content'])) {
             $data['content'] = clean($data['content']);
         }
@@ -68,7 +68,6 @@ class PostRepository extends BaseRepository
     public function created(&$data, $post)
     {
         $this->updateOrCreatePostContent($post, $data);
-        $this->addTags($post, $data);
     }
 
     /**
@@ -87,28 +86,16 @@ class PostRepository extends BaseRepository
         }
     }
 
-    /**
-     * 添加标签.
-     * @param Post $post
-     * @param $data
-     */
-    private function addTags(Post $post, &$data)
-    {
-        if (isset($data['tag_ids'])) {
-            $post->tags()->attach($data['tag_ids']);
-        }
-    }
-
     public function preUpdate(array &$data, $post)
     {
         $data = $this->filterData($data);
 
-        if (isset($data['title']) && $post->title != $data['title']) {
+        /*if (isset($data['title']) && $post->title != $data['title']) {
             $data['slug'] = $this->model->generateSlug($data['title']);
         }
         if (! isset($data['excerpt']) && isset($data['content'])) {
             $data['excerpt'] = app(PostService::class)->makeExcerpt($data['content']);
-        }
+        }*/
 
         return $data;
     }
@@ -116,18 +103,6 @@ class PostRepository extends BaseRepository
     public function updated(&$data, $post)
     {
         $this->updateOrCreatePostContent($post, $data);
-        $this->syncTags($post, $data);
     }
 
-    /**
-     * 同步标签.
-     * @param Post $post
-     * @param $data
-     */
-    private function syncTags(Post $post, &$data)
-    {
-        if (isset($data['tag_ids'])) {
-            $post->tags()->sync($data['tag_ids']);
-        }
-    }
 }

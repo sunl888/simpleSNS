@@ -6,18 +6,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Post;
-use App\Models\Collection;
-use Illuminate\Http\Request;
 use App\Events\PostHasBeenRead;
-use App\Http\Requests\PostRequest;
-use App\Repositories\PostRepository;
-use App\Http\Requests\CommentRequest;
-use App\Transformers\PostTransformer;
-use App\Http\Controllers\ApiController;
-use App\Repositories\CommentRepository;
-use App\Transformers\CommentTransformer;
 use App\Exceptions\PermissionDeniedException;
+use App\Http\Controllers\ApiController;
+use App\Http\Requests\CommentRequest;
+use App\Http\Requests\PostRequest;
+use App\Models\Collection;
+use App\Models\Post;
+use App\Repositories\CommentRepository;
+use App\Repositories\PostRepository;
+use App\Transformers\CommentTransformer;
+use App\Transformers\PostTransformer;
+use Illuminate\Http\Request;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
@@ -50,6 +50,7 @@ class PostController extends ApiController implements VoteController
         }
 
         $posts = Post::whereIn('collection_id', $collectionIDs->toArray())
+            ->publishdAt()
             ->paginate($this->perPage());
 
         return $this->response()->paginator($posts, new PostTransformer());
@@ -64,7 +65,7 @@ class PostController extends ApiController implements VoteController
      */
     public function show(Post $post)
     {
-        if (! $post->isDraft()) {
+        if ($post->isDraft()) {
             throw new PermissionDeniedException('文章无法查看, 你的权限还不够喔 (╯︵╰,)');
         }
         event(new PostHasBeenRead($post, request()->getClientIp()));
@@ -79,9 +80,13 @@ class PostController extends ApiController implements VoteController
      * @param PostRequest $postRequest
      * @param PostRepository $postRepository
      * @return \App\Support\Response\Response
+     * @throws PermissionDeniedException
      */
     public function update(Post $post, PostRequest $postRequest, PostRepository $postRepository)
     {
+        if (!$post->isAuthor()) {
+            throw new PermissionDeniedException('文章无法更新, 你的权限还不够喔 (╯︵╰,)');
+        }
         $postRepository->update($postRequest->validated(), $post);
 
         return $this->response()->noContent();
@@ -114,7 +119,6 @@ class PostController extends ApiController implements VoteController
         if (! $post->isAuthor()) {
             throw new PermissionDeniedException('删除失败, 你的权限还不够喔 (╯︵╰,)');
         }
-
         $post->delete();
 
         return $this->response()->noContent();

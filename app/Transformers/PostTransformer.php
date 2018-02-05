@@ -31,7 +31,7 @@ class PostTransformer extends BaseTransformer
             'down_voters'       => $post->downVoters, // 踩
             'up_voters_count'   => $post->up_votes_count, // 赞
             'down_voters_count' => $post->down_votes_count, // 赞
-            'published_at' => toIso8601String($post->published_at),
+            'published_at'      => toIso8601String($post->published_at),
             //'post_content' => $post->postContent,
             'created_at' => toIso8601String($post->created_at),
             'updated_at' => toIso8601String($post->updated_at),

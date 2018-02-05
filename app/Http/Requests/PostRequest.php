@@ -50,11 +50,11 @@ class PostRequest extends Request
             case 'PATCH':
                 return [
                     //'title'   => ['nullable', 'string', 'between:1,100'],
-                    'content' => ['nullable', 'string'],
-                    'cover'        => ['bail', 'nullable', 'exists:images,hash'],
-                    'status' => ['bail', 'nullable', Rule::in([Post::STATUS_PUBLISH, Post::STATUS_DRAFT])],
+                    'content'       => ['nullable', 'string'],
+                    'cover'         => ['bail', 'nullable', 'exists:images,hash'],
+                    'status'        => ['bail', 'nullable', Rule::in([Post::STATUS_PUBLISH, Post::STATUS_DRAFT])],
                     'collection_id' => ['bail', 'nullable', 'integer', Rule::exists('collections', 'id')],
-                    'published_at' => ['bail', 'nullable', 'date'],
+                    'published_at'  => ['bail', 'nullable', 'date'],
                 ];
             default:
                 return [];

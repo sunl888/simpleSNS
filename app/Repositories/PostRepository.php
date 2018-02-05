@@ -6,10 +6,10 @@
 
 namespace App\Repositories;
 
-use App\Models\Post;
-use App\Services\PostService;
 use Auth;
 use Carbon\Carbon;
+use App\Models\Post;
+use App\Services\PostService;
 
 class PostRepository extends BaseRepository
 {
@@ -104,5 +104,4 @@ class PostRepository extends BaseRepository
     {
         $this->updateOrCreatePostContent($post, $data);
     }
-
 }

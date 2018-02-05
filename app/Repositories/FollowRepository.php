@@ -1,14 +1,18 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Repositories;
 
-use App\Events\FollowedEvent;
 use App\Models\Follow;
+use App\Events\FollowedEvent;
 
 class FollowRepository extends BaseRepository
 {
     /**
-     * Specify Model class name
+     * Specify Model class name.
      *
      * @return string
      */
@@ -23,6 +27,7 @@ class FollowRepository extends BaseRepository
         if ($this->model->where($data)->first()) {
             return true;
         }
+
         return $this->create($data);
     }
 
@@ -30,12 +35,14 @@ class FollowRepository extends BaseRepository
     {
         $data['user_id'] = auth()->id();
         $this->model->where($data)->delete();
+
         return true;
     }
 
     public function preCreate(array &$data)
     {
         $this->filterData($data);
+
         return $data;
     }
 
@@ -49,5 +56,4 @@ class FollowRepository extends BaseRepository
     {
         return $data;
     }
-
 }

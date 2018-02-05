@@ -1,13 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 孙龙
- * Date: 2018/1/21
- * Time: 20:00
+
+/*
+ * add .styleci.yml
  */
 
 namespace App\Models;
-
 
 use App\Models\Traits\HasSlug;
 use App\Transformers\ImageTransformer;
@@ -24,10 +21,12 @@ class Collection extends BaseModel
     {
         $data = $data->only('slug', 'user_id');
 
-        if (isset($data['slug']))
+        if (isset($data['slug'])) {
             $query->bySlug($data['slug']);
-        if (isset($data['user_id']))
+        }
+        if (isset($data['user_id'])) {
             $query->where('user_id', $data['user_id']);
+        }
 
         return $query->latest();
     }

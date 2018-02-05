@@ -1,10 +1,14 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Http\Controllers\ApiController;
 use App\Transformers\NotificationTransformer;
-use Carbon\Carbon;
 
 class NotificationController extends ApiController
 {
@@ -14,18 +18,18 @@ class NotificationController extends ApiController
     }
 
     /**
-     * 获取未读消息的数量
+     * 获取未读消息的数量.
      * @return array
      */
     public function showUnreadNotificationsCount()
     {
         return [
-            'unread' => auth()->user()->unreadNotifications()->count()
+            'unread' => auth()->user()->unreadNotifications()->count(),
         ];
     }
 
     /**
-     * 获取消息通知
+     * 获取消息通知.
      * @return array
      */
     public function getNotifications()
@@ -34,7 +38,7 @@ class NotificationController extends ApiController
     }
 
     /**
-     * 将消息通知标记为已读
+     * 将消息通知标记为已读.
      * @return array
      */
     public function markAsRead($id = null)
@@ -42,8 +46,9 @@ class NotificationController extends ApiController
         // 如果 id 为 null，表示将全部消息标记为已读
         $notifications = auth()->user()->unreadNotifications();
 
-        if ($id)
+        if ($id) {
             $notifications->where('id', $id);
+        }
 
         $notifications->update(['read_at' => Carbon::now()]);
 

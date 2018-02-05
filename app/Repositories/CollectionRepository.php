@@ -1,12 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Repositories;
 
 use App\Models\Collection;
 
 class CollectionRepository extends BaseRepository
 {
-
     public function model()
     {
         return Collection::class;
@@ -17,6 +20,7 @@ class CollectionRepository extends BaseRepository
         $this->filterData($data);
         $data['collect_slug'] = $this->model->generateSlug($data['title']);
         $data['user_id'] = auth()->id();
+
         return $data;
     }
 
@@ -26,17 +30,19 @@ class CollectionRepository extends BaseRepository
         if (isset($data['title']) && $collection->title != $data['title']) {
             $data['collect_slug'] = $this->model->generateSlug($data['title']);
         }
+
         return $data;
     }
 
     public function filterData(array &$data)
     {
-        if (isset($data['title']))
+        if (isset($data['title'])) {
             $data['title'] = e($data['title']);
-        if (isset($data['introduction']))
+        }
+        if (isset($data['introduction'])) {
             $data['introduction'] = e($data['introduction']);
+        }
 
         return $data;
     }
-
 }

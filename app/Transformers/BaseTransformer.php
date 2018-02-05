@@ -1,15 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 孙龙
- * Date: 2018/1/21
- * Time: 21:04
+
+/*
+ * add .styleci.yml
  */
 
 namespace App\Transformers;
 
-use GuzzleHttp\Exception\TransferException;
 use League\Fractal\TransformerAbstract;
+use GuzzleHttp\Exception\TransferException;
 
 abstract class BaseTransformer extends TransformerAbstract
 {

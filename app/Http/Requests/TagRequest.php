@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+/*
+ * add .styleci.yml
+ */
 
-use App\Http\Requests\Request;
+namespace App\Http\Requests;
 
 class TagRequest extends Request
 {
-
     /**
      * Determine if the user is authorized to make this request.
      *

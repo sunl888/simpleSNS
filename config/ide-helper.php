@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 return array(
 
     /*
@@ -12,7 +16,7 @@ return array(
     */
 
     'filename' => '_ide_helper',
-    'format' => 'php',
+    'format'   => 'php',
 
     /*
     |--------------------------------------------------------------------------
@@ -66,7 +70,6 @@ return array(
         'app',
     ),
 
-
     /*
     |--------------------------------------------------------------------------
     | Extra classes
@@ -78,20 +81,20 @@ return array(
 
     'extra' => array(
         'Eloquent' => array('Illuminate\Database\Eloquent\Builder', 'Illuminate\Database\Query\Builder'),
-        'Session' => array('Illuminate\Session\Store'),
+        'Session'  => array('Illuminate\Session\Store'),
     ),
 
     'magic' => array(
         'Log' => array(
-            'debug' => 'Monolog\Logger::addDebug',
-            'info' => 'Monolog\Logger::addInfo',
-            'notice' => 'Monolog\Logger::addNotice',
-            'warning' => 'Monolog\Logger::addWarning',
-            'error' => 'Monolog\Logger::addError',
-            'critical' => 'Monolog\Logger::addCritical',
-            'alert' => 'Monolog\Logger::addAlert',
+            'debug'     => 'Monolog\Logger::addDebug',
+            'info'      => 'Monolog\Logger::addInfo',
+            'notice'    => 'Monolog\Logger::addNotice',
+            'warning'   => 'Monolog\Logger::addWarning',
+            'error'     => 'Monolog\Logger::addError',
+            'critical'  => 'Monolog\Logger::addCritical',
+            'alert'     => 'Monolog\Logger::addAlert',
             'emergency' => 'Monolog\Logger::addEmergency',
-        )
+        ),
     ),
 
     /*

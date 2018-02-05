@@ -1,7 +1,10 @@
 <?php
 
-Route::group(['namespace' => 'Api'], function () {
+/*
+ * add .styleci.yml
+ */
 
+Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'auth'], function () {
         // 登录 params: tel_num password
         Route::post('login', 'AuthController@login');

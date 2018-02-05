@@ -1,16 +1,20 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Models;
 
 use App\Models\Traits\Sortable;
+use Ty666\LaravelVote\Traits\CanVote;
 use App\Transformers\ImageTransformer;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+use Illuminate\Database\Eloquent\Builder;
 use Overtrue\LaravelFollow\Traits\CanFollow;
 use Overtrue\LaravelFollow\Traits\CanSubscribe;
-use Ty666\LaravelVote\Traits\CanVote;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubject
 {

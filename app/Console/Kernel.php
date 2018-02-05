@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;

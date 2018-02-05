@@ -1,11 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Controllers\Api;
 
+use Request;
+use App\Models\Feedback;
 use App\Events\FeedbackedEvent;
 use App\Http\Controllers\ApiController;
-use App\Models\Feedback;
-use Request;
 
 class FeedbackController extends ApiController
 {
@@ -15,6 +19,7 @@ class FeedbackController extends ApiController
         $data['user_id'] = auth()->id() ?? null;
 
         event(new FeedbackedEvent(Feedback::create($data), auth()->id()));
+
         return $this->response()->noContent();
     }
 }

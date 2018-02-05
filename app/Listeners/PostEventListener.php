@@ -1,16 +1,20 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Listeners;
 
-use App\Events\PostHasBeenRead;
 use Cache;
+use App\Events\PostHasBeenRead;
 
 class PostEventListener
 {
     public function handle($event)
     {
         if ($event instanceof PostHasBeenRead) {
-            if (!$this->isAlreadyRead($event->post, $event->ip)) {
+            if (! $this->isAlreadyRead($event->post, $event->ip)) {
                 $this->setAlreadyRead($event->post, $event->ip);
                 $event->post->addViews();
             }

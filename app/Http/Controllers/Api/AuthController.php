@@ -1,15 +1,19 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\ApiController;
-use App\Models\Image;
-use App\Models\User;
-use App\Services\ImageService;
-use App\Transformers\UserTransformer;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Models\Image;
 use Illuminate\Http\Request;
+use App\Services\ImageService;
 use Illuminate\Support\Facades\Auth;
+use App\Transformers\UserTransformer;
+use App\Http\Controllers\ApiController;
 use Overtrue\Socialite\SocialiteManager;
 
 class AuthController extends ApiController
@@ -40,14 +44,15 @@ class AuthController extends ApiController
         // 过滤掉第三方登录的帐号信息
         $credentials['provider'] = null;
         $user = User::byUserNames($this->username(), $credentials)->first();
-        if (is_null($user) || !\Hash::check($credentials['password'], $user->password)) {
-            return null;
+        if (null === $user || ! \Hash::check($credentials['password'], $user->password)) {
+            return;
         }
+
         return $token = $this->guard()->fromUser($user);
     }
 
     /**
-     * 允许登录的字段
+     * 允许登录的字段.
      *
      * @return array
      */
@@ -61,7 +66,7 @@ class AuthController extends ApiController
      */
     protected function beforeValid(array $credentials)
     {
-        if (is_null($credentials['password']) || is_null($credentials['username'])) {
+        if (null === $credentials['password'] || null === $credentials['username']) {
             return false;
         }
 
@@ -71,6 +76,7 @@ class AuthController extends ApiController
     public function redirectToProvider($driver)
     {
         $response = app(SocialiteManager::class)->driver($driver)->redirect();
+
         return $response;
     }
 
@@ -80,11 +86,11 @@ class AuthController extends ApiController
         // 验证用户信息是否存在
         $credentials = [
             'username' => $originalInfo->getUsername(),
-            'email' => $originalInfo->getEmail(),
-            'provider' => strtolower($originalInfo->provider)
+            'email'    => $originalInfo->getEmail(),
+            'provider' => strtolower($originalInfo->provider),
         ];
         $user = User::where($credentials)->first();
-        if (is_null($user)) {
+        if (null === $user) {
             $image = app(ImageService::class)->store($originalInfo->getAvatar());
             $data['name'] = $originalInfo->getName() ?? snake_case(str_random(10));
             $data['email'] = $originalInfo->getEmail();
@@ -103,13 +109,14 @@ class AuthController extends ApiController
             Image::where('hash', $image->hash)->update(['creator_id' => $user->id]);
         }
 
-        if (!$token = $this->guard()->login($user)) {
+        if (! $token = $this->guard()->login($user)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+
         return view('logging', [
             'access_token' => $token,
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,
-            'user' => $user
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60,
+            'user'         => $user,
         ]);
     }
 
@@ -122,8 +129,8 @@ class AuthController extends ApiController
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60
+            'token_type'   => 'bearer',
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60,
         ]);
     }
 
@@ -143,5 +150,4 @@ class AuthController extends ApiController
     {
         return $this->respondWithToken($this->guard()->refresh());
     }
-
 }

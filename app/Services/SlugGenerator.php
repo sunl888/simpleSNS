@@ -1,10 +1,13 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Services;
 
-
-use Closure;
 use DB;
+use Closure;
 use GuzzleHttp\Client;
 
 class SlugGenerator
@@ -24,13 +27,14 @@ class SlugGenerator
             // default pinyin
             $slug = $this->pinyinSlug($text, $delimiter);
         }
-        while (!$this->slugIsUnique($slug)) {
+        while (! $this->slugIsUnique($slug)) {
             if ('str_random' == $slugMode) {
                 $slug .= str_random(5);
             } else {
                 $slug .= '-' . str_random(5);
             }
         }
+
         return $slug;
     }
 
@@ -53,12 +57,12 @@ class SlugGenerator
         // appid+q+salt+密钥 的MD5值
         $sign = md5($appid . $text . $salt . $key);
         $query = http_build_query([
-            'q' => $text,
-            'from' => 'zh',
-            'to' => 'en',
+            'q'     => $text,
+            'from'  => 'zh',
+            'to'    => 'en',
             'appid' => $appid,
-            'salt' => $salt,
-            'sign' => $sign,
+            'salt'  => $salt,
+            'sign'  => $sign,
         ]);
         $url = $api . $query;
         $response = $http->get($url);
@@ -75,6 +79,7 @@ class SlugGenerator
         if (preg_match("/\p{Han}+/u", $text)) {
             return false;
         }
+
         return true;
     }
 
@@ -85,14 +90,15 @@ class SlugGenerator
 
     public function slugIsUnique($slug)
     {
-        if (!is_null($this->slugIsUniqueFunc)) {
+        if (null !== $this->slugIsUniqueFunc) {
             return call_user_func($this->slugIsUniqueFunc, $slug);
         }
+
         return true;
     }
 
     /**
-     * 设置判断 slug 是否唯一的函数
+     * 设置判断 slug 是否唯一的函数.
      *
      * setSlugIsUniqueFunc(function ($slug){
      *     return Post::where('slug', $slug)->count() <= 0;
@@ -114,6 +120,7 @@ class SlugGenerator
                 if ($ignore) {
                     $query->where($ignorekeyName, $ignore);
                 }
+
                 return $query->count() <= 0;
             };
         }

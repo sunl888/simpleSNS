@@ -1,11 +1,15 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Events;
 
-use App\Models\Feedback;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Feedback;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Database\Eloquent\Model;
 
 class FeedbackedEvent
 {
@@ -30,7 +34,7 @@ class FeedbackedEvent
             // 接受通知的用户
             $this->to = User::find(1);
             $this->message = [
-                'message' => $this->from->username . '给你发了一条反馈 (＾▽＾)ｺ 快去看看吧'
+                'message' => $this->from->username . '给你发了一条反馈 (＾▽＾)ｺ 快去看看吧',
             ];
         }
     }

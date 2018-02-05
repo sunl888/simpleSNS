@@ -1,16 +1,20 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Repositories;
 
-use App\Models\Post;
-use App\Services\PostService;
 use Auth;
 use Carbon\Carbon;
+use App\Models\Post;
+use App\Services\PostService;
 
 class PostRepository extends BaseRepository
 {
     /**
-     * Specify Model class name
+     * Specify Model class name.
      *
      * @return string
      */
@@ -24,32 +28,39 @@ class PostRepository extends BaseRepository
         $this->filterData($data);
 
         $postService = app(PostService::class);
-        if (!isset($data['published_at'])) {
+        if (! isset($data['published_at'])) {
             $data['published_at'] = Carbon::now();
         }
-        if (!isset($data['status']))
+        if (! isset($data['status'])) {
             $data['status'] = Post::STATUS_DRAFT;
+        }
 
-        if (!isset($data['excerpt']))
+        if (! isset($data['excerpt'])) {
             $data['excerpt'] = $postService->makeExcerpt($data['content']);
+        }
 
         $data['user_id'] = Auth::id();
         $data['slug'] = $this->model->generateSlug($data['title']);
         $data['up_votes_count'] = 0;
         $data['comment_count'] = 0;
+
         return $data;
     }
 
     public function filterData(array &$data)
     {
-        if (isset($data['title']))
+        if (isset($data['title'])) {
             $data['title'] = e($data['title']);
-        if (isset($data['excerpt']))
+        }
+        if (isset($data['excerpt'])) {
             $data['excerpt'] = e($data['excerpt']);
-        if (isset($data['content']))
+        }
+        if (isset($data['content'])) {
             $data['content'] = clean($data['content']);
-        if (isset($data['published_at']))
+        }
+        if (isset($data['published_at'])) {
             $data['published_at'] = Carbon::createFromTimestamp(strtotime($data['published_at']));
+        }
 
         return $data;
     }
@@ -61,7 +72,7 @@ class PostRepository extends BaseRepository
     }
 
     /**
-     * 更新或创建文章正文
+     * 更新或创建文章正文.
      * @param Post $post
      * @param $content
      */
@@ -70,14 +81,14 @@ class PostRepository extends BaseRepository
         if (isset($data['content'])) {
             $post->postContent()->updateOrCreate(
                 [], [
-                    'content' => $data['content']
+                    'content' => $data['content'],
                 ]
             );
         }
     }
 
     /**
-     * 添加标签
+     * 添加标签.
      * @param Post $post
      * @param $data
      */
@@ -95,9 +106,10 @@ class PostRepository extends BaseRepository
         if (isset($data['title']) && $post->title != $data['title']) {
             $data['slug'] = $this->model->generateSlug($data['title']);
         }
-        if (!isset($data['excerpt']) && isset($data['content'])) {
+        if (! isset($data['excerpt']) && isset($data['content'])) {
             $data['excerpt'] = app(PostService::class)->makeExcerpt($data['content']);
         }
+
         return $data;
     }
 
@@ -108,7 +120,7 @@ class PostRepository extends BaseRepository
     }
 
     /**
-     * 同步标签
+     * 同步标签.
      * @param Post $post
      * @param $data
      */
@@ -118,5 +130,4 @@ class PostRepository extends BaseRepository
             $post->tags()->sync($data['tag_ids']);
         }
     }
-
 }

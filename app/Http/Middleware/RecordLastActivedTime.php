@@ -1,9 +1,13 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Middleware;
 
-use Closure;
 use Auth;
+use Closure;
 use Request;
 
 class RecordLastActivedTime

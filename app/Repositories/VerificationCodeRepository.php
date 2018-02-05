@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Repositories;
 
 use Carbon\Carbon;
@@ -9,8 +13,10 @@ class VerificationCodeRepository
 {
     public function retrieveByTelNum($telNum)
     {
-        if (!$this->isValidTelNum($telNum))
-            return null;
+        if (! $this->isValidTelNum($telNum)) {
+            return;
+        }
+
         return Cache::get($telNum);
     }
 
@@ -31,8 +37,10 @@ class VerificationCodeRepository
 
     public function delete($telNum)
     {
-        if (!$this->isValidTelNum($telNum))
+        if (! $this->isValidTelNum($telNum)) {
             return;
+        }
+
         return Cache::pull($telNum);
     }
 }

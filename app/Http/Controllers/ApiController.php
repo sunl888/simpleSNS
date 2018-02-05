@@ -1,9 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 孙龙
- * Date: 2018/1/20
- * Time: 21:04
+
+/*
+ * add .styleci.yml
  */
 
 namespace App\Http\Controllers;

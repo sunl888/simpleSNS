@@ -1,0 +1,24 @@
+preset: laravel
+risky: true
+enabled:
+  #连续的行的双箭头符号对齐。
+  - align_double_arrow
+  #取代is_null($var)到null === $var
+  - is_null
+  #连接周围应使用至少一个空格
+  - concat_with_spaces
+
+disabled:
+  - short_array_syntax
+  - concat_without_spaces
+finder:
+  exclude:
+  - node_modules
+  - storage
+  - vendor
+  name:
+   - "*.php"
+  not-name:
+   - "*.blade.php"
+   - ".phpstorm.meta.php"
+   - "_ide_helper.php"

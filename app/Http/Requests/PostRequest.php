@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Http\Requests;
 
 use App\Models\Post;
@@ -31,30 +35,30 @@ class PostRequest extends Request
                 return [];
             case 'POST':
                 return [
-                    'title' => ['required', 'string', 'between:1,100'],
+                    'title'   => ['required', 'string', 'between:1,100'],
                     'excerpt' => ['nullable', 'string', 'between:1,512'],
                     'content' => ['required', 'string'],
                     // todo 图片尺寸验证
-                    'cover' => ['bail', 'nullable', 'exists:images,hash'],
-                    'status' => ['nullable', Rule::in([Post::STATUS_PUBLISH, Post::STATUS_DRAFT])],
-                    'order' => ['nullable', 'integer'],
-                    'category_id' => ['bail', 'required', 'integer', Rule::exists('categories', 'id')],
+                    'cover'        => ['bail', 'nullable', 'exists:images,hash'],
+                    'status'       => ['nullable', Rule::in([Post::STATUS_PUBLISH, Post::STATUS_DRAFT])],
+                    'order'        => ['nullable', 'integer'],
+                    'category_id'  => ['bail', 'required', 'integer', Rule::exists('categories', 'id')],
                     'published_at' => ['nullable', 'date'],
-                    'tag_ids' => ['nullable', 'array', new TagExist()],
+                    'tag_ids'      => ['nullable', 'array', new TagExist()],
                 ];
             case 'PUT':
             case 'PATCH':
                 return [
-                    'title' => ['nullable', 'string', 'between:1,100'],
+                    'title'   => ['nullable', 'string', 'between:1,100'],
                     'excerpt' => ['nullable', 'string', 'between:1,512'],
                     'content' => ['nullable', 'string'],
                     // todo 图片尺寸验证
-                    'cover' => ['bail', 'nullable', 'exists:images,hash'],
-                    'status' => ['nullable', Rule::in([Post::STATUS_PUBLISH, Post::STATUS_DRAFT])],
-                    'order' => ['nullable', 'integer'],
-                    'category_id' => ['bail', 'nullable', 'integer', Rule::exists('categories', 'id')],
+                    'cover'        => ['bail', 'nullable', 'exists:images,hash'],
+                    'status'       => ['nullable', Rule::in([Post::STATUS_PUBLISH, Post::STATUS_DRAFT])],
+                    'order'        => ['nullable', 'integer'],
+                    'category_id'  => ['bail', 'nullable', 'integer', Rule::exists('categories', 'id')],
                     'published_at' => ['nullable', 'date'],
-                    'tag_ids' => ['nullable', 'array', new TagExist()],
+                    'tag_ids'      => ['nullable', 'array', new TagExist()],
                 ];
             default:
                 return [];

@@ -1,14 +1,17 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Listeners;
 
 use App\Events\SubscribedEvent;
-use App\Notifications\SubscribedNotification;
 use Illuminate\Support\Facades\Notification;
+use App\Notifications\SubscribedNotification;
 
 class SubscribedEventListener
 {
-
     public function handle($event)
     {
         if ($event instanceof SubscribedEvent) {

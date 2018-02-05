@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Transformers;
 
 use App\Models\User;
@@ -12,19 +16,19 @@ class UserTransformer extends BaseTransformer
     public function transform(User $user)
     {
         return [
-            'id' => $user->id,
-            'nickname' => $user->nickname,
-            'email' => $user->email,
-            'tel_num' => $user->tel_num,
-            'avatar_hash' => $user->avatar_hash,
+            'id'           => $user->id,
+            'nickname'     => $user->nickname,
+            'email'        => $user->email,
+            'tel_num'      => $user->tel_num,
+            'avatar_hash'  => $user->avatar_hash,
             'introduction' => $user->introduction,
-            'city' => $user->city,
-            'location' => $user->location,
-            'company' => $user->company,
-            'username' => $user->username,
-            'name' => $user->name,
-            'created_at' => toIso8601String($user->created_at),
-            'updated_at' => toIso8601String($user->updated_at)
+            'city'         => $user->city,
+            'location'     => $user->location,
+            'company'      => $user->company,
+            'username'     => $user->username,
+            'name'         => $user->name,
+            'created_at'   => toIso8601String($user->created_at),
+            'updated_at'   => toIso8601String($user->updated_at),
         ];
     }
 
@@ -35,5 +39,4 @@ class UserTransformer extends BaseTransformer
         }
         return $this->item($user->avatar, new ImageTransformer());
     }*/
-
 }

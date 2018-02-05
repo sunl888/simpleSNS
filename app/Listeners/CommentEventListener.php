@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Listeners;
 
 use App\Events\CommentedEvent;
@@ -8,7 +12,6 @@ use Illuminate\Support\Facades\Notification;
 
 class CommentEventListener
 {
-
     public function handle($event)
     {
         if ($event instanceof CommentedEvent) {

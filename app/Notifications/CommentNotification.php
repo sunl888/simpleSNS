@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Notifications;
 
 use App\Models\User;
@@ -40,5 +44,4 @@ class CommentNotification extends Notification
         //要发送的频道
         return ['USER_ID_' . $this->to->id];
     }
-
 }

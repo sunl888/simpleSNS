@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
@@ -27,8 +31,10 @@ class SMSTemplateHasExisted implements Rule
     {
         $templates = config('alidayu.template', null);
 
-        if ($templates == null)
+        if ($templates == null) {
             return false;
+        }
+
         return array_key_exists($value, $templates);
     }
 

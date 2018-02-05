@@ -1,22 +1,25 @@
 <?php
 
+/*
+ * add .styleci.yml
+ */
+
 namespace App\Providers;
 
-use App\Repositories\VerificationCodeRepository;
-use App\Services\PostService;
-use App\Services\SendSmsService;
-use App\Services\SlugGenerator;
-use App\Services\SMSVerificationCode;
-use App\Services\VisitorService;
 use HTMLPurifier;
+use App\Services\PostService;
+use App\Services\SlugGenerator;
+use App\Services\SendSmsService;
+use App\Services\VisitorService;
 use Illuminate\Hashing\BcryptHasher;
+use App\Services\SMSVerificationCode;
 use Illuminate\Support\ServiceProvider;
-use League\Fractal\Manager as FractalManager;
 use Overtrue\Socialite\SocialiteManager;
+use League\Fractal\Manager as FractalManager;
+use App\Repositories\VerificationCodeRepository;
 
 class ServiceServiceProvider extends ServiceProvider
 {
-
     /**
      * Register any application services.
      *
@@ -62,6 +65,5 @@ class ServiceServiceProvider extends ServiceProvider
                     config('services', [])
                 ), $app->make('request'));
         });
-
     }
 }

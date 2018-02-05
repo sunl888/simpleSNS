@@ -6,7 +6,7 @@ use App\Models\Post;
 
 class PostTransformer extends BaseTransformer
 {
-    //protected $availableIncludes = ['user', 'post_content', 'cover'];
+    protected $availableIncludes = ['post_content'];
     //protected $defaultIncludes = ['cover'];
 
     public function transform(Post $post)
@@ -14,7 +14,7 @@ class PostTransformer extends BaseTransformer
         return [
             'id' => $post->id,
             'user' => $post->user,
-            'is_own' => $post->isOwn(),// 自己是不是作者
+            'is_author' => $post->isAuthor(),// 自己是不是作者
             'title' => $post->title,
             'slug' => $post->slug,
             'cover' => $post->cover,
@@ -28,28 +28,10 @@ class PostTransformer extends BaseTransformer
             'up_voters_count' => $post->up_votes_count,// 赞
             'down_voters_count' => $post->down_votes_count,// 赞
             'published_at' => $post->published_at,
-            'post_content' => $post->postContent,
-            'created_at' => $post->created_at->toDateTimeString(),
-            'updated_at' => $post->updated_at->toDateTimeString()
+            //'post_content' => $post->postContent,
+            'created_at' => toIso8601String($post->created_at),
+            'updated_at' => toIso8601String($post->updated_at)
         ];
-    }
-
-    /*public function includeCover(Post $post)
-    {
-        if (!$post->cover) {
-            return $this->null();
-        }
-        return $this->item($post->cover()->first(), new ImageTransformer());
-    }
-
-    public function includeUser(Post $post)
-    {
-        $user = $post->user;
-        if (is_null($user)) {
-            return $this->null();
-        } else {
-            return $this->item($user, new UserTransformer());
-        }
     }
 
     public function includePostContent(Post $post)
@@ -60,6 +42,6 @@ class PostTransformer extends BaseTransformer
         } else {
             return $this->item($content, new PostContentTransformer());
         }
-    }*/
+    }
 
 }

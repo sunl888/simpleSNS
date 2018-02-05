@@ -1,0 +1,18 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
+    steps:
+      - checkout
+      - run: sudo apt install -y libsqlite3-dev zlib1g-dev
+      - run: sudo docker-php-ext-install zip
+      - run: sudo composer self-update
+      - run: cp .env.example .env
+      - run: composer install -n --ignore-platform-reqs
+      - run: php artisan key:generate
+      - run: php artisan jwt:secret --force
+      - run: vendor/bin/phpunit
+#      - run: php artisan migrate --env=testing --database=sqlite_testing --force

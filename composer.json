@@ -8,7 +8,7 @@
   "license": "MIT",
   "type": "project",
   "require": {
-    "php": ">=7.0.0",
+    "php": ">=7.1.0",
     "ezyang/htmlpurifier": "^4.9",
     "fideloper/proxy": "~3.3",
     "flc/dysms": "^1.0",
@@ -16,10 +16,12 @@
     "laravel/tinker": "~1.0",
     "league/fractal": "^0.17.0",
     "league/glide-laravel": "^1.0",
+    "overtrue/laravel-follow": "^1.1",
     "overtrue/laravel-pinyin": "~3.0",
     "overtrue/socialite": "^2.0",
     "predis/predis": "1.0.*",
     "pusher/pusher-php-server": "^3.0",
+    "spatie/laravel-backup": "^3.0.0",
     "ty666/cdn-pusher": "^1.1",
     "ty666/laravel-vote": "^1.6",
     "tymon/jwt-auth": "^1.0@dev"

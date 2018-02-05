@@ -16,7 +16,8 @@ class AuthController extends ApiController
 {
     public function __construct()
     {
-        $this->middleware('guest')->except('logout','me','redirectToProvider','handleProviderCallback','refresh');
+        $this->middleware('auth:api')
+            ->only('logout', 'me', 'refresh');
     }
 
     public function login(Request $request)
@@ -30,11 +31,15 @@ class AuthController extends ApiController
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
-    public function attemptLogin($credentials)
+    /**
+     * @param array $credentials
+     * @return null
+     */
+    public function attemptLogin(array $credentials)
     {
         // 过滤掉第三方登录的帐号信息
         $credentials['provider'] = null;
-        $user = User::byPrimaryKeys($this->username(), $credentials)->first();
+        $user = User::byUserNames($this->username(), $credentials)->first();
         if (is_null($user) || !\Hash::check($credentials['password'], $user->password)) {
             return null;
         }
@@ -48,10 +53,7 @@ class AuthController extends ApiController
      */
     public function username(): array
     {
-        return [
-            'tel_num',
-            //'email'
-        ];
+        return config('sns.allow_login_fields', '');
     }
 
     /**
@@ -74,24 +76,29 @@ class AuthController extends ApiController
 
     public function handleProviderCallback($driver)
     {
-        $userInfo = app(SocialiteManager::class)->driver($driver)->user();
-        $user = User::where(['username' => $userInfo->username, 'provider' => strtolower($userInfo->provider)])->first();
+        $originalInfo = app(SocialiteManager::class)->driver($driver)->user();
+        // 验证用户信息是否存在
+        $credentials = [
+            'username' => $originalInfo->getUsername(),
+            'email' => $originalInfo->getEmail(),
+            'provider' => strtolower($originalInfo->provider)
+        ];
+        $user = User::where($credentials)->first();
         if (is_null($user)) {
-            $image = app(ImageService::class)->store($userInfo->getAvatar());
-            $data['name'] = $userInfo->getName();
-            $data['email'] = $userInfo->getEmail();
+            $image = app(ImageService::class)->store($originalInfo->getAvatar());
+            $data['name'] = $originalInfo->getName() ?? snake_case(str_random(10));
+            $data['email'] = $originalInfo->getEmail();
             $data['avatar_hash'] = $image->hash;
-            $data['username'] = $userInfo->getUsername();
-            $data['nickname'] = $userInfo->getNickname();
-            $data['provider'] = strtolower($userInfo->getProviderName());
-            $data['company'] = $userInfo->getOriginal()['company'];
-            $data['location'] = $userInfo->getOriginal()['location'];
-            $data['oauth_token'] = json_encode($userInfo->getToken()->toArray());
+            $data['username'] = $originalInfo->getUsername() ?? str_random(10);
+            $data['nickname'] = $originalInfo->getNickname() ?? str_random(10);
+            $data['provider'] = strtolower($originalInfo->getProviderName());
+            $data['company'] = $originalInfo->getOriginal()['company'] ?? '';
+            $data['location'] = $originalInfo->getOriginal()['location'] ?? '';
+            $data['oauth_token'] = json_encode($originalInfo->getToken()->toArray());
             $data['last_active_at'] = Carbon::now();
 
             // 保存用户信息
             $user = User::create($data);
-
             // 头像存储
             Image::where('hash', $image->hash)->update(['creator_id' => $user->id]);
         }
@@ -99,7 +106,11 @@ class AuthController extends ApiController
         if (!$token = $this->guard()->login($user)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return view('logging', ['access_token' => $token, 'expires_in' => $this->guard()->factory()->getTTL() * 60, 'user' => $user]);
+        return view('logging', [
+            'access_token' => $token,
+            'expires_in' => $this->guard()->factory()->getTTL() * 60,
+            'user' => $user
+        ]);
     }
 
     public function guard()

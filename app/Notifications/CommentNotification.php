@@ -6,21 +6,21 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
-class FollowedNotification extends Notification
+class CommentNotification extends Notification
 {
     use Queueable;
 
-    protected $user;
-    protected $message;
+    public $message;
+    public $to;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message, User $user)
+    public function __construct(array $message, User $to)
     {
-        $this->user = $user;
+        $this->to = $to;
         $this->message = $message;
     }
 
@@ -38,7 +38,7 @@ class FollowedNotification extends Notification
     public function broadcastOn()
     {
         //要发送的频道
-        return ['USER_ID_' . $this->user->id];
+        return ['USER_ID_' . $this->to->id];
     }
 
 }

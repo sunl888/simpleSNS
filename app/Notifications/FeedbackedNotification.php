@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
-class FollowedNotification extends Notification
+class FeedbackedNotification extends Notification
 {
     use Queueable;
 

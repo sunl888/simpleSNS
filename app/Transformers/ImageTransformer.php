@@ -6,8 +6,15 @@ use App\Models\Image;
 
 class ImageTransformer extends BaseTransformer
 {
-    public function transform(Image $image)
+    /**
+     * @param Image|null $image
+     * @return array|\League\Fractal\Resource\NullResource
+     */
+    public function transform(?Image $image)
     {
+        if (is_null($image)) {
+            return $this->null();
+        }
         return [
             'hash' => $image->hash,
             'mime' => $image->mime,

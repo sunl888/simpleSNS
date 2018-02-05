@@ -5,38 +5,36 @@ namespace App\Events;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
 class CommentedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $comment;
-    public $post;
-    public $user;
+    public $from;// 消息触发者
+    public $to;// 消息接受者
+    public $message;// 通知正文
+
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Comment $comment, Post $post, User $user)
+    public function __construct(Comment $comment, User $from)
     {
         $this->comment = $comment;
-        $this->post = $post;
-        $this->user = $user;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
+        $this->from = $from;
+        // 对文章的评论
+        if ($comment->commentable_type == Post::class) {
+            $post = Post::findOrFail($comment->commentable_id);
+            $this->to = $post->user;
+            $this->message = [
+                'message' => $from->username . '评论了你的文章：' . $post->title
+            ];
+        }
     }
 }

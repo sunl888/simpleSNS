@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\PostHasBeenRead;
+use App\Exceptions\PermissionDeniedException;
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\PostRequest;
@@ -13,7 +14,6 @@ use App\Repositories\PostRepository;
 use App\Transformers\CommentTransformer;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
@@ -39,7 +39,7 @@ class PostController extends ApiController implements VoteController
     {
         $collectionIDs = collect();
         if (auth()->check()) {
-            $collectionIDs = auth()->user()->followCollections->pluck('follow_id');
+            $collectionIDs = me()->subscriptions(\App\Models\Collection::class)->get()->pluck('id');
         }
         if ($collectionIDs->isEmpty()) {
             $collectionIDs = Collection::all()->pluck('id');
@@ -56,11 +56,13 @@ class PostController extends ApiController implements VoteController
      *
      * @param Post $post
      * @return \App\Support\Response\TransformerResponse
+     * @throws PermissionDeniedException
      */
-    public function show($slug)
+    public function show(Post $post)
     {
-        $post = Post::bySlug($slug)->publishPost()->firstOrFail();
-
+        if (!$post->isDraft()) {
+            throw new PermissionDeniedException('文章无法查看, 你的权限还不够喔 (╯︵╰,)');
+        }
         event(new PostHasBeenRead($post, request()->getClientIp()));
         return $this->response()->item($post, new PostTransformer());
     }
@@ -102,11 +104,11 @@ class PostController extends ApiController implements VoteController
     public function destroy(Post $post)
     {
         // 如果文章作者是自己就可以删除
-        if ($post->isOwn()) {
-            $post->delete();
-        } else {
-            throw new HttpException(401, '删除失败,没有权限.');
+        if (!$post->isAuthor()) {
+            throw new PermissionDeniedException('删除失败, 你的权限还不够喔 (╯︵╰,)');
         }
+
+        $post->delete();
         return $this->response()->noContent();
     }
 

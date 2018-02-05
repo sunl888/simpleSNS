@@ -4,20 +4,19 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFollowsTable extends Migration
+class CreateFeedbackTable extends Migration
 {
     /**
-     * 关注表.
+     * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('follows', function (Blueprint $table) {
+        Schema::create('feedback', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id')->index()->comment('用户ID');
-            $table->string('follow_type');
-            $table->unsignedInteger('follow_id');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->text('content', 128);
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateFollowsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('follows');
+        Schema::dropIfExists('feedback');
     }
 }

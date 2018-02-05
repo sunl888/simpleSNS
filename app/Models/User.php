@@ -3,16 +3,38 @@
 namespace App\Models;
 
 use App\Models\Traits\Sortable;
+use App\Transformers\ImageTransformer;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
+use Overtrue\LaravelFollow\Traits\CanFollow;
+use Overtrue\LaravelFollow\Traits\CanSubscribe;
 use Ty666\LaravelVote\Traits\CanVote;
 
 class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubject
 {
-    use Notifiable, CanVote, Sortable;
+    // 通知 排序
+    use Notifiable, Sortable;
+    // 赞 关注 被关注 订阅
+    use CanVote, CanFollow, CanBeFollowed, CanSubscribe;
 
     protected $fillable = [
-        'nickname', 'tel_num', 'avatar_hash', 'email', 'password', 'introduction', 'is_banned', 'city', 'oauth_token', 'location', 'company', 'username', 'name', 'provider', 'last_actived_at',
+        'nickname',
+        'tel_num',
+        'avatar_hash',
+        'email',
+        'password',
+        'introduction',
+        'is_banned',
+        'city',
+        'oauth_token',
+        'location',
+        'company',
+        'username',
+        'name',
+        'provider',
+        'last_actived_at',
     ];
 
     protected $hidden = [
@@ -20,9 +42,14 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     ];
     protected $dates = ['last_active_at'];
 
+    // 头像信息
+    public function getAvatarHashAttribute($value)
+    {
+        return app(ImageTransformer::class)->transform(Image::find($value));
+    }
+
     public function scopeApplyFilter($query, $data)
     {
-        $data = $data->only('');
         // todo 这里过滤
         return $query->ordered()->recent();
     }
@@ -38,42 +65,32 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     }
 
     /**
-     * 获得此用户的所有关注者。
-     */
-    public function followUsers()
-    {
-        return $this->hasMany(Follow::class, 'user_id')->byType('App\Models\User');
-    }
-
-    public function followCollections()
-    {
-        return $this->hasMany(Follow::class, 'user_id')->byType('App\Models\Collection');
-    }
-
-    /**
      * @param $query
-     * @param $primacy 's
-     * @param $credentials 0=>'username', 1=>'password', 2=>'provider'
-     * @return mixed
+     * @param array $primarys
+     * @param array $credentials 0=>'username', 1=>'password', 2=>'provider'
+     * @return Builder
      */
-    public function scopeByPrimaryKeys($query, $primarys, $credentials)
+    public function scopeByUserNames($query, array $primarys, array $credentials): Builder
     {
         list($username, , $provider) = array_values($credentials);
 
-        $query->where(['provider' => $provider]);
-        $query->where(function ($query) use ($primarys, $username) {
-            foreach ($primarys as $primary) {
-                $query->orWhere([$primary => $username]);
-            }
-            return $query;
+        return tap($query->Provider($provider), function ($query) use ($primarys, $username) {
+            $query->where(function ($query) use ($primarys, $username) {
+                foreach ($primarys as $primary) {
+                    $query->orWhere([$primary => $username]);
+                }
+            });
         });
-
-        return $query;
     }
 
     public function scopeProviderWithNull($query)
     {
-        return $query->where('provider', null);
+        return $query->whereNull('provider');
+    }
+
+    public function scopeProvider($query, $provider)
+    {
+        return $query->whereProvider($provider);
     }
 
     public function getJWTIdentifier()

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Models\Traits\HasSlug;
-use App\Models\Traits\Listable;
 use App\Models\Traits\Sortable;
+use App\Transformers\ImageTransformer;
 use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
 use Ty666\LaravelVote\Traits\CanBeVoted;
 use Ty666\LaravelVote\Traits\CanCountDownVotes;
@@ -13,7 +13,7 @@ use Ty666\LaravelVote\Traits\CanCountUpVotes;
 
 class Post extends BaseModel implements CanCountUpVotesModel
 {
-    use Listable, Sortable, HasSlug;
+    use  Sortable, HasSlug;
     use CanBeVoted, CanCountUpVotes, CanCountDownVotes;
 
     const STATUS_PUBLISH = 'publish', STATUS_DRAFT = 'draft';
@@ -22,6 +22,7 @@ class Post extends BaseModel implements CanCountUpVotesModel
         'status', 'published_at', 'collection_id', 'order'
     ];
     protected $dates = ['published_at', 'created_at', 'updated_at'];
+
     protected $upVotesCountField = 'up_votes_count';
     protected $downVotesCountField = 'down_votes_count';
 
@@ -35,6 +36,12 @@ class Post extends BaseModel implements CanCountUpVotesModel
             $query->where('collection_id', $data['collection_id']);
 
         return $query->ordered()->recent();
+    }
+
+    // 封面信息
+    public function getCoverAttribute($value)
+    {
+        return app(ImageTransformer::class)->transform(Image::find($value));
     }
 
     // 文章所属收藏集
@@ -131,8 +138,11 @@ class Post extends BaseModel implements CanCountUpVotesModel
         return $this->status == static::STATUS_DRAFT;
     }
 
-    public function isOwn()
+    /**
+     * @return bool
+     */
+    public function isAuthor(): bool
     {
-        return $this->user->id === auth()->id();
+        return $this->user_id === auth()->id();
     }
 }

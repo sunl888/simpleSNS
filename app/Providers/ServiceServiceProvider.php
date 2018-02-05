@@ -9,24 +9,13 @@ use App\Services\SlugGenerator;
 use App\Services\SMSVerificationCode;
 use App\Services\VisitorService;
 use HTMLPurifier;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Support\ServiceProvider;
 use League\Fractal\Manager as FractalManager;
 use Overtrue\Socialite\SocialiteManager;
-use Schema;
 
 class ServiceServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        Schema::defaultStringLength(191);
-    }
 
     /**
      * Register any application services.

@@ -17,11 +17,16 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
 
     return [
         'nickname' => snake_case($faker->userName),
+        'name' => snake_case($faker->userName),
+        'username' => snake_case($faker->userName),
         'tel_num' => $prefix . $middle . $suffix,
         'email' => $faker->unique()->safeEmail,
-        'introduction' => $faker->text(20),
+        'company' => $faker->company,
+        'city' => $faker->address,
+        'introduction' => $faker->text(30),
         'password' => bcrypt(config('sns.default_user_password') ?? $password),
+        'last_actived_at' => \Carbon\Carbon::now(),
+        'created_at' => \Carbon\Carbon::now(),
+        'updated_at' => \Carbon\Carbon::now(),
     ];
 });
-
-

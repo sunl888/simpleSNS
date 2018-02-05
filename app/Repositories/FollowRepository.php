@@ -42,7 +42,7 @@ class FollowRepository extends BaseRepository
     public function created($data, $model)
     {
         // 通知
-        event(new FollowedEvent($model));
+        event(new FollowedEvent($model, auth()->user()));
     }
 
     public function filterData(array &$data)

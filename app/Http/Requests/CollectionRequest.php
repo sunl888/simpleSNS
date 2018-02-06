@@ -35,7 +35,6 @@ class CollectionRequest extends Request
                     'introduction' => ['bail', 'required', 'string', 'between:1,100'],
                     'color'        => ['bail', 'required', 'string'],
                     'cover'        => ['bail', 'required', 'exists:images,hash'],
-                    'user_id'      => ['bail', 'required', 'unique:user,id'],
                 ];
             case 'PUT':
             case 'PATCH':
@@ -44,7 +43,6 @@ class CollectionRequest extends Request
                     'introduction' => ['bail', 'nullable', 'string', 'between:1,100'],
                     'color'        => ['bail', 'nullable', 'string'],
                     'cover'        => ['bail', 'nullable', 'exists:images,hash'],
-                    'user_id'      => ['bail', 'nullable', 'unique:user,id'],
                 ];
             default:
                 return [];

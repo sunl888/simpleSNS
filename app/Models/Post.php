@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Traits\HasSlug;
 use App\Models\Traits\Sortable;
 use App\Transformers\ImageTransformer;
@@ -22,8 +23,8 @@ class Post extends BaseModel implements CanCountUpVotesModel
     const STATUS_PUBLISH = 'publish';
     const STATUS_DRAFT = 'draft';
     protected $fillable = [
-        'title', 'user_id', 'slug', 'excerpt', 'views', 'cover', 'up_votes_count', 'comment_count',
-        'status', 'published_at', 'collection_id', 'order',
+        /*'title',*/ 'user_id', /*'slug', 'excerpt', */'views', 'cover', 'up_votes_count', 'comment_count',
+        'status', 'published_at', 'collection_id', /*'order',*/
     ];
     protected $dates = ['published_at', 'created_at', 'updated_at'];
 
@@ -103,6 +104,11 @@ class Post extends BaseModel implements CanCountUpVotesModel
     public function scopePublishOrDraft($query)
     {
         return $query->where('status', static::STATUS_PUBLISH)->orWhere('status', static::STATUS_DRAFT);
+    }
+
+    public function scopePublishdAt($query)
+    {
+        return $query->where('published_at', '<', Carbon::now());
     }
 
     public function scopePublishPost($query)

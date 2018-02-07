@@ -3,10 +3,10 @@
   <mu-flexbox class="profile" orient="vertical">
     <mu-flexbox-item>
       <mu-paper class="profile_top">
-        <img :src="me.avatar.data.cover_url">
+        <img :src="me.avatar_hash.cover_url">
         <!-- <img src="../assets/images/bg.png"> -->
         <div class="modify_box">
-          <img :src="me.avatar.data.url">
+          <img :src="me.avatar_hash.url">
           <strong>{{me.nickname}}</strong>
           <mu-raised-button>修改资料</mu-raised-button>
         </div>
@@ -14,9 +14,9 @@
     </mu-flexbox-item>
   </mu-flexbox>
   <p>收藏集</p>
-  <mu-flexbox :gutter="50" class="collect">
+  <mu-flexbox :gutter="50" wrap="wrap" class="collect">
     <mu-flexbox-item>
-      <collect-create></collect-create>
+      <collect-create v-on:openCCP = "openCCP"></collect-create>
     </mu-flexbox-item>
     <mu-flexbox-item>
       <collect-card></collect-card>
@@ -34,21 +34,42 @@
       <article-card class="profile_article"></article-card>
     </mu-flexbox-item>
   </mu-flexbox>
+  <mask-box :isMask = "isCreatePanel">
+    <collect-made-panel v-on:closeCMP = "isCreatePanel = false" type="create" v-on:closeCCP = "closeCCP"></collect-made-panel>
+  </mask-box>
 </div>
 </template>
 <script>
 import {CollectCard, CollectCreate} from '../components/CollectCard';
+import {CollectMadePanel} from '../components/CollectMade';
 import ArticleCard from '../components/ArticleCard/ArticleCard.vue';
 export default{
   components: {
     CollectCard,
     CollectCreate,
+    CollectMadePanel,
     ArticleCard
+  },
+  data () {
+    return {
+      // 是否显示创建收藏集面板
+      isCreatePanel: false
+    };
   },
   computed: {
     // 获取个人信息
     me () {
       return this.$store.state.me === null ? {} : this.$store.state.me;
+    }
+  },
+  methods: {
+    // 打开创建收藏集面板
+    openCCP () {
+      this.isCreatePanel = true;
+    },
+    // 关闭创建收藏集面板
+    closeCCP () {
+      this.isCreatePanel = false;
     }
   }
 };
@@ -107,5 +128,10 @@ export default{
 }
 .a{
   height: 1000px;
+}
+@media (max-width: 900) {
+.collect{
+  flex-direction: column!important;
+}
 }
 </style>

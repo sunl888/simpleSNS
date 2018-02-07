@@ -52,7 +52,13 @@ export default new Router({
           name: 'profile',
           meta: { title: '个人资料' },
           component: require('../views/profile.vue')
-        }
+        },
+        {
+          path: 'collection',
+          name: 'collection',
+          meta: {title: '收藏集'},
+          component: require('../views/collection.vue')
+        },
       ]
     }
   ]

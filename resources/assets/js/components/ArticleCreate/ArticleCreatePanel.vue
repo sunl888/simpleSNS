@@ -1,5 +1,4 @@
 <template>
-<div v-if="isCreatePanel" class="mask">
   <mu-paper position="bottom" overlay class="demo-popup-bottom clear_fixed">
     <mu-appbar>
      <div class="my_photo">
@@ -27,16 +26,16 @@
       <mu-raised-button label="发布" class="demo-raised-button"/>
     </div>
   </mu-paper>
-</div>
 </template>
 <script>
 export default{
   data () {
     return {
-      // 是否显示分享面板
-      isCreatePanel: false,
       leftTop: {horizontal: 'left', vertical: 'top'}
     };
+  },
+  props: {
+    isCreatePanel: Boolean
   },
   computed: {
     // 获取个人信息
@@ -48,25 +47,15 @@ export default{
   },
   methods: {
     closeCreatePanel () {
-      this.isCreatePanel = false;
+      this.$emit('closeACP');
     }
   }
 };
 </script>
 <style lang="less">
-.mask{
-  width: 100%;
-  height: 100%;
-  padding: 50px 400px;
-  position: fixed;
-  overflow: auto;
-  top: 0;
-  z-index: 11;
-  left: 0;
-  background: rgba(0, 0, 0, 0.6);
-}
 .demo-popup-bottom{
-  width: 55%;
+  width: 50%;
+  min-width: 350px;
   padding-bottom: 10px;
   position: absolute;
   left: 50%;

@@ -2,14 +2,13 @@
   <div class="home clear_fixed">
     <top-nav></top-nav>
     <mu-flexbox class="item" align="flex-start" justify="flex-start">
-      <mu-flexbox-item class="flex-demo">
-        <menu-bar></menu-bar>
+      <mu-flexbox-item v-if="isMenu" class="flex-demo">
+        <menu-bar v-on:closeMenu="isMenu = false" :showMenu="isMenu" :menuStyle="menuVer"></menu-bar>
       </mu-flexbox-item>
-      <mu-flexbox-item class="item_inner">
+      <mu-flexbox-item class="item_inner" :class="{'active_menu' : isMenu === false}">
         <router-view></router-view>
       </mu-flexbox-item>
     </mu-flexbox>
-    <article-create-panel></article-create-panel>
     <article-card :closeable="true"></article-card>
   </div>
 </template>
@@ -17,27 +16,45 @@
 import TopNav from '../components/TopNav/TopNav.vue';
 // 左侧菜单组件
 import MenuBar from '../components/MenuBar/MenuBar.vue';
-import {ArticleCreatePanel} from '../components/ArticleCreate';
 import ArticleCard from '../components/ArticleCard/ArticleCard.vue';
 export default{
   components: {
     TopNav,
     MenuBar,
-    ArticleCreatePanel,
     ArticleCard
   },
   data () {
     return {
-      // isMenu: null
+      isMenu: false,
+      menuVer: 'big',
+      winSize: window.screen.width
     };
+  },
+  watch: {
+    '$route' () {
+      this.handleResize();
+    }
   },
   computed: {
     // 获取个人信息
     me () {
       return this.$store.state.me === null ? {} : this.$store.state.me;
-    },
-    menu () {
-      return this.$children[0];
+    }
+  },
+  mounted () {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
+  },
+  methods: {
+    handleResize () {
+      this.winSize = document.documentElement.clientWidth;
+      if (this.winSize < 900 || this.$route.name === 'collection') {
+        this.menuVer = 'mobile';
+        this.isMenu = false;
+      } else {
+        this.menuVer = 'big';
+        this.isMenu = true;
+      }
     }
   }
 };
@@ -54,16 +71,17 @@ export default{
   background: #f1f1f1;
 }
 .item{
-  padding: 15px;
   height: calc(~"100% - 80px");
 }
 .item_inner{
   height: 100%;
   overflow: auto;
-  padding: 10px;
+  padding: 20px;
+  transition: padding 0.3s;
+  align-items: center;
   flex: 5 auto!important;
 }
 .active_menu{
-  flex: 0 0 auto;
+  padding: 20px 5%;
 }
 </style>

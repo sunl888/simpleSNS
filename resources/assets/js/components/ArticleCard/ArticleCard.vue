@@ -1,11 +1,11 @@
 <template>
-<div class="article_card"  :class="{'mask' : mask === true}" >
+<div class="article_card">
   <slot></slot>
-  <mu-icon-button v-if="closeable" @click.native="closeArticleCard" icon="cancel"></mu-icon-button>
+  <mu-icon-button v-if="closeable" @click="closeArticleCard" icon="cancel"></mu-icon-button>
   <div @mouseenter="cardMenu = true" @click="chhoseThePanel()" :class="{'active_panel' : wasChoose === true}"  @mouseleave="cardMenu = false">
     <mu-card class="clear_fixed">
-      <mu-card-header title="Myron Avatar" subTitle="sub title">
-        <mu-avatar src="../../assets/images/temp.jpg" slot="avatar"/>
+      <mu-card-header :title="nickname" :subTitle="collection">
+        <mu-avatar src="../../assets/images/temp.png" slot="avatar"/>
         <div v-if="cardMenu" class="time">
           <mu-icon-button icon="open_in_new"></mu-icon-button>
           <mu-icon-menu
@@ -21,7 +21,7 @@
         <span v-else class="time">2小时前</span>
       </mu-card-header>
       <mu-card-text>
-        test text test text test text test text test text test text test texttest texttest text
+        {{content}}
       </mu-card-text>
       <mu-card-media>
         <img src="../../assets/images/temp.jpg" />
@@ -71,7 +71,15 @@ export default{
   },
   props: {
     mask: false,
-    closeable: false
+    closeable: false,
+    // 昵称
+    nickname: '',
+    // 头像
+    avatar: '',
+    // 所属收藏集
+    collection: '',
+    // 内容
+    content: ''
   },
   methods: {
     chhoseThePanel () {
@@ -101,6 +109,7 @@ export default{
 }
 .article_card{
   // float: right;
+  // min-width: 420px;
   // margin-right: 15px;
   span{
     color: #888;

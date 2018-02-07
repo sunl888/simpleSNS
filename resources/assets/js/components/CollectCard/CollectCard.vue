@@ -1,5 +1,5 @@
 <template>
-  <mu-flexbox class="collect_card" orient="vertical">
+  <mu-flexbox @click.native="$router.push({name: 'collection'})" class="collect_card" orient="vertical">
     <mu-flexbox-item class="collect_top">
       <img src="../../assets/images/bg.png" alt="">
     </mu-flexbox-item>
@@ -15,6 +15,11 @@
 </template>
 <script>
 export default{
+  methods: {
+    // path () {
+    //   this.$router.push({name: 'collection'});
+    // }
+  }
 };
 </script>
 <style lang="less">
@@ -22,6 +27,7 @@ export default{
   height: 280px;
   background: #ddd; 
   position: relative;
+  min-width: 150px;
   border-radius: 5px;
   overflow: hidden;
   box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.2);

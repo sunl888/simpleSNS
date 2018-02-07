@@ -23,7 +23,7 @@ export default{
   },
   methods: {
     open_create_panel () {
-      this.$root.$children[0].$children[0].$children[2].isCreatePanel = true;
+      this.$emit('openACP');
     }
   }
 };

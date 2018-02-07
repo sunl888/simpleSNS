@@ -8,8 +8,8 @@
       <div v-if="templateType === 2" class="my_profile">
         <div class="my_profile_top clear_fixed">
           <div class="my_photo">
-            <span v-if="me.avatar === null">{{me.nickname.substr(0, 1)}}</span>
-            <img v-else :src="me.avatar.data.url" alt="me.nickname">  
+            <span v-if="me.avatar_hash === null">{{me.nickname.substr(0, 1)}}</span>
+            <img v-else :src="me.avatar_hash.url" alt="me.nickname">  
             <!-- <span>更改</span> -->
             <input type="file">
           </div>

@@ -50,15 +50,10 @@ export default{
     };
   },
   mounted () {
-    // if (window.screen.width < 600) {
-    //   this.isMenu = false;
-    //   this.$parent.$children[1].$children[0].show = this.isMenu;
-    // }
   },
   methods: {
     expendMenu () {
-      // this.isMenu = !this.isMenu;
-      this.$parent.$children[1].$children[0].$children[0].isMenu = !this.$parent.$children[1].$children[0].$children[0].isMenu;
+      this.$parent.isMenu = !this.$parent.isMenu;
     }
   }
 };
@@ -118,13 +113,23 @@ export default{
 .active_icon{
   color: #20a0ff;
 }
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .search_tool{
     display: none;
   }
   .logo{
     span{
-      display: none;
+      // display: none;
+    }
+    h3{
+      // display: none;
+    }
+  }
+  @media (max-width: 520px) {
+    .logo{
+      h3{
+        display: none;
+      }
     }
   }
 }

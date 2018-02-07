@@ -30,13 +30,15 @@ Vue.use(tHttp, {
 
 Vue.prototype.$alert = alert;
 
+Vue.component('mask-box', require('./components/Mask'));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('mask-box', require('./components/Mask/Mask.vue'));
+
 Vue.use(Vuex);
 new Vue({
   el: '#app',

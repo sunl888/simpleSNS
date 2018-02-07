@@ -1,5 +1,5 @@
 <template>
-  <mu-flexbox class="collect_card create" orient="vertical" justify="center" align="center">
+  <mu-flexbox @click.native="openCCP" class="collect_card create" orient="vertical" justify="center" align="center">
     <mu-flexbox-item class="collect_top">
       <i class="material-icons">add_circle_outline</i>
       <p>创建收藏集</p>
@@ -8,6 +8,15 @@
 </template>
 <script>
 export default{
+  data () {
+    return {
+    };
+  },
+  methods: {
+    openCCP () {
+      this.$emit('openCCP');
+    }
+  }
 };
 </script>
 <style lang="less">

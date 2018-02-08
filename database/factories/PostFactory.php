@@ -14,7 +14,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'excerpt'        => str_random(128),*/
         'user_id'        => random_int(1, 5),
         'views'          => 0,
-        'cover'          => $faker->imageUrl(),
+        //'cover'          => $faker->imageUrl(),
         'up_votes_count' => 0,
         'comments_count' => 0,
         'collection_id'  => random_int(1, 5),

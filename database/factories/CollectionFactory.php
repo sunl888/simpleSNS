@@ -13,7 +13,7 @@ $factory->define(\App\Models\Collection::class, function (Faker $faker) {
         'user_id'      => random_int(1, 5),
         'introduction' => $faker->text(100),
         'color'        => $faker->hexColor,
-        'cover'        => $faker->imageUrl(),
+        //'cover'        => $faker->imageUrl(),
         'created_at'   => \Carbon\Carbon::now(),
         'updated_at'   => \Carbon\Carbon::now(),
     ];

@@ -4,7 +4,7 @@
     <mu-text-field fullWidth v-model="formData.name" hintText="名称"/>
     <mu-text-field fullWidth v-model="formData.content" hintText="个性宣言"/>
     <mu-select-field fullWidth v-model="formData.range" :labelFocusClass="['label-foucs']" label="公开范围">
-      <mu-menu-item v-for="text,index in option" :key="index" :value="index" :title="text.label" icon="text.icon"/>
+      <mu-menu-item v-for="(text,index) in option" :key="index" :value="index" :title="text.label" icon="text.icon"/>
     </mu-select-field>
     <input id="color" type="color">
     <p>* 设定后将无法更改</p>

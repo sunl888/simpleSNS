@@ -1,8 +1,8 @@
 <template>
   <mu-paper class="demo-paper clear_fixed" :zDepth="1">
     <div class="article_photo">
-      <span v-if="me.avatar === null">{{me.nickname.substr(0, 1)}}</span>
-      <!-- <img v-else :src="me.avatar.data.url">   -->
+      <span v-if="me.avatar_hash === null">{{me.nickname.substr(0, 1)}}</span>
+      <img v-else :src="me.avatar_hash.url">  
     </div>
     <input @focus="open_create_panel" type="text" class="article_input" placeholder="有什么新鲜事要分享吗"/>
     <mu-icon-button class="select_photo" icon="photo_camera"/>

@@ -37,6 +37,7 @@ class CollectionTransformer extends BaseTransformer
         if ($subscribers->isEmpty()) {
             return $this->null();
         }
+
         return $this->collection($subscribers, new UserTransformer());
     }
 }

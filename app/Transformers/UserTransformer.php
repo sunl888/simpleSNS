@@ -6,12 +6,12 @@
 
 namespace App\Transformers;
 
-use App\Models\Collection;
 use App\Models\User;
+use App\Models\Collection;
 
 class UserTransformer extends BaseTransformer
 {
-    protected $availableIncludes = ['collections','subscribe_collections'];
+    protected $availableIncludes = ['collections', 'subscribe_collections'];
 
     /*protected $defaultIncludes = ['avatar'];*/
 
@@ -40,6 +40,7 @@ class UserTransformer extends BaseTransformer
         if ($user->collections->isEmpty()) {
             return $this->null();
         }
+
         return $this->collection($user->collections, new CollectionTransformer());
     }
 
@@ -50,6 +51,7 @@ class UserTransformer extends BaseTransformer
         if ($subscriptions->isEmpty()) {
             return $this->null();
         }
+
         return $this->collection($subscriptions, new CollectionTransformer());
     }
 }

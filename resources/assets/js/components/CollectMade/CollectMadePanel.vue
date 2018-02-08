@@ -2,21 +2,22 @@
   <mu-paper class="collect_edit_panel">
     <mu-appbar :title="collect_edit_title">
       <mu-icon-button @click="$emit('closeCMP')" icon="close" slot="left"/>
-      <mu-flat-button slot="right">保存</mu-flat-button>
+      <mu-flat-button @click="createCollection" slot="right">确定</mu-flat-button>
     </mu-appbar>
     <div class="edit_box">
       <div class="cover">
-        <img src="../../assets/images/bg.png" alt="">
+        <img v-if="formData.cover_url === null" src="../../assets/images/bg.png" alt="">
+        <img v-else :src="formData.cover_url" alt="">
         <mu-flat-button icon="photo_camera" class="demo-flat-button">
           <input ref="uploadEle" @change="uploadImg" type="file" class="file-button">
         </mu-flat-button>
       </div>
-      <div :style="{background : currentTheme}" class="content">
+      <div :style="{background : formData.color}" class="content">
         <mu-text-field v-model="formData.title" :underlineShow="false" hintText="名称" fullWidth></mu-text-field>
         <mu-text-field v-model="formData.introduction" :underlineShow="false" hintText="简介" fullWidth multiLine :rows="1" :maxLength="100"/>
       </div>
       <div class="color_select">
-        <color-choose :class="{'active_color' : currentTheme === value.color}" @click.native="chooseColor(value.color)" v-for="(value, index) in colors" :key="index" :themeColor="value.color">
+        <color-choose :class="{'active_color' : formData.color === value.color}" @click.native="formData.color = value.color" v-for="(value, index) in colors" :key="index" :themeColor="value.color">
         </color-choose>
       </div>
     </div>
@@ -35,10 +36,8 @@ export default{
   },
   data () {
     return {
-      // 当前选中的主题色
-      currentTheme: '#4a148c',
       // 面板标题
-      collect_edit_title: this.type === 'create' ? '添加收藏集' : '修改收藏集',
+      collect_edit_title: this.type === 'create' ? '创建收藏集' : '修改收藏集',
       // 可选颜色
       colors: [
         {color: '#b71c1c'},
@@ -55,18 +54,18 @@ export default{
       formData: {
         title: null,
         introduction: null,
-        color: this.currentTheme,
-        cover: null
+        color: '#004d40',
+        cover: null,
+        cover_url: null
       }
     };
   },
   mounted () {
+    if (this.type !== 'create') {
+      this.getItem();
+    }
   },
   methods: {
-    // 选择收藏集主题色
-    chooseColor (val) {
-      this.currentTheme = val;
-    },
     // 上传图片
     uploadImg () {
       let file = this.$refs['uploadEle'].files[0];
@@ -75,11 +74,34 @@ export default{
       this.$http.post('ajax_upload_image', formData, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(res => {
-        // Vue.prototype.$http.defaults.baseURL = null;
-        // this.$http.get('img/' + res.data.image_hash).then(res => {
-        //   console.log(res);
-        // })
-        // })
+        this.formData.cover = res.data.image_hash;
+        this.formData.cover_url = res.data.image_url;
+      });
+    },
+    // 创建收藏集 || 修改收藏集
+    async createCollection () {
+      if (this.type === 'create') {
+        await this.$http.post('collections', this.formData).then(res => {
+          this.$store.dispatch('updateMe');
+          this.$alert('创建成功!', 'primary');
+        });
+      } else {
+        await this.$http.put('collections/' + this.$route.params.collection_id, this.formData).then(res => {
+          this.$alert('修改成功!', 'primary');
+          this.$emit('updateCCI');
+        });
+      }
+      this.$emit('closeCMP');
+    },
+    // 获取收藏集详情
+    getItem () {
+      this.$http.get('collections/' + this.$route.params.collection_id).then(res => {
+        this.formData = {
+          title: res.data.data.title,
+          introduction: res.data.data.introduction,
+          color: res.data.data.color,
+          cover_url: res.data.data.cover.url
+        };
       });
     }
   }
@@ -87,7 +109,8 @@ export default{
 </script>
 <style lang="less">
 .collect_edit_panel{
-  max-width: 350px;
+  min-width: 350px;
+  width: 100%;
   position: relative;
   .mu-appbar{
     position: absolute;
@@ -126,6 +149,7 @@ export default{
         line-height: 30px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.6);
         color: #fff;
+        overflow-Y: hidden;
         outline: none;
         background: transparent;
       }

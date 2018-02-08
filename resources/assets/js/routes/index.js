@@ -54,11 +54,16 @@ export default new Router({
           component: require('../views/profile.vue')
         },
         {
-          path: 'collection',
+          path: 'collection/:collection_id',
           name: 'collection',
           meta: {title: '收藏集'},
           component: require('../views/collection.vue')
         },
+        {
+          path: 'all_collections/:user_id',
+          name: 'all_collections',
+          component: require('../views/find.vue')
+        }
       ]
     }
   ]

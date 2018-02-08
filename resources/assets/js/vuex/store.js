@@ -17,7 +17,7 @@ export default new Vuex.Store({
   },
   actions: {
     updateMe ({ commit }) {
-      Vue.prototype.$http.get('auth/me', {
+      Vue.prototype.$http.get('auth/me?include=collections,subcribe_collections', {
         params: {
           token: localStorage.getItem('jwt_token')
         }

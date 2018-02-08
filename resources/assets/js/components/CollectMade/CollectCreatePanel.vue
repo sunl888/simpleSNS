@@ -9,7 +9,7 @@
     <input id="color" type="color">
     <p>* 设定后将无法更改</p>
     <div class="operation_btn">
-      <mu-flat-button @click="closeCCP">取消</mu-flat-button>
+      <mu-flat-button @click="$emit('closeCMP')">取消</mu-flat-button>
       <mu-raised-button>创建</mu-raised-button>
     </div>
   </mu-paper>
@@ -35,9 +35,6 @@ export default{
     };
   },
   methods: {
-    closeCCP () {
-      this.$emit('closeCCP');
-    }
   }
 };
 </script>

@@ -21,13 +21,38 @@ Route::group(['namespace' => 'Api'], function () {
         // 个人信息 params: token
         Route::get('me', 'AuthController@me');
     });
-    // 文章管理 ?include=post_content
+    // 文章管理 include=post_content
     Route::apiResource('posts', 'PostController');
-    // 收藏集管理
+    /**
+     * include=subscribers 收藏集的订阅者
+     */
     Route::apiResource('collections', 'CollectionController');
-    // 用户信息更新 put请求 api/user
+    /**
+     * 用户信息更新
+     *
+     * email  邮箱
+     * tel_num  手机号码
+     * nickname 昵称
+     * avatar_hash 头像 hash
+     * introduction 简介
+     * city 居住城市
+     * location 定位
+     * company 公司
+     * name 名称
+     */
     Route::match(['put', 'patch'], 'user', 'UserController@update');
-    // 头像上传
+    /**
+     * 显示用户信息
+     *
+     * include=collections 用户创建的收藏集
+     * include=subscribe_collections 用户订阅的收藏集
+     */
+    Route::get('user', 'UserController@show');
+    /**
+     * 头像上传
+     *
+     * file_key => image
+     */
     Route::post('ajax_upload_image', 'ImageController@upload');
     // 对文章赞 and 踩
     Route::vote('post', 'PostController');
@@ -35,7 +60,7 @@ Route::group(['namespace' => 'Api'], function () {
     Route::vote('comment', 'CommentController', ['except' => 'down_vote']);
     // 获取文章评论
     Route::get('posts/{post}/comments', 'PostController@showComments');
-    // 文章评论
+    // 文章评论 content
     Route::post('posts/{post}/comment', 'PostController@storeComment');
     // 关注 / 取消关注 用户
     Route::post('users/{user}/follow', 'UserController@toggleFollow');

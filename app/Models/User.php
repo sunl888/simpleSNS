@@ -7,14 +7,14 @@
 namespace App\Models;
 
 use App\Models\Traits\Sortable;
-use Ty666\LaravelVote\Traits\CanVote;
 use App\Transformers\ImageTransformer;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Overtrue\LaravelFollow\Traits\CanBeFollowed;
 use Overtrue\LaravelFollow\Traits\CanFollow;
 use Overtrue\LaravelFollow\Traits\CanSubscribe;
-use Overtrue\LaravelFollow\Traits\CanBeFollowed;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Ty666\LaravelVote\Traits\CanVote;
 
 class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubject
 {
@@ -66,6 +66,11 @@ class User extends Authenticatable implements \Tymon\JWTAuth\Contracts\JWTSubjec
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function collections()
+    {
+        return $this->hasMany(Collection::class);
     }
 
     /**

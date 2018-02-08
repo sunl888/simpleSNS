@@ -6,12 +6,14 @@
 
 namespace App\Transformers;
 
+use App\Models\Collection;
 use App\Models\User;
 
 class UserTransformer extends BaseTransformer
 {
-    /*protected $availableIncludes = ['avatar'];
-    protected $defaultIncludes = ['avatar'];*/
+    protected $availableIncludes = ['collections','subscribe_collections'];
+
+    /*protected $defaultIncludes = ['avatar'];*/
 
     public function transform(User $user)
     {
@@ -32,11 +34,22 @@ class UserTransformer extends BaseTransformer
         ];
     }
 
-    /*public function includeAvatar(User $user)
+    // 创建的收藏集
+    public function includeCollections(User $user)
     {
-        if (!$user->avatar) {
+        if ($user->collections->isEmpty()) {
             return $this->null();
         }
-        return $this->item($user->avatar, new ImageTransformer());
-    }*/
+        return $this->collection($user->collections, new CollectionTransformer());
+    }
+
+    // 订阅的收藏集
+    public function includeSubscribeCollections(User $user)
+    {
+        $subscriptions = $user->subscriptions(Collection::class)->get();
+        if ($subscriptions->isEmpty()) {
+            return $this->null();
+        }
+        return $this->collection($subscriptions, new CollectionTransformer());
+    }
 }

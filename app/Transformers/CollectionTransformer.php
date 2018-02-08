@@ -10,6 +10,8 @@ use App\Models\Collection;
 
 class CollectionTransformer extends BaseTransformer
 {
+    protected $availableIncludes = ['subscribers'];
+
     public function transform(Collection $collection)
     {
         return [
@@ -22,9 +24,19 @@ class CollectionTransformer extends BaseTransformer
             // 收藏集创建者
             'user' => $collection->user,
             // 收藏集订阅者s
-            'subscriptions' => $collection->subscribers,
+            //'subscriptions' => $collection->subscribers,
             'created_at'    => toIso8601String($collection->created_at),
             'updated_at'    => toIso8601String($collection->updated_at),
         ];
+    }
+
+    // 收藏集的订阅者s
+    public function includeSubscribers(Collection $collection)
+    {
+        $subscribers = $collection->subscribers;
+        if ($subscribers->isEmpty()) {
+            return $this->null();
+        }
+        return $this->collection($subscribers, new UserTransformer());
     }
 }

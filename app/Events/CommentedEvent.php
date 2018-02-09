@@ -36,7 +36,7 @@ class CommentedEvent
             $post = Post::findOrFail($comment->commentable_id);
             $this->to = $post->user;
             $this->message = [
-                'message' => $from->username . '评论了你的文章：' . $post->title,
+                'message' => '你的文章有了新的评论',
             ];
         }
     }

@@ -1,5 +1,5 @@
 <template>
-<div class="profile">
+<div class="profile clear_fixed">
   <mu-flexbox class="profile" orient="vertical">
     <mu-flexbox-item>
       <mu-paper class="profile_top">
@@ -13,19 +13,13 @@
       </mu-paper>
     </mu-flexbox-item>
   </mu-flexbox>
-  <p>收藏集</p>
-  <mu-flexbox :gutter="50" wrap="wrap" class="collect">
+  <p>我的收藏集<router-link :to="{name: 'all_collections'}">更多</router-link></p>
+  <mu-flexbox justify="space-between" class="collect">
     <mu-flexbox-item>
-      <collect-create v-on:openCCP = "openCCP"></collect-create>
+      <collect-create v-on:openCMP = "isCreatePanel = true"></collect-create>
     </mu-flexbox-item>
-    <mu-flexbox-item>
-      <collect-card></collect-card>
-    </mu-flexbox-item>
-    <mu-flexbox-item>
-      <collect-card></collect-card>
-    </mu-flexbox-item>
-    <mu-flexbox-item>
-      <collect-card></collect-card>
+    <mu-flexbox-item v-for="(value, index) in (me.collections.data.slice(0, this.column) || myCollection)" :key="index">
+      <collect-card :value="value.id" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color"></collect-card>
     </mu-flexbox-item>
   </mu-flexbox>
   <p>动态</p>
@@ -35,7 +29,7 @@
     </mu-flexbox-item>
   </mu-flexbox>
   <mask-box :isMask = "isCreatePanel">
-    <collect-made-panel v-on:closeCMP = "isCreatePanel = false" type="create" v-on:closeCCP = "closeCCP"></collect-made-panel>
+    <collect-made-panel v-on:closeCMP = "isCreatePanel = false" type="create"></collect-made-panel>
   </mask-box>
 </div>
 </template>
@@ -52,34 +46,51 @@ export default{
   },
   data () {
     return {
+      // 当前窗口宽度
+      winSize: document.documentElement.clientWidth,
+      column: this.winSize > 1400 ? 5 : (this.winSize > 1023 ? 3 : (this.winSize > 600 ? 2 : 1)),
       // 是否显示创建收藏集面板
-      isCreatePanel: false
+      isCreatePanel: false,
+      // 我的收藏集
+      myCollection: []
     };
   },
   computed: {
     // 获取个人信息
     me () {
-      return this.$store.state.me === null ? {} : this.$store.state.me;
+      return this.$store.state.me === null ? null : this.$store.state.me;
     }
   },
+  mounted () {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
+  },
   methods: {
-    // 打开创建收藏集面板
-    openCCP () {
-      this.isCreatePanel = true;
+    // 监听分辨率分栏
+    handleResize () {
+      if (this.me !== null) {
+        this.winSize = document.documentElement.clientWidth;
+        this.column = this.winSize > 1400 ? 5 : (this.winSize > 1023 ? 3 : 1);
+        this.myCollection = this.me.collections.data.slice(0, this.column);
+      } else {
+        this.myCollection = null;
+      }
     },
-    // 关闭创建收藏集面板
-    closeCCP () {
-      this.isCreatePanel = false;
-    }
   }
 };
 </script>
 <style lang="less">
 .profile{
   &>p{
+    width: 100%;
     padding: 30px 0 20px;
     font-size: 18px;
     color: #666;
+    float: left;
+    a{
+      float: right;
+      color: #20a0ff;
+    }
   }
 }
 .profile_top{
@@ -128,6 +139,9 @@ export default{
 }
 .a{
   height: 1000px;
+}
+.collect{
+  overflow: auto;
 }
 @media (max-width: 900) {
 .collect{

@@ -23,11 +23,11 @@ Route::group(['namespace' => 'Api'], function () {
     });
     // 文章管理 include=post_content
     Route::apiResource('posts', 'PostController');
-    /**
+    /*
      * include=subscribers 收藏集的订阅者
      */
     Route::apiResource('collections', 'CollectionController');
-    /**
+    /*
      * 用户信息更新
      *
      * email  邮箱
@@ -42,13 +42,14 @@ Route::group(['namespace' => 'Api'], function () {
      */
     Route::match(['put', 'patch'], 'user/{user}', 'UserController@update');
     /**
+
      * 显示用户信息
      *
      * include=collections 用户创建的收藏集
      * include=subscribe_collections 用户订阅的收藏集
      */
     Route::get('user', 'UserController@show');
-    /**
+    /*
      * 头像上传
      *
      * file_key => image

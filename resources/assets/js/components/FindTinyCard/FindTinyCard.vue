@@ -39,6 +39,7 @@ export default{
 </script>
 <style lang="less">
 .find_tiny_card{
+  width: 100%;
   .mu-card{
     margin: 10px 0;
     span{

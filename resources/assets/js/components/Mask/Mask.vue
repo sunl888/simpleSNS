@@ -19,18 +19,21 @@ export default{
 };
 </script>
 <style lang="less">
+body{
+  position: relative;
+}
 .mask{
   width: 100%;
   height: 100%;
   // padding: 20%; 
   position: fixed;
-  overflow: auto;
+  // overflow: auto;
   top: 0;
   z-index: 11;
   left: 0;
   background: rgba(0, 0, 0, 0.6);
   .mask_inner{
-    width: 50%;
+    width: 70%;
     min-width: 350px;
     position: absolute;
     left: 50%;

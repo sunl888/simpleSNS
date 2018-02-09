@@ -2,7 +2,7 @@
   <div class="index clear_fixed">
     <mu-flexbox :gutter="40" align="flex-start" justify="center">
       <mu-flexbox-item class="flex-demo">
-        <article-create v-on:openACP = "openACP"></article-create>
+        <article-create v-on:openACP = "isCreatePanel = true"></article-create>
         <article-card v-for="(x, index) in cols.col1" :key="index" :content="x.title" :nickname="x.user.nickname" :collection="x.collection.title">
           <span>热点信息</span>
         </article-card>
@@ -19,7 +19,7 @@
       </mu-flexbox-item>
     </mu-flexbox>
     <mask-box :isMask = "isCreatePanel">
-      <article-create-panel v-on:closeACP = "closeACP"></article-create-panel>
+      <article-create-panel v-on:closeACP = "isCreatePanel = false"></article-create-panel>
     </mask-box>
   </div>
 </template>
@@ -51,14 +51,6 @@ export default{
     window.addEventListener('resize', this.handleResize);
   },
   methods: {
-    // 打开新建文章面板
-    openACP () {
-      this.isCreatePanel = true;
-    },
-    // 关闭新建文章面板
-    closeACP () {
-      this.isCreatePanel = false;
-    },
     // 监听分辨率分栏
     handleResize () {
       this.winSize = document.documentElement.clientWidth;

@@ -41,7 +41,7 @@ Route::group(['namespace' => 'Api'], function () {
      * name 名称
      */
     Route::match(['put', 'patch'], 'user/{user}', 'UserController@update');
-    /**
+    /*
 
      * 显示用户信息
      *

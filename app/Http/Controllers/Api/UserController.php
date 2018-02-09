@@ -6,13 +6,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\FollowedEvent;
-use App\Exceptions\PermissionDeniedException;
-use App\Http\Controllers\ApiController;
-use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Events\FollowedEvent;
+use App\Http\Requests\UserRequest;
 use App\Repositories\UserRepository;
 use App\Transformers\UserTransformer;
+use App\Http\Controllers\ApiController;
+use App\Exceptions\PermissionDeniedException;
 
 class UserController extends ApiController
 {
@@ -54,6 +54,7 @@ class UserController extends ApiController
             throw new PermissionDeniedException('哼，想修改别人的信息，经过我同意了嘛 ┌( ಠ_ಠ)┘');
         }
         $userRepository->update($request->all(), $user);
+
         return $this->response()->noContent();
     }
 }

@@ -1,12 +1,12 @@
 <template>
-  <mu-flexbox @click.native="$router.push({name: 'collection', params: {collection_id: value}})" class="collect_card" orient="vertical">
+  <mu-flexbox :style="{background : color}" @click.native="$router.push({name: 'collection', params: {collection_id: value}})" class="collect_card" orient="vertical">
     <mu-flexbox-item class="collect_top">
       <img :src="cover">
     </mu-flexbox-item>
     <mu-flexbox-item class="my_photo">
       <img :src="avator">
     </mu-flexbox-item>
-    <mu-flexbox-item class="collect_bottom" :style="{background : color}">
+    <mu-flexbox-item class="collect_bottom clear_fixed">
       <strong>{{title}}</strong>
       <mu-raised-button class="order_collection" icon="add">订阅</mu-raised-button>
     </mu-flexbox-item>
@@ -36,12 +36,13 @@ export default{
   background: #ddd; 
   position: relative;
   min-width: 150px;
+  padding: 0 0 10px 0;
   border-radius: 5px;
   margin: 0 0 40px 0;
   overflow: hidden;
   box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.2);
   .collect_top{
-    height: 70%;
+    height: 60%;
   }
   .collect_top>img{
     width: 100%;
@@ -52,8 +53,8 @@ export default{
     width: 50px;
     height: 50px;
     overflow: hidden;
-    top: 70%;
-    transform: translateY(-70%);
+    top: 55%;
+    transform: translateY(-60%);
     left: 20px;
     border-radius: 50%;
     border: 2px solid #fff;
@@ -63,9 +64,11 @@ export default{
     }
   }
   .collect_bottom{
-    height: 50%;
     padding: 30px 20px;
     margin-top: -8px!important;
+    .mu-raised-button{
+      min-width: 70px;
+    }
     &>strong{
       color: #fff;
       font-size: 17px;
@@ -77,6 +80,7 @@ export default{
   }
   .order_collection{
     float: right;
+    margin-top: 20px;
     margin-right: 5px;
   }
 }

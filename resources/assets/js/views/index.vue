@@ -3,23 +3,23 @@
     <mu-flexbox :gutter="40" align="flex-start" justify="center">
       <mu-flexbox-item class="flex-demo">
         <article-create v-on:openACP = "isCreatePanel = true"></article-create>
-        <article-card v-for="(x, index) in cols.col1" :key="index" :content="x.title" :nickname="x.user.nickname" :collection="x.collection.title">
+        <article-card v-for="(x, index) in cols.col1" :cover="x.cover.url" :avatar="x.user.avatar_hash.url" :key="index" :content="x.post_content.data.content" :nickname="x.user.nickname" :collection="x.collection">
           <span>热点信息</span>
         </article-card>
       </mu-flexbox-item>
       <mu-flexbox-item v-if="this.column > 1" class="flex-demo">
-        <article-card v-for="(x, index) in cols.col2" :key="index" :content="x.title" :nickname="x.user.nickname" :collection="x.collection.title">
+        <article-card v-for="(x, index) in cols.col2" :cover="x.cover.url" :avatar="x.user.avatar_hash.url"  :key="index" :content="x.post_content.data.content" :nickname="x.user.nickname" :collection="x.collection">
           <span>热点信息</span>
         </article-card>     
       </mu-flexbox-item>
       <mu-flexbox-item v-if="this.column > 2" class="flex-demo">
-        <article-card v-for="(x, index) in cols.col3" :key="index" :content="x.title" :nickname="x.user.nickname" :collection="x.collection.title">
+        <article-card v-for="(x, index) in cols.col3" :cover="x.cover.url" :avatar="x.user.avatar_hash.url" :key="index" :content="x.post_content.data.content" :nickname="x.user.nickname" :collection="x.collection">
           <span>热点信息</span>
         </article-card> 
       </mu-flexbox-item>
     </mu-flexbox>
     <mask-box :isMask = "isCreatePanel">
-      <article-create-panel v-on:closeACP = "isCreatePanel = false"></article-create-panel>
+      <article-create-panel @updatePost = "isCreatePanel=false; getItem()" v-on:closeACP = "isCreatePanel = false"></article-create-panel>
     </mask-box>
   </div>
 </template>
@@ -69,8 +69,8 @@ export default{
     },
     // 获取文章
     async getItem () {
-      await this.$http.get('posts').then(res => {
-        this.item = res.data.data;
+      await this.$http.get('posts?include=post_content').then(res => {
+        this.item = res.data.data.reverse();
       });
       this.handleResize();
     }

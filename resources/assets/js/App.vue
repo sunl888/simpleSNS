@@ -60,4 +60,15 @@ html, body, #app{
     background: #3884fd;
   }
 }
+ .mu-flat-button.uploadEle{
+  position: absolute;
+  top: 180px;
+  right: 20px;
+  border-radius: 50%;
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.3);
+}
 </style>

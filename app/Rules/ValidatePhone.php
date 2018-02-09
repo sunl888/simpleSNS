@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 class ValidatePhone implements Rule
 {
     /**
-     * 手机号码正则
+     * 手机号码正则.
      */
     const PHONEREG = '/^(13[0-9]|14[579]|15[0-3,5-9]|17[0135678]|18[0-9])\\d{8}$/';
 
@@ -33,7 +33,8 @@ class ValidatePhone implements Rule
     public function passes($attribute, $value)
     {
         $this->value = $value;
-        return (bool)preg_match(self::PHONEREG, $value);
+
+        return (bool) preg_match(self::PHONEREG, $value);
     }
 
     /**
@@ -43,6 +44,6 @@ class ValidatePhone implements Rule
      */
     public function message()
     {
-        return "你这个手机号码是假的吧 (/◔ ◡ ◔)/";
+        return '你这个手机号码是假的吧 (/◔ ◡ ◔)/';
     }
 }

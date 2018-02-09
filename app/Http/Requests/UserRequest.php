@@ -6,8 +6,8 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\FieldHasExisted;
 use App\Rules\ValidatePhone;
+use App\Rules\FieldHasExisted;
 
 class UserRequest extends Request
 {

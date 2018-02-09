@@ -6,9 +6,9 @@
 
 namespace App\Repositories;
 
-use App\Models\Post;
 use Auth;
 use Carbon\Carbon;
+use App\Models\Post;
 
 class PostRepository extends BaseRepository
 {

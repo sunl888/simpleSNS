@@ -7,6 +7,7 @@
 namespace App\Http\Requests;
 
 use App\Rules\FieldHasExisted;
+use App\Rules\ValidatePhone;
 
 class UserRequest extends Request
 {
@@ -36,8 +37,9 @@ class UserRequest extends Request
             case 'PUT':
             case 'PATCH':
                 return [
+                    // todo email 和 tel_num 必须是唯一的 用于登陆使用
                     'email'   => ['bail', 'nullable', 'string', 'email', new FieldHasExisted()], // email
-                    'tel_num' => ['bail', 'nullable', 'string', 'regex:/\d{11}/', new FieldHasExisted()], // 手机号码
+                    'tel_num' => ['bail', 'nullable', 'string', new FieldHasExisted(), new ValidatePhone()], // 手机号码
                     //'password' =>     ['bail', 'nullable', 'string', 'min:6'],// 密码
                     'nickname'     => ['bail', 'nullable', 'string', 'min:4'], // 昵称
                     'avatar_hash'  => 'bail|nullable|size:32|exists:images,hash',

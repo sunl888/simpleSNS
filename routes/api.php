@@ -40,7 +40,7 @@ Route::group(['namespace' => 'Api'], function () {
      * company 公司
      * name 名称
      */
-    Route::match(['put', 'patch'], 'user', 'UserController@update');
+    Route::match(['put', 'patch'], 'user/{user}', 'UserController@update');
     /**
      * 显示用户信息
      *

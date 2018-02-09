@@ -6,10 +6,9 @@
 
 namespace App\Repositories;
 
+use App\Models\Post;
 use Auth;
 use Carbon\Carbon;
-use App\Models\Post;
-use App\Services\PostService;
 
 class PostRepository extends BaseRepository
 {
@@ -27,22 +26,22 @@ class PostRepository extends BaseRepository
     {
         $this->filterData($data);
 
-        $postService = app(PostService::class);
         if (! isset($data['published_at'])) {
             $data['published_at'] = Carbon::now();
         }
         if (! isset($data['status'])) {
-            $data['status'] = Post::STATUS_DRAFT;
+            $data['status'] = Post::STATUS_PUBLISH;
         }
 
-        /*if (! isset($data['excerpt'])) {
+        /*$postService = app(PostService::class);
+        if (! isset($data['excerpt'])) {
             $data['excerpt'] = $postService->makeExcerpt($data['content']);
         }*/
 
         $data['user_id'] = Auth::id();
         //$data['slug'] = $this->model->generateSlug($data['title']);
         $data['up_votes_count'] = 0;
-        $data['comment_count'] = 0;
+        $data['comments_count'] = 0;
 
         return $data;
     }

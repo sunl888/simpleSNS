@@ -54,7 +54,7 @@ export default{
         localStorage.setItem('jwt_token', res.data.access_token);
       });
       await this.$store.dispatch('updateMe');
-      // this.$router.push({name: 'home'});
+      this.$router.push({name: 'home'});
     }
   }
 };

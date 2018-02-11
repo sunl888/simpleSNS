@@ -8,12 +8,17 @@
     </mu-flexbox-item>
     <mu-flexbox-item class="collect_bottom clear_fixed">
       <strong>{{title}}</strong>
-      <mu-raised-button class="order_collection" icon="add">订阅</mu-raised-button>
+      <mu-raised-button @click.native.stop="orderCollection" class="order_collection">{{isSubscribe === false ? '订阅' : '取消订阅'}}</mu-raised-button>
     </mu-flexbox-item>
   </mu-flexbox>
 </template>
 <script>
 export default{
+  data () {
+    return {
+      isSubscribe: false
+    };
+  },
   props: {
     cover: String,
     avator: String,
@@ -22,9 +27,17 @@ export default{
     value: Number
   },
   methods: {
-    // path () {
-    //   this.$router.push({name: 'collection'});
-    // }
+    // 订阅收藏集
+    orderCollection () {
+      this.isSubscribe = !this.isSubscribe;
+      this.$http.post('collections/' + this.value + '/subscribe').then(res => {
+        if (this.isSubscribe) {
+          this.$alert('已经成功订阅收藏集《' + this.title + '》', 'primary');
+        } else {
+          this.$alert('已经取消订阅收藏集《' + this.title + '》', 'primary');
+        }
+      });
+    },
   }
 };
 </script>

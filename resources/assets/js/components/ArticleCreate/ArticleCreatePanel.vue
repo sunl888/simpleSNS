@@ -54,6 +54,9 @@ export default{
     CollectionSelect,
     CollectMadePanel
   },
+  props: {
+    editID: Number
+  },
   data () {
     return {
       // 菜单弹出位置
@@ -79,7 +82,11 @@ export default{
       return this.$store.state.me === null ? {} : this.$store.state.me;
     }
   },
-  mounted () {},
+  mounted () {
+    if (this.editID !== null) {
+      this.getItem();
+    }
+  },
   methods: {
     handleChange (val) {
       this.formData.status = val;
@@ -88,11 +95,17 @@ export default{
       this.collection = collection;
       this.formData.collection_id = collection.id;
     },
-    // 发布文章
+    // 发布文章 || 修改文章
     createArticle () {
-      this.$http.post('posts', this.formData).then(res => {
-        this.$emit('updatePost');
-      });
+      if (this.editID === null) {
+        this.$http.post('posts', this.formData).then(res => {
+          this.$emit('updatePost');
+        });
+      } else {
+        this.$http.put('posts/' + this.editID, this.formData).then(res => {
+          this.$emit('updatePost');
+        });
+      }
     },
     // 上传图片
     uploadImg () {
@@ -104,6 +117,20 @@ export default{
       }).then(res => {
         this.formData.cover = res.data.image_hash;
         this.cover_url = res.data.image_url;
+      });
+    },
+    // 获取文章详情
+    getItem () {
+      this.$http.get('posts/' + this.editID + '?include=post_content').then(res => {
+        this.formData = {
+          collection_id: res.data.data.collection.id,
+          content: res.data.data.post_content.data.content,
+          cover: res.data.data.cover.hash,
+          status: res.data.data.status,
+          published_at: res.data.data.published_at
+        };
+        this.collection = res.data.data.collection;
+        this.cover_url = res.data.data.cover.url;
       });
     }
   }

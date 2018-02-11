@@ -5,10 +5,25 @@
       <mu-paper class="profile_top">
         <img :src="me.avatar_hash.cover_url">
         <!-- <img src="../assets/images/bg.png"> -->
-        <div class="modify_box">
+        <div class="modify_box clear_fixed">
           <img :src="me.avatar_hash.url">
           <strong>{{me.nickname}}</strong>
           <mu-raised-button @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
+          <div class="more">
+            <p>
+              <strong>真实姓名 {{me.name}}</strong>
+              <strong>手机号码 {{me.tel_num}}</strong>
+              <strong>邮箱 {{me.email}}</strong> 
+            </p>
+            <p>
+              <strong>城市 {{me.city}}</strong>
+              <strong>详细地址 {{me.location}}</strong>
+              <strong>所属公司 {{me.company}}</strong>
+            </p>
+            <p>
+              <strong>个性签名 {{me.introduction}}</strong>
+            </p>
+          </div>
         </div>
       </mu-paper>
     </mu-flexbox-item>
@@ -114,10 +129,11 @@ export default{
 }
 .modify_box{
   width: 100%;
-  padding: 20px 20px;
+  padding: 80px 20px;
   flex-direction: row;
   position: absolute;
   bottom: 0;
+  // position: relative;
   background-image: -webkit-linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.46));
   background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.46)); 
   &>img, &>strong{
@@ -139,6 +155,10 @@ export default{
   &>.mu-raised-button{
     float: right;
     margin-top: 15px;
+  }
+  .more{
+    position: absolute;
+    bottom: 0;
   }
 }
 .profile_article{

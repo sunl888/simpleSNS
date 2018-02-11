@@ -128,9 +128,8 @@ export default {
       this.$http.post('ajax_upload_image', formData, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(res => {
-        this.formData.avator_hash = res.data.image_url;
+        this.formData.avator_hash = res.data.image_hash;
         this.formData.avator = res.data.image_url;
-        console.log(this.formData);
       });
     },
     async submitMine () {
@@ -149,12 +148,14 @@ export default {
 </script>
 <style lang="less">
 .edit_me{
+  max-height: 100%;
+  overflow: hidden;
   .mu-appbar{
     background: transparent;
     color: #444;
   }
   .cover{
-    height: 200px;
+    height: 180px;
     border-bottom: 1px solid #444;
     &>img{
       width: 100%;
@@ -170,7 +171,7 @@ export default {
     width: 80px;
     height: 80px;
     left: 50%;
-    top: 215px;
+    top: 195px;
     transform: translateX(-50%);
     img{
       width: 100%;
@@ -178,7 +179,7 @@ export default {
     }
   }
   .form{
-    padding: 50px 10%;
+    padding: 40px 10% 0;
   }
   .city_select_text{
     line-height: 80px;

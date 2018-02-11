@@ -19,7 +19,7 @@
         <span>{{item.user.nickname}}</span>
         <h2>{{item.title}}</h2>
         <p>{{item.introduction}}</p>
-        <mu-raised-button @click="orderCollection" class="order_collection">{{isSubscribe === true ? '- 取消订阅' : '+ 订阅'}}</mu-raised-button>
+        <mu-raised-button @click.native="orderCollection" class="order_collection">{{isSubscribe === true ? '取消订阅' : '订阅'}}</mu-raised-button>
       </div>
     </mu-flexbox-item>
     <mu-flexbox-item class="collects">
@@ -71,16 +71,16 @@ export default{
       this.isSubscribe = !this.isSubscribe;
       this.$http.post('collections/' + this.$route.params.collection_id + '/subscribe').then(res => {
         if (this.isSubscribe) {
-          this.$alert('已经成功订阅(∩_∩)', 'primary');
+          this.$alert('已经成功订阅收藏集《' + this.formData.title + '》', 'primary');
         } else {
-          this.$alert('已经取消订阅(∩_∩)', 'primary');
+          this.$alert('已经取消订阅收藏集《' + this.formData.title + '》', 'primary');
         }
       });
     },
     // 删除收藏集
     deleteCollection () {
       this.$http.delete('collections/' + this.$route.params.collection_id).then(res => {
-        this.$alert('你已经成功删除此收藏集咯', 'primary');
+        this.$alert('你已经成功删除此收藏集', 'primary');
         this.$store.dispatch('updateMe');
         this.$router.back();
       });

@@ -37,8 +37,9 @@ export default {
 </script>
 <style lang="less">
 .collection_select{
+  overflow: auto;
   width: 100%;
-  max-height: 600px;
+  max-height: 500px;
   overflow: auto;
   .collects{
     padding: 0 20px 20px;

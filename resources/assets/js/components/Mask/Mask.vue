@@ -35,6 +35,7 @@ body{
   .mask_inner{
     width: 70%;
     min-width: 350px;
+    max-width: 500px;
     position: absolute;
     left: 50%;
     top: 50%;

@@ -6,7 +6,7 @@
         <img v-else :src="me.avatar_hash.url"> 
         <strong>{{me.nickname}}</strong>
         <i class="material-icons">play_arrow</i>
-        <a @click="isCS = true">{{ collection === null || collection.title === null ? '选择收藏集' : collection.title}}</a>
+        <p @click="isCS = true">{{ collection === null || collection.title === null ? '选择收藏集' : collection.title}}</p>
       </div>
       <mu-icon-menu
         slot="right"
@@ -19,7 +19,7 @@
       </mu-icon-menu>
     </mu-appbar>
     <textarea v-model="formData.content" placeholder="有什么新鲜事要分享吗" class="type_words"></textarea>
-    <img class="article_img_cover" v-if="formData.cover_url !== null" :src="formData.cover_url" alt="">
+    <img class="article_img_cover" v-if="formData.cover_url !== null" :src="cover_url" alt="">
     <div class="text_bar clear_fixed">
       <mu-flat-button icon="photo_camera" class="demo-flat-button">
         <input ref="uploadEle" @change="uploadImg" type="file" class="file-button">
@@ -63,11 +63,11 @@ export default{
       // 是否显示创建收藏集
       isCreatePanel: false,
       collection: null,
+      cover_url: null,
       formData: {
         collection_id: null,
         content: null,
         cover: null,
-        cover_url: null,
         status: 'publish',
         published_at: null
       }
@@ -79,9 +79,7 @@ export default{
       return this.$store.state.me === null ? {} : this.$store.state.me;
     }
   },
-  mounted () {
-    console.log(this.formData);
-  },
+  mounted () {},
   methods: {
     handleChange (val) {
       this.formData.status = val;
@@ -93,8 +91,8 @@ export default{
     // 发布文章
     createArticle () {
       this.$http.post('posts', this.formData).then(res => {
-        console.log(res);
-      })
+        this.$emit('updatePost');
+      });
     },
     // 上传图片
     uploadImg () {
@@ -105,9 +103,9 @@ export default{
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(res => {
         this.formData.cover = res.data.image_hash;
-        this.formData.cover_url = res.data.image_url;
+        this.cover_url = res.data.image_url;
       });
-    },
+    }
   }
 };
 </script>
@@ -133,7 +131,7 @@ export default{
       border-radius: 50%;
       background: #A0C3FF;
     }
-    &>span, &>img, &>strong, &>i, &>a{
+    &>span, &>img, &>strong, &>i{
       float: left;
       line-height: 64px;
     }
@@ -144,9 +142,13 @@ export default{
       font-size: 14px;
       margin: 0 5px;
     }
-    &>a{
+    &>p{
       font-size: 15px;
       color: #20a0ff;
+      line-height: 64px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
     }
   }
   .mu-appbar{
@@ -187,6 +189,7 @@ export default{
   }
   .article_img_cover{
     // width: 100%;
+    max-width: 80%;
     max-height: 300px;
     margin: 10px auto;
     display: block;

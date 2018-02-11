@@ -4,8 +4,10 @@
   <mu-icon-button v-if="closeable" @click="closeArticleCard" icon="cancel"></mu-icon-button>
   <div @mouseenter="cardMenu = true" @click="chhoseThePanel()" :class="{'active_panel' : wasChoose === true}"  @mouseleave="cardMenu = false">
     <mu-card class="clear_fixed">
-      <mu-card-header :title="nickname" :subTitle="collection">
-        <mu-avatar src="../../assets/images/temp.png" slot="avatar"/>
+      <mu-card-header class="clear_fixed" :title="nickname">
+        <mu-avatar :src="avatar" slot="avatar"/>
+        <i class="material-icons">play_arrow</i>
+        <router-link :to="{name: 'collection', params: {collection_id: collection.id}}" class="mu-card-sub-title"> {{collection.title}}</router-link>
         <div v-if="cardMenu" class="time">
           <mu-icon-button icon="open_in_new"></mu-icon-button>
           <mu-icon-menu
@@ -24,7 +26,7 @@
         {{content}}
       </mu-card-text>
       <mu-card-media>
-        <img src="../../assets/images/temp.jpg" />
+        <img :src="cover" />
       </mu-card-media>
       <div class="all_comments_box">
         <a>显示所有评论(共5条)</a>
@@ -79,7 +81,9 @@ export default{
     // 所属收藏集
     collection: '',
     // 内容
-    content: ''
+    content: '',
+    // 文章插图
+    cover: ''
   },
   methods: {
     chhoseThePanel () {
@@ -111,6 +115,22 @@ export default{
   // float: right;
   // min-width: 420px;
   // margin-right: 15px;
+  .mu-card-header{
+    .mu-avatar, .mu-card-header-title, .mu-card-title, .mu-card-sub-title, &>i{
+        display: block;
+        line-height: 40px;
+        float: left;
+      }
+      .mu-card-sub-title{
+        color: #20a0ff;
+      }
+    .mu-card-header-title{
+      padding-right: 10px;
+    }
+  }
+  .mu-card-text{
+    word-wrap:break-word;
+  }
   span{
     color: #888;
     padding: 5px;

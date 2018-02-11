@@ -52,6 +52,7 @@ export default{
     };
   },
   mounted () {
+    localStorage.clear();
     if (localStorage.i < 59) {
       this.vaildBtn();
     }

@@ -12,7 +12,7 @@
         <mu-icon-button @click="currentIcon = index" >
           <i :class="{'active_icon' : currentIcon === index}" class="material-icons">{{value.icon}}</i>
         </mu-icon-button>
-        <tiny-panel v-if="currentIcon === index" :botOffset="index * 45" :templateType = "index">
+        <tiny-panel @closeTP="currentIcon = null" v-if="currentIcon === index" :botOffset="index * 45" :templateType = "index">
         </tiny-panel>
       </div>
     </div>
@@ -50,6 +50,7 @@ export default{
     };
   },
   mounted () {
+    this.isLogin = isLogin();
   },
   methods: {
     expendMenu () {

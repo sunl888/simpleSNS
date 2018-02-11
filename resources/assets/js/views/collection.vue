@@ -73,9 +73,9 @@ export default{
         if (this.isSubscribe) {
           this.$alert('已经成功订阅(∩_∩)', 'primary');
         } else {
-          this.$alert('已经取消订阅(∩_∩)', 'primary');          
+          this.$alert('已经取消订阅(∩_∩)', 'primary');
         }
-      })
+      });
     },
     // 删除收藏集
     deleteCollection () {
@@ -136,6 +136,7 @@ export default{
       color: #fff;
       padding: 0 30px;
       margin-top: -30px;
+      word-wrap:break-word;
       span, h2, p{
         margin-top: 5px;
       }

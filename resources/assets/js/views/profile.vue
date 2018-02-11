@@ -8,7 +8,7 @@
         <div class="modify_box">
           <img :src="me.avatar_hash.url">
           <strong>{{me.nickname}}</strong>
-          <mu-raised-button>修改资料</mu-raised-button>
+          <mu-raised-button @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
         </div>
       </mu-paper>
     </mu-flexbox-item>
@@ -31,18 +31,23 @@
   <mask-box :isMask = "isCreatePanel">
     <collect-made-panel v-on:closeCMP = "isCreatePanel = false" type="create"></collect-made-panel>
   </mask-box>
+  <mask-box :isMask = "isEditMe">
+    <edit-me @closeEM="isEditMe = false"></edit-me>
+  </mask-box>
 </div>
 </template>
 <script>
 import {CollectCard, CollectCreate} from '../components/CollectCard';
 import {CollectMadePanel} from '../components/CollectMade';
+import EditMe from '../components/EditMe/EditMe.vue';
 import ArticleCard from '../components/ArticleCard/ArticleCard.vue';
 export default{
   components: {
     CollectCard,
     CollectCreate,
     CollectMadePanel,
-    ArticleCard
+    ArticleCard,
+    EditMe
   },
   data () {
     return {
@@ -52,7 +57,9 @@ export default{
       // 是否显示创建收藏集面板
       isCreatePanel: false,
       // 我的收藏集
-      myCollection: []
+      myCollection: [],
+      // 是否显示修改资料面板
+      isEditMe: false
     };
   },
   computed: {

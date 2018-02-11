@@ -2,7 +2,7 @@
   <div class="tiny_panel">
     <span class="bot" :style="{transform: 'translateX(' + botOffset + 'px)'}"></span>
     <span class="top" :style="{transform: 'translateX(' + botOffset + 'px)'}"></span>
-    <i @click="closeWindow()" class="material-icons close_window">close</i>
+    <i @click="$emit('closeTP')" class="material-icons close_window">close</i>
     <slot>
       <!-- 个人资料 -->
       <div v-if="templateType === 2" class="my_profile">
@@ -17,7 +17,7 @@
             <h3>{{me.nickname}}</h3>
             <p>{{me.tel_num}}</p>
             <p>{{me.email}}</p>
-            <a class="theme_btn">{{me.tel_num === null ? '完善资料' : '更多资料'}}</a>
+            <a @click="$router.push({name: 'profile'});$emit('closeTP')" class="theme_btn">{{me.tel_num === null ? '完善资料' : '更多资料'}}</a>
           </div>
         </div>
         <div class="my_profile_tool clear_fixed">

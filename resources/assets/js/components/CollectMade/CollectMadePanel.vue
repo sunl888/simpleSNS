@@ -8,7 +8,7 @@
       <div class="cover">
         <img v-if="formData.cover_url === null" src="../../assets/images/bg.png" alt="">
         <img v-else :src="formData.cover_url" alt="">
-        <mu-flat-button icon="photo_camera" class="demo-flat-button">
+        <mu-flat-button icon="photo_camera" class="demo-flat-button uploadEle">
           <input ref="uploadEle" @change="uploadImg" type="file" class="file-button">
         </mu-flat-button>
       </div>
@@ -126,17 +126,6 @@ export default{
         width: 100%;
         height: 260px;
       }
-      .mu-flat-button{
-        position: absolute;
-        top: 180px;
-        right: 20px;
-        border-radius: 50%;
-        width: 50px;
-        min-width: 50px;
-        height: 50px;
-        color: #fff;
-        background: rgba(0, 0, 0, 0.3);
-      }
     }
     .content{
       color: #fff;
@@ -153,6 +142,12 @@ export default{
         overflow-Y: hidden;
         outline: none;
         background: transparent;
+      }
+      textarea{
+        max-height: 90px;
+        overflow: auto;
+        overflow-y: scroll;
+        overflow-y: hidden;
       }
       .mu-text-field-help{
         color: #fff;

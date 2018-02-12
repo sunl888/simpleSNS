@@ -1,5 +1,5 @@
 <template>
-<div class="profile clear_fixed">
+<div v-if="me !== null" class="profile clear_fixed">
   <mu-flexbox class="profile" orient="vertical">
     <mu-flexbox-item>
       <mu-paper class="profile_top">

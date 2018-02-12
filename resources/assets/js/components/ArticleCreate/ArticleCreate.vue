@@ -1,5 +1,5 @@
 <template>
-  <mu-paper class="demo-paper clear_fixed" :zDepth="1">
+  <mu-paper v-if="me !== null" class="demo-paper clear_fixed" :zDepth="1">
     <div class="article_photo">
       <span v-if="me.avatar_hash === null">{{me.nickname.substr(0, 1)}}</span>
       <img v-else :src="me.avatar_hash.url">
@@ -16,10 +16,8 @@ export default{
   },
   computed: {
     me () {
-      return this.$store.state.me === null ? {} : this.$store.state.me;
+      return this.$store.state.me === null ? null : this.$store.state.me;
     }
-  },
-  mounted () {
   },
   methods: {
     open_create_panel () {

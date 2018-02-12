@@ -60,9 +60,15 @@ export default new Router({
           component: require('../views/collection.vue')
         },
         {
-          path: 'all_collections/:user_id',
+          path: 'all_collections',
           name: 'all_collections',
           component: require('../views/find.vue')
+        },
+        {
+          path: 'notice',
+          name: 'notice',
+          meta: {title: '通知'},
+          component: require('../views/notice.vue')
         }
       ]
     }

@@ -3,17 +3,17 @@
     <mu-flexbox :gutter="40" align="flex-start" justify="center">
       <mu-flexbox-item class="flex-demo">
         <article-create v-on:openACP = "isCreatePanel = true"></article-create>
-        <article-card @openAEP="openAEP" v-for="(x, index) in cols.col1" :value="x" :key="index">
+        <article-card @openAEP="openAEP" @updatePost="getItem()" v-for="(x, index) in cols.col1" :value="x" :key="index">
           <span>热点信息</span>
         </article-card>
       </mu-flexbox-item>
       <mu-flexbox-item v-if="this.column > 1" class="flex-demo">
-        <article-card @openAEP="openAEP" v-for="(x, index) in cols.col2" :value="x" :key="index">
+        <article-card @openAEP="openAEP" @updatePost="getItem()" v-for="(x, index) in cols.col2" :value="x" :key="index">
           <span>热点信息</span>
         </article-card>     
       </mu-flexbox-item>
       <mu-flexbox-item v-if="this.column > 2" class="flex-demo">
-        <article-card @openAEP="openAEP" v-for="(x, index) in cols.col3" :key="index" :value="x">
+        <article-card @openAEP="openAEP"  @updatePost="getItem()" v-for="(x, index) in cols.col3" :key="index" :value="x">
           <span>热点信息</span>
         </article-card> 
       </mu-flexbox-item>

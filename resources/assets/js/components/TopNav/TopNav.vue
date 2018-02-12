@@ -7,14 +7,16 @@
       <span>{{$route.meta.title}}</span>
     </div>
     <search-tool></search-tool>
-    <div v-if="isLogin" class="person_tool clear_fixed" slot="right">
-      <div v-for="(value, index) in personInformation" :key="index">  
-        <mu-icon-button @click="currentIcon = index" >
-          <i :class="{'active_icon' : currentIcon === index}" class="material-icons">{{value.icon}}</i>
-        </mu-icon-button>
-        <tiny-panel @closeTP="currentIcon = null" v-if="currentIcon === index" :botOffset="index * 45" :templateType = "index">
-        </tiny-panel>
-      </div>
+    <div v-if="isLogin === true" class="person_tool clear_fixed" slot="right">
+      <mu-badge v-if="unreadCount !== 0" @click.native="$router.push({name: 'notice'})" :content="String(unreadCount)" circle secondary>
+        <mu-icon-button icon="notifications"/>
+      </mu-badge>
+      <mu-icon-button v-else @click.native="$router.push({name: 'notice'})" icon="notifications" />
+      <mu-icon-button @click="isTinyPanel = true">
+        <i :class="{'active_icon' : isTinyPanel === true}" class="material-icons">face</i>
+      </mu-icon-button>
+      <tiny-panel v-if="isTinyPanel"  @closeTP="isTinyPanel = false">
+      </tiny-panel>
     </div>
     <div class="expect_style" v-else>
       <mu-raised-button :to="{name: 'register'}"  label="注册" class="demo-raised-button"/>
@@ -39,8 +41,10 @@ export default{
       isLogin: isLogin(),
       // 是否显示菜单
       isMenu: true,
-      // 顶部导航选中的小图标
-      currentIcon: null,
+      // 是否打开小窗口
+      isTinyPanel: false,
+      // 未读通知数量
+      unreadCount: 0,
       // 图标
       personInformation: [
         {icon: 'apps'},
@@ -51,10 +55,17 @@ export default{
   },
   mounted () {
     this.isLogin = isLogin();
+    this.getNoticeCount();
   },
   methods: {
     expendMenu () {
       this.$parent.isMenu = !this.$parent.isMenu;
+    },
+    // 获取未读消息
+    getNoticeCount () {
+      this.$http.get('notifications/unread_count').then(res => {
+        this.unreadCount = res.data.unread;
+      });
     }
   }
 };
@@ -97,7 +108,7 @@ export default{
     .person_tool{
       margin-right: 15px;
     }
-    .person_tool>div{
+    .person_tool{
       font-size: 28px;
       cursor: pointer;
       line-height: 70px;
@@ -106,9 +117,15 @@ export default{
     .menu_btn>.mu-icon-button:hover, .person_tool>i:hover{
       color: #000;
     }
-    .person_tool>div{
+    .person_tool{
       // position: relative;
       float: left;
+      .mu-badge{
+        margin-left: -8px;
+      }
+      .mu-badge-float{
+        top: 6px;
+      }
     }
 }
 .active_icon{

@@ -1,11 +1,11 @@
 <template>
   <div class="tiny_panel">
-    <span class="bot" :style="{transform: 'translateX(' + botOffset + 'px)'}"></span>
-    <span class="top" :style="{transform: 'translateX(' + botOffset + 'px)'}"></span>
+    <span class="bot"></span>
+    <span class="top"></span>
     <i @click="$emit('closeTP')" class="material-icons close_window">close</i>
     <slot>
       <!-- 个人资料 -->
-      <div v-if="templateType === 2" class="my_profile">
+      <div class="my_profile">
         <div class="my_profile_top clear_fixed">
           <div class="my_photo">
             <span v-if="me.avatar_hash === null">{{me.nickname.substr(0, 1)}}</span>
@@ -31,10 +31,6 @@
 <script>
 export default{
   props: {
-    // 小面板箭头位置
-    botOffset: 0,
-    // 小面板的模板类型
-    templateType: 0
   },
   computed: {
     // 获取个人信息
@@ -86,14 +82,14 @@ export default{
     border-width:10px; 
     border-style:solid dashed dashed; 
     border-color: transparent transparent #ccc; 
-    left:230px; 
+    right: 17px; 
     top: -20px;
 }
 .tiny_panel>span.top{
     border-width:10px; 
     border-style:solid dashed dashed; 
     border-color:transparent transparent #ffffff ; 
-    left:230px; 
+    right: 17px; 
     top:-19px;
 }    
 .close_window{

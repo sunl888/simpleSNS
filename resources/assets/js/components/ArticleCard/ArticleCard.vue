@@ -1,8 +1,8 @@
 <template>
-<div class="article_card">
+<div v-if="me !== null" class="article_card">
   <slot></slot>
   <mu-icon-button v-if="closeable" @click="mask = false" icon="cancel"></mu-icon-button>
-    <mu-card @mouseover.native="cardMenu = true" :class="{'active_panel' : wasChoose === true}" @mouseout.native="cardMenu = false" @click.native="wasChoose = !wasChoose" class="clear_fixed">
+    <mu-card v-if="value !== null" @mouseover.native="cardMenu = true" :class="{'active_panel' : wasChoose === true}" @mouseout.native="cardMenu = false" @click.native="wasChoose = !wasChoose" class="clear_fixed">
       <mu-card-header class="clear_fixed" :title="value.user.nickname">
         <mu-avatar :src="value.user.avatar_hash.url" slot="avatar"/>
         <i class="material-icons">play_arrow</i>
@@ -29,7 +29,7 @@
       <mu-card-media>
         <img :src="value.cover.url" />
       </mu-card-media>
-      <div class="bottom" @click.stop>
+      <div class="bottom">
         <div class="all_comments_box">
           <a>显示所有评论(共5条)</a>
           <div class="all_comments">
@@ -46,21 +46,16 @@
             <span v-if="me.avatar === null">{{me.nickname.substr(0, 1)}}</span>
             <img v-else :src="me.avatar_hash.url" alt="">  
           </div>
-          <textarea placeholder="发表评论" cols="30" rows="1"></textarea>
-          <div v-if="!wasChoose" class="share_bar">
-            <mu-icon-button :class="{'up_thumb' : upStyle === true}" @click.native="thumb('up_vote')" icon="thumb_up"/>
-            <span>{{upCount}}</span>
-            <mu-icon-button :class="{'down_thumb' : downStyle === true}" @click.native="thumb('down_vote')" icon="thumb_down"/>
-            <span>{{downCount}}</span>
+          <textarea v-model="comment" placeholder="发表评论" cols="30" rows="1"></textarea>
+          <div class="share_bar" @click.stop>
+            <mu-card-actions v-if="!wasChoose" class="operation_btn">
+              <mu-flat-button :class="{'up_thumb' : upStyle === true}" @click.native="thumbUP" icon="thumb_up" :label="String(upCount)"/>
+              <mu-flat-button :class="{'down_thumb' : downStyle === true}" @click.native="thumbDown" icon="thumb_down" :label="String(downCount)"/>
+            </mu-card-actions>
+            <mu-card-actions v-else class="operation_btn">
+              <mu-flat-button @click.native="submitComment" label="发布"/>
+            </mu-card-actions>
           </div>
-        </div>
-        <div v-if="wasChoose" class="text_bar">
-          <mu-icon-button icon="thu"/>
-          <mu-icon-button icon="link"/>
-          <mu-card-actions class="operation_btn">
-            <mu-flat-button label="取消"/>
-            <mu-flat-button label="发布"/>
-          </mu-card-actions>
         </div>
       </div>
     </mu-card>
@@ -76,22 +71,27 @@ export default{
       upStyle: false,
       downStyle: false,
       wasChoose: false,
-      cardMenu: false
+      cardMenu: false,
+      comment: null
     };
   },
   props: {
     mask: false,
     closeable: false,
-    value: Object
-  },
-  mounted () {
-    this.getThumb();
+    value: {
+      type: Object,
+      default: null
+    }
   },
   computed: {
     // 获取个人信息
     me () {
-      return this.$store.state.me === null ? {} : this.$store.state.me;
+      return this.$store.state.me === null ? null : this.$store.state.me;
     }
+  },
+  mounted () {
+    this.getComment();
+    this.getThumb();
   },
   methods: {
     // 删除文章
@@ -101,21 +101,64 @@ export default{
       });
       this.$emit('updatePost');
     },
-    // 点赞/点踩
-    thumb (url) {
-      this.$http.patch('post/' + this.value.id + '/' + url).then(res => {
-        this.upCount = res.data.up_votes_count;
-        this.getThumb();
-      });
+    // 点赞/取消点赞
+    thumbUP () {
+      if (this.upStyle === false) {
+        this.$http.patch('post/' + this.value.id + '/up_vote').then(res => {
+          this.upCount = res.data.up_votes_count;
+          this.upStyle = true;
+          this.downStyle = false;
+        });
+      } else {
+        this.$http.patch('post/' + this.value.id + '/' + 'cancel_vote').then(res => {
+          this.upCount = res.data.up_votes_count;
+          this.getThumb();
+          this.upStyle = false;
+        });
+      }
+      // this.downStyle = !this.upStyle;
+    },
+    // 点踩/取消点踩
+    thumbDown () {
+      if (this.downStyle === false) {
+        this.$http.patch('post/' + this.value.id + '/down_vote').then(res => {
+          this.downCount = res.data.up_votes_count;
+          this.downStyle = true;
+          this.upStyle = false;
+        });
+      } else {
+        this.$http.patch('post/' + this.value.id + '/' + 'cancel_vote').then(res => {
+          this.downCount = res.data.up_votes_count;
+          this.downStyle = false;
+        });
+      }
     },
     // 是否已经点赞/点踩
     getThumb () {
-      for (let i in this.value.up_voters) {
-        this.upStyle = this.value.up_voters[i].id === this.me.id;
+      if (this.value !== null) {
+        for (let i in this.value.up_voters) {
+          this.upStyle = this.value.up_voters[i].id === this.me.id;
+        }
+        for (let i in this.value.down_voters) {
+          this.downStyle = this.value.down_voters[i].id === this.me.id;
+        }
+        this.upCount = this.value.up_voters_count;
+        this.downCount = this.value.down_voters_count;
       }
-      for (let i in this.value.down_voters) {
-        this.downStyle = this.value.down_voters[i].id === this.me.id;
-      }
+    },
+    // 获取评论
+    getComment () {
+      this.$http.get('posts/' + this.value.id + '/comments').then(res => {
+        console.log(res);
+      });
+    },
+    // 提交评论
+    submitComment () {
+      this.$http.post('posts/' + this.value.id + '/comment', {
+        content: this.comment
+      }).then(res => {
+        console.log(res);
+      });
     }
   }
 };
@@ -223,15 +266,13 @@ export default{
       flex:  1 1 auto;
       margin-top: 10px;
       .mu-icon-button{
-        width: 40px;
-        height: 40px;
         background: #eee;
         margin-left: 10px;
       }
       .mu-icon{
-        font-size: 20px;
+        // font-size: 20px;
         text-align: center;
-        line-height: 5px;
+        // line-height: 5px;
       }
     }
   }

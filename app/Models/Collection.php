@@ -7,8 +7,8 @@
 namespace App\Models;
 
 use App\Models\Traits\HasSlug;
-use App\Transformers\ImageTransformer;
 use Overtrue\LaravelFollow\Follow;
+use App\Transformers\ImageTransformer;
 use Overtrue\LaravelFollow\Traits\CanBeSubscribed;
 
 class Collection extends BaseModel
@@ -61,6 +61,7 @@ class Collection extends BaseModel
         if (null === $user) {
             return false;
         }
+
         return Follow::isRelationExists($this, 'subscribers', $user);
     }
 }

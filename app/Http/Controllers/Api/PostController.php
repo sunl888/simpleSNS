@@ -6,17 +6,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\PostHasBeenRead;
-use App\Exceptions\PermissionDeniedException;
-use App\Http\Controllers\ApiController;
-use App\Http\Requests\CommentRequest;
-use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use App\Repositories\CommentRepository;
-use App\Repositories\PostRepository;
-use App\Transformers\CommentTransformer;
-use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
+use App\Events\PostHasBeenRead;
+use App\Http\Requests\PostRequest;
+use App\Repositories\PostRepository;
+use App\Http\Requests\CommentRequest;
+use App\Transformers\PostTransformer;
+use App\Http\Controllers\ApiController;
+use App\Repositories\CommentRepository;
+use App\Transformers\CommentTransformer;
+use App\Exceptions\PermissionDeniedException;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
@@ -56,6 +56,7 @@ class PostController extends ApiController implements VoteController
             ->publishdAt()
             ->latest('published_at')
             ->paginate($this->perPage());
+
         return $this->response()->paginator($posts, new PostTransformer());
     }
 

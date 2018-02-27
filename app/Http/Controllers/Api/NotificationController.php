@@ -6,9 +6,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use App\Http\Controllers\ApiController;
 use App\Transformers\NotificationTransformer;
+use Carbon\Carbon;
 
 class NotificationController extends ApiController
 {
@@ -46,7 +46,7 @@ class NotificationController extends ApiController
         // 如果 id 为 null，表示将全部消息标记为已读
         $notifications = auth()->user()->unreadNotifications();
 
-        if ($id) {
+        if (null != $id) {
             $notifications->where('id', $id);
         }
 

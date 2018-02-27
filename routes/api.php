@@ -6,7 +6,7 @@
 
 Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'auth'], function () {
-        // 登录 params: tel_num password
+        // 登录 params: username password
         Route::post('login', 'AuthController@login');
         // 发送验证码 params: tel_num sms_template:user_register,user_reset_pwd
         Route::post('send_sms_code', 'SendSMSController@sendSMSVerificationCode');

@@ -6,18 +6,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Post;
-use App\Models\Collection;
-use Illuminate\Http\Request;
 use App\Events\PostHasBeenRead;
-use App\Http\Requests\PostRequest;
-use App\Repositories\PostRepository;
-use App\Http\Requests\CommentRequest;
-use App\Transformers\PostTransformer;
-use App\Http\Controllers\ApiController;
-use App\Repositories\CommentRepository;
-use App\Transformers\CommentTransformer;
 use App\Exceptions\PermissionDeniedException;
+use App\Http\Controllers\ApiController;
+use App\Http\Requests\CommentRequest;
+use App\Http\Requests\PostRequest;
+use App\Models\Post;
+use App\Repositories\CommentRepository;
+use App\Repositories\PostRepository;
+use App\Transformers\CommentTransformer;
+use App\Transformers\PostTransformer;
+use Illuminate\Http\Request;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
@@ -41,7 +40,7 @@ class PostController extends ApiController implements VoteController
      */
     public function index(Request $request)
     {
-        $collectionIDs = collect();
+        /*$collectionIDs = collect();
         if (auth()->check()) {
             $collectionIDs = me()->subscriptions(\App\Models\Collection::class)->get()->pluck('id');
         }
@@ -51,8 +50,12 @@ class PostController extends ApiController implements VoteController
 
         $posts = Post::whereIn('collection_id', $collectionIDs->toArray())
             ->publishdAt()
+            ->latest('published_at')
+            ->paginate($this->perPage());*/
+        $posts = Post::applyFilter($request)
+            ->publishdAt()
+            ->latest('published_at')
             ->paginate($this->perPage());
-
         return $this->response()->paginator($posts, new PostTransformer());
     }
 
@@ -138,6 +141,6 @@ class PostController extends ApiController implements VoteController
             ->latest()
             ->paginate($this->perPage());
 
-        return $this->response()->item($comments, new CommentTransformer());
+        return $this->response()->paginator($comments, new CommentTransformer());
     }
 }

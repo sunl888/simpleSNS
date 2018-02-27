@@ -6,14 +6,14 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Models\Traits\HasSlug;
 use App\Models\Traits\Sortable;
 use App\Transformers\ImageTransformer;
-use Ty666\LaravelVote\Traits\CanBeVoted;
-use Ty666\LaravelVote\Traits\CanCountUpVotes;
-use Ty666\LaravelVote\Traits\CanCountDownVotes;
+use Carbon\Carbon;
 use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
+use Ty666\LaravelVote\Traits\CanBeVoted;
+use Ty666\LaravelVote\Traits\CanCountDownVotes;
+use Ty666\LaravelVote\Traits\CanCountUpVotes;
 
 class Post extends BaseModel implements CanCountUpVotesModel
 {
@@ -34,15 +34,25 @@ class Post extends BaseModel implements CanCountUpVotesModel
     public function scopeApplyFilter($query, $data)
     {
         $data = $data->only('user_id', 'collection_id');
-        // todo 这里过滤
+
         if (isset($data['user_id'])) {
             $query->where('user_id', $data['user_id']);
         }
         if (isset($data['collection_id'])) {
             $query->where('collection_id', $data['collection_id']);
+        } else {
+            if (auth()->check()) {
+                $collectionIDs = me()->subscriptions(\App\Models\Collection::class)->get()->pluck('id');
+            } else {
+                $collectionIDs = collect();
+            }
+            if ($collectionIDs->isEmpty()) {
+                $collectionIDs = Collection::all()->pluck('id');
+            }
+            $query->whereIn('collection_id', $collectionIDs);
         }
 
-        return $query->ordered()->recent();
+        return $query->latest('published_at');
     }
 
     // 封面信息

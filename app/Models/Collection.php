@@ -8,6 +8,7 @@ namespace App\Models;
 
 use App\Models\Traits\HasSlug;
 use App\Transformers\ImageTransformer;
+use Overtrue\LaravelFollow\Follow;
 use Overtrue\LaravelFollow\Traits\CanBeSubscribed;
 
 class Collection extends BaseModel
@@ -53,5 +54,13 @@ class Collection extends BaseModel
     public function isAuthor(): bool
     {
         return $this->user_id === auth()->id();
+    }
+
+    public function isSubscribedBy($user): bool
+    {
+        if (null === $user) {
+            return false;
+        }
+        return Follow::isRelationExists($this, 'subscribers', $user);
     }
 }

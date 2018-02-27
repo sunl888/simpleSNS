@@ -23,6 +23,9 @@ class CollectionTransformer extends BaseTransformer
             'cover'        => $collection->cover,
             // 收藏集创建者
             'user' => $collection->user,
+            // 我是否订阅了这个收藏集
+            //TODO  这里必须要用户登陆才行
+            'isSubscribedByMe' => $collection->isSubscribedBy(me()),
             // 收藏集订阅者s
             //'subscriptions' => $collection->subscribers,
             'created_at'    => toIso8601String($collection->created_at),

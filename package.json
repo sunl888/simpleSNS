@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "less": "^2.7.3",
-    "muse-ui": "^2.1.0"
+    "muse-ui": "^2.1.0",
+    "socket.io-client": "^1.7.4"
   }
 }

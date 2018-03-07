@@ -13,15 +13,15 @@ use App\Http\Requests\PostRequest;
 use App\Repositories\PostRepository;
 use App\Http\Requests\CommentRequest;
 use App\Transformers\PostTransformer;
-use Symfony\Component\HttpFoundation\Response;
-use Ty666\LaravelVote\Contracts\CanCountDownVotesModel;
-use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
 use App\Http\Controllers\ApiController;
 use App\Repositories\CommentRepository;
 use App\Transformers\CommentTransformer;
 use App\Exceptions\PermissionDeniedException;
+use Symfony\Component\HttpFoundation\Response;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
+use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
+use Ty666\LaravelVote\Contracts\CanCountDownVotesModel;
 
 class PostController extends ApiController implements VoteController
 {
@@ -80,7 +80,7 @@ class PostController extends ApiController implements VoteController
      */
     public function update(Post $post, PostRequest $postRequest, PostRepository $postRepository)
     {
-        if (!$post->isAuthor()) {
+        if (! $post->isAuthor()) {
             throw new PermissionDeniedException('文章无法更新, 你的权限还不够喔 (╯︵╰,)');
         }
         $postRepository->update($postRequest->validated(), $post);
@@ -112,7 +112,7 @@ class PostController extends ApiController implements VoteController
     public function destroy(Post $post)
     {
         // 如果文章作者是自己就可以删除
-        if (!$post->isAuthor()) {
+        if (! $post->isAuthor()) {
             throw new PermissionDeniedException('删除失败, 你的权限还不够喔 (╯︵╰,)');
         }
         $post->delete();
@@ -142,10 +142,11 @@ class PostController extends ApiController implements VoteController
         // TODO 这里不灵活 需要优化
         if ($model instanceof CanCountUpVotesModel || $model instanceof CanCountDownVotesModel) {
             return response()->json([
-                'up_votes_count' => $model->getUpVotesCount(),
-                'down_votes_count' => $model->getDownVotesCount()
+                'up_votes_count'   => $model->getUpVotesCount(),
+                'down_votes_count' => $model->getDownVotesCount(),
             ]);
         }
+
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }

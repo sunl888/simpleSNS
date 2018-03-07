@@ -39,6 +39,7 @@ class PostTransformer extends BaseTransformer
         if (auth()->check()) {
             $data = array_merge($data, ['me_vote' => $post->getVoteInfoByUser(auth()->user())]);
         }
+
         return $data;
     }
 

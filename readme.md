@@ -18,6 +18,12 @@ simpleSNS 是一个 SNS 社交网站，你可以通过你的Github帐户登录�
 - Supervisor
 
 ## 开始安装
+### Docker 镜像方式安装
+```dockerfile
+docker-compose build
+docker-compose up -d
+```
+### 普通安装
 ```shell
 git clone https://github.com/wqer1019/simpleSNS.git
 ```

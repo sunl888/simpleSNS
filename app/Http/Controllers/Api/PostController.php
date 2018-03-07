@@ -6,20 +6,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Events\PostHasBeenRead;
-use App\Exceptions\PermissionDeniedException;
-use App\Http\Controllers\ApiController;
-use App\Http\Requests\CommentRequest;
-use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use App\Repositories\CommentRepository;
-use App\Repositories\PostRepository;
-use App\Transformers\CommentTransformer;
-use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
+use App\Events\PostHasBeenRead;
+use App\Http\Requests\PostRequest;
+use App\Repositories\PostRepository;
+use App\Http\Requests\CommentRequest;
+use App\Transformers\PostTransformer;
 use Symfony\Component\HttpFoundation\Response;
 use Ty666\LaravelVote\Contracts\CanCountDownVotesModel;
 use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
+use App\Http\Controllers\ApiController;
+use App\Repositories\CommentRepository;
+use App\Transformers\CommentTransformer;
+use App\Exceptions\PermissionDeniedException;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
@@ -48,6 +48,7 @@ class PostController extends ApiController implements VoteController
             ->publishdAt()
             ->latest('published_at')
             ->paginate($this->perPage());
+
         return $this->response()->paginator($posts, new PostTransformer());
     }
 
@@ -79,7 +80,7 @@ class PostController extends ApiController implements VoteController
      */
     public function update(Post $post, PostRequest $postRequest, PostRepository $postRepository)
     {
-        if (! $post->isAuthor()) {
+        if (!$post->isAuthor()) {
             throw new PermissionDeniedException('文章无法更新, 你的权限还不够喔 (╯︵╰,)');
         }
         $postRepository->update($postRequest->validated(), $post);
@@ -111,7 +112,7 @@ class PostController extends ApiController implements VoteController
     public function destroy(Post $post)
     {
         // 如果文章作者是自己就可以删除
-        if (! $post->isAuthor()) {
+        if (!$post->isAuthor()) {
             throw new PermissionDeniedException('删除失败, 你的权限还不够喔 (╯︵╰,)');
         }
         $post->delete();

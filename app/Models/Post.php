@@ -6,15 +6,15 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Traits\HasSlug;
 use App\Models\Traits\Sortable;
 use App\Transformers\ImageTransformer;
-use Carbon\Carbon;
 use Ty666\LaravelVote\Contracts\CanCountDownVotesModel;
 use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
 use Ty666\LaravelVote\Traits\CanBeVoted;
-use Ty666\LaravelVote\Traits\CanCountDownVotes;
 use Ty666\LaravelVote\Traits\CanCountUpVotes;
+use Ty666\LaravelVote\Traits\CanCountDownVotes;
 
 class Post extends BaseModel implements CanCountUpVotesModel, CanCountDownVotesModel
 {

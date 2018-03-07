@@ -42,7 +42,7 @@ return [
             'options' => [
                 'cluster'   => env('PUSHER_APP_CLUSTER'),
                 'encrypted' => true,
-                'host' => env('BROADCASTING_SERVER_HOST')
+                'host'      => env('BROADCASTING_SERVER_HOST'),
             ],
         ],
 

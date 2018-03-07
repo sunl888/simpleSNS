@@ -34,7 +34,7 @@ class ImageController extends APIController
 
         return [
             'image_hash' => $imageModel->hash,
-            'image_url'  => image_url($imageModel->hash, $imageModel->ext)
+            'image_url'  => image_url($imageModel->hash, $imageModel->ext),
         ];
     }
 }

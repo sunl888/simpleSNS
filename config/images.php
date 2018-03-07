@@ -42,8 +42,8 @@ return [
     'route_name' => 'image',
 
     'image_server' => [
-        'scheme' => env('IMAGE_SERVER_SCHEME', 'http'),
-        'host' => env('IMAGE_SERVER_HOST', '127.0.0.1:10000'),
-        'url_prefix' => env('IMAGE_SERVER_URL_PREFIX', 'img')
-    ]
+        'scheme'     => env('IMAGE_SERVER_SCHEME', 'http'),
+        'host'       => env('IMAGE_SERVER_HOST', '127.0.0.1:10000'),
+        'url_prefix' => env('IMAGE_SERVER_URL_PREFIX', 'img'),
+    ],
 ];

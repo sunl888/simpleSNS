@@ -34,12 +34,12 @@ if (! function_exists('toIso8601String')) {
     }
 }
 
-if (!function_exists('image_url')) {
+if (! function_exists('image_url')) {
     function image_url($hash, $format, $style = null, $default = null)
     {
         static $config = [], $baseUrl;
 
-        if (!$hash) {
+        if (! $hash) {
             return value($default);
         }
 
@@ -51,9 +51,8 @@ if (!function_exists('image_url')) {
                 $config['image_server']['url_prefix']);
         }
 
-
         $url = sprintf('%s/%s.%s', $baseUrl, $hash, $format);
-        if (is_null($style)) {
+        if (null === $style) {
             return $url;
         }
 
@@ -63,8 +62,6 @@ if (!function_exists('image_url')) {
         }
 
         return $url . '?' . http_build_query($styleParam);
-
-
     }
 }
 

@@ -17,6 +17,9 @@ use App\Repositories\PostRepository;
 use App\Transformers\CommentTransformer;
 use App\Transformers\PostTransformer;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Ty666\LaravelVote\Contracts\CanCountDownVotesModel;
+use Ty666\LaravelVote\Contracts\CanCountUpVotesModel;
 use Ty666\LaravelVote\Contracts\VoteController;
 use Ty666\LaravelVote\Traits\VoteControllerHelper;
 
@@ -40,19 +43,8 @@ class PostController extends ApiController implements VoteController
      */
     public function index(Request $request)
     {
-        /*$collectionIDs = collect();
-        if (auth()->check()) {
-            $collectionIDs = me()->subscriptions(\App\Models\Collection::class)->get()->pluck('id');
-        }
-        if ($collectionIDs->isEmpty()) {
-            $collectionIDs = Collection::all()->pluck('id');
-        }
-
-        $posts = Post::whereIn('collection_id', $collectionIDs->toArray())
-            ->publishdAt()
-            ->latest('published_at')
-            ->paginate($this->perPage());*/
         $posts = Post::applyFilter($request)
+            ->publishPost()
             ->publishdAt()
             ->latest('published_at')
             ->paginate($this->perPage());
@@ -142,5 +134,17 @@ class PostController extends ApiController implements VoteController
             ->paginate($this->perPage());
 
         return $this->response()->paginator($comments, new CommentTransformer());
+    }
+
+    protected function voteResponse($model)
+    {
+        // TODO 这里不灵活 需要优化
+        if ($model instanceof CanCountUpVotesModel || $model instanceof CanCountDownVotesModel) {
+            return response()->json([
+                'up_votes_count' => $model->getUpVotesCount(),
+                'down_votes_count' => $model->getDownVotesCount()
+            ]);
+        }
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 }

@@ -15,9 +15,4 @@ class Image extends BaseModel
     protected $keyType = 'char';
 
     public $incrementing = false;
-
-    public function getUrl($style = null)
-    {
-        return image_url($this->hash . '.' . $this->ext, $style);
-    }
 }

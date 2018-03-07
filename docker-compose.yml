@@ -1,0 +1,97 @@
+version: "3"
+services:
+  image_server:
+    image: registry.cn-hangzhou.aliyuncs.com/ty666/image_server
+    container_name: image_server
+    restart: always
+    environment:
+      - URL_PREFIX=${IMAGE_SERVER_URL_PREFIX}
+      - CACHE_DIR_NAME=${IMAGE_SERVER_CACHE_DIR_NAME}
+      # - HOST=${IMAGE_SERVER_HOST}
+    volumes:
+      - ./storage/app/uploads/images:/app/images
+    ports:
+     - "${IMAGE_SERVER_HOST}:10000"
+
+  laravel-broadcasting-server-go:
+    image: registry.cn-hangzhou.aliyuncs.com/ty666/laravel-broadcasting-server-go
+    container_name: laravel-broadcasting-server-go
+    restart: always
+    environment:
+      # - HOST=${BROADCASTING_SERVER_HOST}
+      - AUTH_HOST=${APP_URL}
+      # - AUTH_ENDPOINT=${BROADCASTING_SERVER_AUTH_ENDPOINT}
+      - CORS_ALLOWED_ORIGIN=${BROADCASTING_CORS_ALLOWED_ORIGIN}
+    ports:
+     - "${BROADCASTING_SERVER_HOST}:9999"
+
+  backend_dev:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./:/var/www/
+    links:
+      - mysql
+      - redis
+      - image_server
+      - laravel-broadcasting-server-go
+    entrypoint: /var/www/deploy/docker-entrypoint-dev.sh
+    depends_on:
+      - mysql
+      - redis
+    environment:
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_CONNECTION=${DB_CONNECTION}
+      - DB_HOST=${DB_HOST}
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_RANDOM_ROOT_PASSWORD=true
+
+  redis:
+    image: redis:4.0-alpine
+
+  nginx:
+    build:
+      context: ./deploy/nginx
+      args:
+        - PHP_UPSTREAM_CONTAINER=backend_dev
+    links:
+      - backend_dev
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www:ro
+      - ./deploy/nginx/sites-available/:/etc/nginx/sites-available/
+    depends_on:
+      - backend_dev
+
+  php_worker:
+    build:
+      context: ./deploy/php_worker
+    volumes:
+      - ./:/var/www/
+    depends_on:
+      - backend_dev
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment: 
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=${DB_USERNAME}
+      - PMA_PASSWORD=${DB_PASSWORD}
+    links:
+      - mysql
+    depends_on:
+      - mysql

@@ -32,6 +32,7 @@ class CreatePostsTable extends Migration
             // 浏览量
             $table->unsignedInteger('views')->default(0);
             $table->unsignedInteger('up_votes_count')->default(0)->comment('赞数量'); // 总数－赞的数量=踩的数量
+            $table->unsignedInteger('down_votes_count')->default(0)->comment('踩数量');
             $table->unsignedInteger('comments_count')->default(0)->comment('评论数量');
             //$table->integer('order')->default(0)->index()->comment('排序字段');
             // 发布时间

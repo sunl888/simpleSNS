@@ -8,8 +8,8 @@ namespace App\Services;
 
 use App\Models\Image;
 use Illuminate\Container\Container;
-use Symfony\Component\HttpFoundation\File\File;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ImageService
 {
@@ -104,6 +104,6 @@ class ImageService
 
     protected function path($hash, $ext)
     {
-        return substr($hash, 0, 2) . DIRECTORY_SEPARATOR . $hash . '.' . $ext;
+        return substr($hash, 0, 2) . DIRECTORY_SEPARATOR . substr($hash, 2, 2) . DIRECTORY_SEPARATOR . substr($hash, 4) . '.' . $ext;
     }
 }

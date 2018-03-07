@@ -34,7 +34,41 @@ if (! function_exists('toIso8601String')) {
     }
 }
 
-if (! function_exists('image_url')) {
+if (!function_exists('image_url')) {
+    function image_url($hash, $format, $style = null, $default = null)
+    {
+        static $config = [], $baseUrl;
+
+        if (!$hash) {
+            return value($default);
+        }
+
+        if (empty($config)) {
+            $config = config('images');
+            $baseUrl = sprintf('%s://%s/%s',
+                $config['image_server']['scheme'],
+                $config['image_server']['host'],
+                $config['image_server']['url_prefix']);
+        }
+
+
+        $url = sprintf('%s/%s.%s', $baseUrl, $hash, $format);
+        if (is_null($style)) {
+            return $url;
+        }
+
+        $styleParam = $config['default_style'];
+        if (isset($config['presets'][$style])) {
+            $styleParam = array_merge($styleParam, $config['presets'][$style]);
+        }
+
+        return $url . '?' . http_build_query($styleParam);
+
+
+    }
+}
+
+/*if (! function_exists('image_url')) {
     function image_url($imageId, $style = null, $default = null)
     {
         static $config = [];
@@ -84,7 +118,7 @@ if (! function_exists('image_url')) {
             return Storage::disk($config['source_disk'])->url($path) . $parameters;
         }
     }
-}
+}*/
 
 if (! function_exists('clean')) {
     function clean($html, $config = null)

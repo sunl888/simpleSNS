@@ -15,7 +15,7 @@ class PostTransformer extends BaseTransformer
 
     public function transform(Post $post)
     {
-        return [
+        $data = [
             'id'                => $post->id,
             'user'              => $post->user,
             'is_author'         => $post->isAuthor(), // 自己是不是作者
@@ -36,6 +36,10 @@ class PostTransformer extends BaseTransformer
             'created_at' => toIso8601String($post->created_at),
             'updated_at' => toIso8601String($post->updated_at),
         ];
+        if (auth()->check()) {
+            $data = array_merge($data, ['me_vote' => $post->getVoteInfoByUser(auth()->user())]);
+        }
+        return $data;
     }
 
     public function includePostContent(Post $post)

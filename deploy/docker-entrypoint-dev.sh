@@ -4,13 +4,14 @@ set -e
 
 if [ ! -d vendor ]
 then
+    composer config -g repo.packagist composer https://packagist.phpcomposer.com
     composer install --prefer-dist --optimize-autoloader
 fi
 
-if [ ! -d node_modules ]
-then
-   npm install --registry=https://registry.npm.taobao.org
-fi
+#if [ ! -d node_modules ]
+#then
+#   npm install --registry=https://registry.npm.taobao.org
+#fi
 chown -R www-data:www-data /var/www/storage
 chown -R www-data:www-data /var/www/bootstrap
 php /var/www/artisan key:generate

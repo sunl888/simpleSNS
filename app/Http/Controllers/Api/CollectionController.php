@@ -53,7 +53,7 @@ class CollectionController extends ApiController
     public function update(Collection $collection, CollectionRequest $request, CollectionRepository $collectionRepository)
     {
         if (! $collection->isAuthor()) {
-            throw new PermissionDeniedException('更新失败, 你的权限还不够喔 (╯︵╰,)');
+            throw new PermissionDeniedException('更新失败, 你的权限不够 (╯︵╰,)');
         }
         $collectionRepository->update($request->validated(), $collection);
 
@@ -77,7 +77,7 @@ class CollectionController extends ApiController
     public function destroy(Collection $collection)
     {
         if (! $collection->isAuthor()) {
-            throw new PermissionDeniedException('删除失败, 你的权限还不够喔 (╯︵╰,)');
+            throw new PermissionDeniedException('删除失败, 你的权限不够 (╯︵╰,)');
         }
 
         $collection->delete();

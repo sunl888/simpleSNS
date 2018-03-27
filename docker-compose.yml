@@ -13,29 +13,17 @@ services:
     ports:
      - "${IMAGE_SERVER_HOST}:10000"
 
-  laravel-broadcasting-server-go:
-    image: registry.cn-hangzhou.aliyuncs.com/ty666/laravel-broadcasting-server-go
-    container_name: laravel-broadcasting-server-go
-    restart: always
-    environment:
-      # - HOST=${BROADCASTING_SERVER_HOST}
-      - AUTH_HOST=${APP_URL}
-      # - AUTH_ENDPOINT=${BROADCASTING_SERVER_AUTH_ENDPOINT}
-      - CORS_ALLOWED_ORIGIN=${BROADCASTING_CORS_ALLOWED_ORIGIN}
-    ports:
-     - "${BROADCASTING_SERVER_HOST}:9999"
-
   backend_dev:
     build:
       context: ./
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     volumes:
       - ./:/var/www/
+      - ./deploy/php.ini:/usr/local/etc/php/php.ini:ro
     links:
       - mysql
       - redis
       - image_server
-      - laravel-broadcasting-server-go
     entrypoint: /var/www/deploy/docker-entrypoint-dev.sh
     depends_on:
       - mysql
@@ -49,7 +37,6 @@ services:
 
   mysql:
     image: mysql:5.7
-    container_name: mysql
     environment:
       - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_USER=${DB_USERNAME}

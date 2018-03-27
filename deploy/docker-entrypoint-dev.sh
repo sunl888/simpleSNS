@@ -16,7 +16,7 @@ chown -R www-data:www-data /var/www/storage
 chown -R www-data:www-data /var/www/bootstrap
 php /var/www/artisan key:generate
 php /var/www/artisan jwt:secret
-php /var/www/artisan storage:link
+#php /var/www/artisan storage:link
 
 # wait for mysql
 
@@ -33,4 +33,5 @@ done
 
 
 php /var/www/artisan migrate --seed
+
 php-fpm

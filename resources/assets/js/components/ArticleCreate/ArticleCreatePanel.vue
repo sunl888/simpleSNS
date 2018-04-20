@@ -96,15 +96,18 @@ export default{
       this.formData.collection_id = collection.id;
     },
     // 发布文章 || 修改文章
-    createArticle () {
+    async createArticle () {
       if (this.editID === null) {
         this.$http.post('posts', this.formData).then(res => {
-          this.$emit('updatePost');
+          setTimeout(() => {
+            this.$emit('updatePost').bind(this);
+            this.$alert('已经成功发布动态啦', 'primary').bind(this);
+          }, 300);
         });
       } else {
-        this.$http.put('posts/' + this.editID, this.formData).then(res => {
-          this.$emit('updatePost');
-        });
+        await this.$http.put('posts/' + this.editID, this.formData);
+        this.$emit('updatePost');
+        this.$alert('已经成功修改啦', 'primary');
       }
     },
     // 上传图片

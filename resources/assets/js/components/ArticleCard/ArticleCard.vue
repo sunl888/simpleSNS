@@ -220,7 +220,8 @@ export default{
     color: #777;
   }
   .time{
-    float: right;
+    position: absolute;
+    right: 20px;
     .mu-icon-button{}
   }
   .operation_btn{

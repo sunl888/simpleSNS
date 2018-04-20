@@ -5,6 +5,7 @@ set -e
 if [ ! -d vendor ]
 then
     composer config -g repo.packagist composer https://packagist.phpcomposer.com
+    #composer config -g repo.packagist composer https://packagist.laravel-china.org
     composer install --prefer-dist --optimize-autoloader
 fi
 

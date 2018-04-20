@@ -9,7 +9,7 @@
           <img :src="me.avatar_hash.url">
           <strong>{{me.nickname}}</strong>
           <mu-raised-button @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
-          <div class="more">
+          <!-- <div class="more">
             <p>
               <strong>真实姓名 {{me.name}}</strong>
               <strong>手机号码 {{me.tel_num}}</strong>
@@ -23,7 +23,7 @@
             <p>
               <strong>个性签名 {{me.introduction}}</strong>
             </p>
-          </div>
+          </div> -->
         </div>
       </mu-paper>
     </mu-flexbox-item>
@@ -129,7 +129,7 @@ export default{
 }
 .modify_box{
   width: 100%;
-  padding: 80px 20px;
+  padding: 80px 20px 30px;
   flex-direction: row;
   position: absolute;
   bottom: 0;

@@ -1,6 +1,6 @@
 <template>
   <div class="index clear_fixed">
-    <mu-flexbox :gutter="40" align="flex-start" justify="center">
+    <mu-flexbox ref="articleContainer" :gutter="40" align="flex-start" justify="center">
       <mu-flexbox-item class="flex-demo">
         <article-create v-on:openACP = "isCreatePanel = true"></article-create>
         <article-card @openAEP="openAEP" @updatePost="getItem()" v-for="(x, index) in cols.col1" :value="x" :key="index">
@@ -19,8 +19,9 @@
       </mu-flexbox-item>
     </mu-flexbox>
     <mask-box :isMask = "isCreatePanel">
-      <article-create-panel :editID="editID" @updatePost = "isCreatePanel=false;setTimeout(getItem(), 2000)" v-on:closeACP = "isCreatePanel = false; editID = null"></article-create-panel>
+      <article-create-panel :editID="editID" @updatePost = "isCreatePanel=false;getItem()" @closeACP = "isCreatePanel = false; editID = undefined"></article-create-panel>
     </mask-box>
+    <mu-float-button @click.native="isCreatePanel = true" icon="add" secondary class="global_add"/>
   </div>
 </template>
 <script>
@@ -36,6 +37,8 @@ export default{
     return {
       // 当前窗口宽度
       winSize: window.screen.width,
+      // 显示loading
+      isloadingShow: false,
       // 根据当前分辨率判断显示几列内容
       column: this.winSize > 1400 ? 3 : (this.winSize > 1023 ? 2 : 1),
       // 文章列表
@@ -44,7 +47,7 @@ export default{
       isCreatePanel: false,
       // 文章分栏
       cols: {},
-      editID: null
+      editID: undefined
     };
   },
   mounted () {
@@ -85,13 +88,10 @@ export default{
 </script>
 <style lang="less">
 .index{
-  // width: 100%;
-  // height: 100px;
-  // display: flex;
-  // flex-flow: row wrap;
-  // align-content: center;
-  // flex: 0 0 auto;
-  // justify-content: center;
-  // margin: 0 auto;
+  .global_add{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+  }
 }
 </style>

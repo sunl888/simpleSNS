@@ -2,9 +2,9 @@
 <div v-if="me !== null" class="article_card">
   <slot></slot>
   <mu-icon-button v-if="closeable" @click="mask = false" icon="cancel"></mu-icon-button>
-    <mu-card v-if="value !== null" @mouseover.native="cardMenu = true" :class="{'active_panel' : wasChoose === true}" @mouseout.native="cardMenu = false" @click.native="wasChoose = !wasChoose" class="clear_fixed">
+    <mu-card v-if="value !== null" @mouseover.native="cardMenu = true" :class="{'active_panel' : wasChoose === true}" @click.native="wasChoose=true" @mouseout.native="cardMenu = false; wasChoose = false" class="clear_fixed">
       <mu-card-header class="clear_fixed" :title="value.user.nickname">
-        <mu-avatar :src="value.user.avatar_hash.url" slot="avatar"/>
+        <mu-avatar @click="goProfile" :src="value.user.avatar_hash.url" slot="avatar"/>
         <i class="material-icons">play_arrow</i>
         <router-link :to="{name: 'collection', params: {collection_id: value.collection.id}}" class="mu-card-sub-title"> {{value.collection.title}}</router-link>
         <div v-if="cardMenu" class="time">
@@ -31,10 +31,10 @@
       </mu-card-media>
       <div class="bottom">
         <div class="all_comments_box">
-          <!-- <a>显示所有评论(共5条)</a> -->
           <div v-for="(value, index) in commentList" :key="index" class="all_comments">
             <strong>{{value.user.name + ' : '}}</strong>
             <p>{{value.content}}</p>
+            <span class="update_at">{{value.updated_at | localeTime}}</span>
           </div>
         </div>
         <div class="comment_area">
@@ -42,11 +42,10 @@
             <span v-if="me.avatar === null">{{me.nickname.substr(0, 1)}}</span>
             <img v-else :src="me.avatar_hash.url" alt="">  
           </div>
-          <textarea v-model="comment" placeholder="发表评论…" cols="30" rows="1"></textarea>
-          <div class="share_bar" @click.stop>
+          <textarea @mouseout.stop v-model="comment" placeholder="发表评论…" cols="30" rows="1"></textarea>
+          <div class="share_bar" @mouseout.stop @click.stop>
             <mu-card-actions v-if="!wasChoose" class="operation_btn">
               <mu-flat-button :class="{'up_thumb' : upStyle === true}" @click.native="thumbUP" icon="thumb_up" :label="String(upCount)"/>
-              <mu-flat-button :class="{'down_thumb' : downStyle === true}" @click.native="thumbDown" icon="thumb_down" :label="String(downCount)"/>
             </mu-card-actions>
             <mu-card-actions v-else class="operation_btn">
               <mu-flat-button @click.native="submitComment" label="发布"/>
@@ -164,6 +163,7 @@ export default{
       if (this.value !== null) {
         this.$http.get('posts/' + this.value.id + '/comments').then(res => {
           this.commentList = res.data.data;
+          this.comment = null;
         });
       }
     },
@@ -172,8 +172,21 @@ export default{
       this.$http.post('posts/' + this.value.id + '/comment', {
         content: this.comment
       }).then(res => {
-        console.log(res);
+        this.getComment();
       });
+    },
+    // 跳转资料
+    goProfile () {
+      if (this.value !== null) {
+        if (this.me.id === this.value.user.id) {
+          this.$router.push({name: 'profile'});
+        } else {
+          this.$router.push({
+            name: 'profile',
+            params: {userId: this.value.user.id}
+          });
+        }
+      }
     }
   }
 };
@@ -189,9 +202,11 @@ export default{
   }
 }
 .article_card{
-  // float: right;
-  // min-width: 420px;
-  // margin-right: 15px;
+  &>span{
+    color: #888;
+    padding: 14px 0;
+    display: inline-block;
+  }
   .mu-card-header{
     padding: 16px 16px 0 16px;
     .mu-avatar, .mu-card-header-title, .mu-card-title, &>i{
@@ -221,11 +236,7 @@ export default{
     word-wrap:break-word;
     padding: 10px 16px 5px;
   }
-  span{
-    color: #888;
-    padding: 14px 0;
-    display: inline-block;
-  }
+
   &>div{
     transition: box-shadow 0.3s;
   }
@@ -247,7 +258,8 @@ export default{
     }
   }
   .all_comments{
-    padding: 0 10px;
+    padding: 5px 10px;
+    position: relative;
     &>strong{
       font-size: 15px;
       padding-right: 10px;
@@ -255,6 +267,11 @@ export default{
     }
     &>p{
       display: block;
+    }
+    &>span{
+      color: #888;
+      position: absolute;
+      right: 10px;
     }
   }
   .comment_area, .all_comments{
@@ -304,7 +321,12 @@ export default{
     }
   }
   .all_comments_box{
-    padding: 10px 10px;
+    padding: 5px 10px 0;
+    .comment_tips{
+      padding: 0px 17px;
+      font-size: 18px;
+      font-weight: bold;
+    }
   }
   
 }

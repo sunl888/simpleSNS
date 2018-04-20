@@ -24,7 +24,7 @@ class CrossHttpRequest
         } else {
             $response = $next($request);
         }
-        if (! method_exists($response, 'header')) {
+        if (!method_exists($response, 'header')) {
             return $response;
         }
         $response->headers->set('Access-Control-Allow-Methods', 'HEAD, GET, POST, PUT, PATCH, DELETE, OPTIONS');

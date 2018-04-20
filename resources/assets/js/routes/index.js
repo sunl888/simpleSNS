@@ -48,7 +48,7 @@ export default new Router({
           component: require('../views/find.vue')
         },
         {
-          path: 'profile',
+          path: 'profile/:userId?',
           name: 'profile',
           meta: { title: '个人资料' },
           component: require('../views/profile.vue')

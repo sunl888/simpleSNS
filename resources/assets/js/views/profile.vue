@@ -8,7 +8,8 @@
         <div class="modify_box clear_fixed">
           <img :src="me.avatar_hash.url">
           <strong>{{me.nickname}}</strong>
-          <mu-raised-button @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
+          <mu-raised-button v-if="$route.params.userId" @click="followMe">{{'关注'}}</mu-raised-button>
+          <mu-raised-button v-else @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
         </div>
       </mu-paper>
     </mu-flexbox-item>
@@ -59,7 +60,8 @@ export default{
       // 我的收藏集
       myCollection: [],
       // 是否显示修改资料面板
-      isEditMe: false
+      isEditMe: false,
+      isMe: false
     };
   },
   computed: {
@@ -83,6 +85,11 @@ export default{
         this.myCollection = null;
       }
     },
+    followMe () {
+      this.$http.get(`users/${this.$route.params.userId}/follow`).then(res => {
+        console.log(res);
+      });
+    }
   }
 };
 </script>
@@ -114,7 +121,7 @@ export default{
 }
 .modify_box{
   width: 100%;
-  padding: 80px 20px;
+  padding: 30px 20px;
   flex-direction: row;
   position: absolute;
   bottom: 0;

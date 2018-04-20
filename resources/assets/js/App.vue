@@ -7,10 +7,15 @@
 </template>
 <script>
 import { isLogin } from './utils/utils';
+import {ArticleCreatePanel} from './components/ArticleCreate';
 export default{
+  components: {
+    ArticleCreatePanel
+  },
   data () {
     return {
-      winSize: window.screen.width
+      winSize: window.screen.width,
+      isCreatePanel: false
     };
   },
   mounted () {

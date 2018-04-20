@@ -2,7 +2,6 @@ version: "3"
 services:
   image_server:
     image: registry.cn-hangzhou.aliyuncs.com/ty666/image_server
-    container_name: image_server
     restart: always
     environment:
       - URL_PREFIX=${IMAGE_SERVER_URL_PREFIX}

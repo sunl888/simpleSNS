@@ -1,9 +1,5 @@
 <?php
 
-/*
- * add .styleci.yml
- */
-
 Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'auth'], function () {
         // 登录 params: username password

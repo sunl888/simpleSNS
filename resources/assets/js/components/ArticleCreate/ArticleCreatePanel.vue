@@ -83,7 +83,7 @@ export default{
     }
   },
   mounted () {
-    if (this.editID !== null) {
+    if (this.editID !== undefined) {
       this.getItem();
     }
   },
@@ -96,11 +96,12 @@ export default{
       this.formData.collection_id = collection.id;
     },
     // 发布文章 || 修改文章
-    createArticle () {
-      if (this.editID === null) {
-        this.$http.post('posts', this.formData).then(res => {
+    async createArticle () {
+      if (this.editID === undefined) {
+        await this.$http.post('posts', this.formData);
+        setTimeout(function () {
           this.$emit('updatePost');
-        });
+        }.bind(this), 500);
       } else {
         this.$http.put('posts/' + this.editID, this.formData).then(res => {
           this.$emit('updatePost');

@@ -12,11 +12,14 @@ fi
 #then
 #   npm install --registry=https://registry.npm.taobao.org
 #fi
-chown -R www-data:www-data /var/www/storage
 chown -R www-data:www-data /var/www/bootstrap
+chown -R www-data:www-data /var/www/storage
+chown -R www-data:www-data /var/www/public
+chmod -R 775 /var/www/bootstrap
+chmod -R 775 /var/www/storage
+chmod -R 775 /var/www/public
+
 php /var/www/artisan key:generate
-php /var/www/artisan jwt:secret
-#php /var/www/artisan storage:link
 
 # wait for mysql
 

@@ -102,6 +102,7 @@ export default {
       location: this.me.location,
       company: this.me.company
     };
+    this.$diff.save(this.formData);
   },
   methods: {
     addressChange (value, index) {
@@ -133,7 +134,7 @@ export default {
       });
     },
     async submitMine () {
-      await this.$http.put('user/' + this.me.id, this.formData).then(res => {
+      await this.$http.put('user/' + this.me.id, this.$diff.diff(this.formData)).then(res => {
         this.$store.dispatch('updateMe');
       });
       this.$emit('closeEM');

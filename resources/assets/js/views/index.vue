@@ -19,7 +19,7 @@
       </mu-flexbox-item>
     </mu-flexbox>
     <mask-box :isMask = "isCreatePanel">
-      <article-create-panel :editID="editID" @updatePost = "isCreatePanel=false;getItem()" v-on:closeACP = "isCreatePanel = false; editID = null"></article-create-panel>
+      <article-create-panel :editID="editID" @updatePost = "isCreatePanel=false;setTimeout(getItem(), 2000)" v-on:closeACP = "isCreatePanel = false; editID = null"></article-create-panel>
     </mask-box>
   </div>
 </template>
@@ -76,7 +76,7 @@ export default{
     // 获取文章
     async getItem () {
       await this.$http.get('posts?include=post_content').then(res => {
-        this.item = res.data.data.reverse();
+        this.item = res.data.data;
       });
       this.handleResize();
     }

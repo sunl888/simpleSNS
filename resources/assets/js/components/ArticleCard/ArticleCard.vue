@@ -21,7 +21,7 @@
             <mu-menu-item title="转发" @click.native="deleteArticle"/>
           </mu-icon-menu>
         </div>
-        <span v-else class="time">2小时前</span>
+        <span v-else class="time">{{value.published_at | localeTime}}</span>
       </mu-card-header>
       <mu-card-text>
         {{value.post_content.data.content}}
@@ -31,14 +31,10 @@
       </mu-card-media>
       <div class="bottom">
         <div class="all_comments_box">
-          <a>显示所有评论(共5条)</a>
-          <div class="all_comments">
-            <div class="my_photo">
-              <span v-if="me.avatar_hash === null">{{me.nickname.substr(0, 1)}}</span>
-              <img v-else :src="me.avatar_hash.url" alt="">  
-            </div>
-            <strong>{{me.nickname}}</strong>
-            <p>nice!</p>
+          <!-- <a>显示所有评论(共5条)</a> -->
+          <div v-for="(value, index) in commentList" :key="index" class="all_comments">
+            <strong>{{value.user.name + ' : '}}</strong>
+            <p>{{value.content}}</p>
           </div>
         </div>
         <div class="comment_area">
@@ -46,7 +42,7 @@
             <span v-if="me.avatar === null">{{me.nickname.substr(0, 1)}}</span>
             <img v-else :src="me.avatar_hash.url" alt="">  
           </div>
-          <textarea v-model="comment" placeholder="发表评论" cols="30" rows="1"></textarea>
+          <textarea v-model="comment" placeholder="发表评论…" cols="30" rows="1"></textarea>
           <div class="share_bar" @click.stop>
             <mu-card-actions v-if="!wasChoose" class="operation_btn">
               <mu-flat-button :class="{'up_thumb' : upStyle === true}" @click.native="thumbUP" icon="thumb_up" :label="String(upCount)"/>
@@ -72,7 +68,8 @@ export default{
       downStyle: false,
       wasChoose: false,
       cardMenu: false,
-      comment: null
+      comment: null,
+      commentList: []
     };
   },
   props: {
@@ -92,6 +89,23 @@ export default{
   mounted () {
     this.getComment();
     this.getThumb();
+  },
+  filters: {
+    localeTime (val) {
+      let now = new Date();
+      let publishAt = new Date(Date.parse(val));
+      if (now.getDate() === publishAt.getDate()) {
+        if (now.getHours() === publishAt.getHours()) {
+          if (now.getMinutes() === publishAt.getMinutes()) {
+            return now.getSeconds() - publishAt.getSeconds() + '秒前';
+          }
+          return now.getMinutes() - publishAt.getMinutes() + '分钟前';
+        }
+        return now.getHours() - publishAt.getHours() + '小时前';
+      } else {
+        return publishAt.toLocaleString();
+      }
+    }
   },
   methods: {
     // 删除文章
@@ -116,7 +130,6 @@ export default{
           this.upStyle = false;
         });
       }
-      // this.downStyle = !this.upStyle;
     },
     // 点踩/取消点踩
     thumbDown () {
@@ -135,7 +148,7 @@ export default{
     },
     // 是否已经点赞/点踩
     getThumb () {
-      if (this.value !== null) {
+      if (this.value !== null && this.me !== null) {
         for (let i in this.value.up_voters) {
           this.upStyle = this.value.up_voters[i].id === this.me.id;
         }
@@ -148,9 +161,11 @@ export default{
     },
     // 获取评论
     getComment () {
-      this.$http.get('posts/' + this.value.id + '/comments').then(res => {
-        console.log(res);
-      });
+      if (this.value !== null) {
+        this.$http.get('posts/' + this.value.id + '/comments').then(res => {
+          this.commentList = res.data.data;
+        });
+      }
     },
     // 提交评论
     submitComment () {
@@ -220,16 +235,32 @@ export default{
     color: #777;
   }
   .time{
-    float: right;
-    .mu-icon-button{}
+    position: absolute;
+    right: 20px;
   }
   .operation_btn{
     float: right;
   }
+  .comment_area{
+    .my_photo{
+      margin-top: 17px;
+    }
+  }
+  .all_comments{
+    padding: 0 10px;
+    &>strong{
+      font-size: 15px;
+      padding-right: 10px;
+      cursor: pointer;
+    }
+    &>p{
+      display: block;
+    }
+  }
   .comment_area, .all_comments{
     width: 100%;
     display: flex;
-    padding: 0 0 15px 0;
+    // padding: 0 0 15px 0;
     .my_photo{
       padding: 0 10px;
       span,strong{
@@ -242,17 +273,13 @@ export default{
         line-height: 15px;
         text-align: center;
         height: 30px;
-        margin: 17px 15px 0 0px;
+        margin: 0 15px 0 0px;
         color: #fff;
         border-radius: 50%;
         background: #A0C3FF;
       }
-      &>strong{
-        font-size: 15px;
-      }
     }
     textarea{
-      // width: calc(~"100% - 85px");
       resize: none;
       outline: none;
       border: none;
@@ -276,9 +303,10 @@ export default{
       }
     }
   }
-  .all_comments_box, .all_comments{
+  .all_comments_box{
     padding: 10px 10px;
   }
+  
 }
 .active_panel{
   box-shadow: 0 0 20px rgba(0,0,0,0.3);

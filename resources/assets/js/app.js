@@ -30,7 +30,7 @@ Vue.use(tHttp, {
 
 Vue.prototype.$alert = alert;
 
-Vue.component('mask-box', require('./components/Mask'));
+Vue.prototype.$diff = require('./utils/diff');
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

@@ -9,6 +9,21 @@
           <img v-if="me.avatar_hash" :src="me.avatar_hash.url">
           <strong>{{me.nickname}}</strong>
           <mu-raised-button @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
+          <!-- <div class="more">
+            <p>
+              <strong>真实姓名 {{me.name}}</strong>
+              <strong>手机号码 {{me.tel_num}}</strong>
+              <strong>邮箱 {{me.email}}</strong> 
+            </p>
+            <p>
+              <strong>城市 {{me.city}}</strong>
+              <strong>详细地址 {{me.location}}</strong>
+              <strong>所属公司 {{me.company}}</strong>
+            </p>
+            <p>
+              <strong>个性签名 {{me.introduction}}</strong>
+            </p>
+          </div> -->
         </div>
       </mu-paper>
     </mu-flexbox-item>

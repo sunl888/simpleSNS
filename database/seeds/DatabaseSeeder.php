@@ -15,10 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\User::class, 5)->create();
-        factory(App\Models\Collection::class, 5)->create();
+        factory(App\Models\User::class, 10)->create();
+        factory(App\Models\Collection::class, 10)->create();
         // 生成文章
-        factory(App\Models\Post::class, 5)->create()->each(function ($post) {
+        factory(App\Models\Post::class, 10)->create()->each(function ($post) {
             // 生成文章正文
             $post->postContent()->save(factory(\App\Models\PostContent::class)->make());
         });

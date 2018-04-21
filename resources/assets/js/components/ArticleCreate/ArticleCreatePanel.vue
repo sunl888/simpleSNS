@@ -103,9 +103,9 @@ export default{
           this.$emit('updatePost');
         }.bind(this), 500);
       } else {
-        this.$http.put('posts/' + this.editID, this.formData).then(res => {
-          this.$emit('updatePost');
-        });
+        await this.$http.put('posts/' + this.editID, this.formData);
+        this.$emit('updatePost');
+        this.$alert('已经成功修改啦', 'primary');
       }
     },
     // 上传图片

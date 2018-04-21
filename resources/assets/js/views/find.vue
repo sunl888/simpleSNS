@@ -1,33 +1,18 @@
 <template>
 <div>
+  <div class="collections">
+    <collect-card v-for="(value, index) in collectionList" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.collection.title" :color="value.collection.color" :value="value.id" :isSubscribe="value.is_author" :key="index"></collect-card>
+  </div>
   <mu-flexbox v-if="isFind === true" class="find" :gutter="40" align="stretch" justify="center">
     <mu-flexbox-item style="width: 100%">
-      <find-tiny-card v-for="x in 5" :key="x"></find-tiny-card>
+      <find-tiny-card v-for="(value, index) in cols.col1" :value="value" :key="index"></find-tiny-card>
     </mu-flexbox-item>
     <mu-flexbox-item style="width: 100%" v-if="this.column > 1" >
-      <find-tiny-card v-for="x in 5" :key="x"></find-tiny-card>
+      <find-tiny-card v-for="(value, index) in cols.col2" :value="value" :key="index"></find-tiny-card>
     </mu-flexbox-item>
     <mu-flexbox-item style="width: 100%" v-if="this.column > 2" >
-      <find-tiny-card v-for="x in 5" :key="x"></find-tiny-card>
+      <find-tiny-card v-for="(value, index) in cols.col3" :value="value" :key="index"></find-tiny-card>
     </mu-flexbox-item>
-    <mu-flexbox-item v-if="this.column > 3" style="width: 100%">
-      <find-tiny-card v-for="x in 5" :key="x"></find-tiny-card>
-    </mu-flexbox-item>
-  </mu-flexbox>
-  <mu-flexbox class="find" :gutter="50" align="stretch" justify="center">
-    <mu-flexbox-item>
-      <p>我的收藏集</p>
-      <collect-card :value="value.id"  :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color" v-for="(value, index) in cols.col1" :key="index"></collect-card>
-    </mu-flexbox-item>
-    <mu-flexbox-item v-if="column > 1" >
-      <collect-card :value="value.id"  :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color" v-for="(value, index) in cols.col2" :key="index"></collect-card>
-    </mu-flexbox-item>
-    <mu-flexbox-item v-if="column > 2" >
-      <collect-card :value="value.id" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color" v-for="(value, index)  in cols.col3" :key="index"></collect-card>
-    </mu-flexbox-item>
-    <!-- <mu-flexbox-item v-if="this.column > 3" style="width: 100%">
-      <collect-card v-for="x in 5" :key="x"></collect-card>
-    </mu-flexbox-item> -->
   </mu-flexbox>
 </div>
 </template>
@@ -52,7 +37,8 @@ export default{
       isCreatePanel: false,
       // 文章分栏
       cols: {},
-      isFind: true
+      isFind: true,
+      collectionList: []
     };
   },
   watch: {
@@ -60,11 +46,11 @@ export default{
       this.isFind = this.$route.name === 'find';
     }
   },
-  mounted () {
+  async mounted () {
+    this.getItem();
+    await this.getCollections();
     this.me = this.$store.state.me === null ? null : this.$store.state.me;
     this.isFind = this.$route.name === 'find';
-    this.getItem();
-    this.handleResize();
     window.addEventListener('resize', this.handleResize);
   },
   methods: {
@@ -85,10 +71,17 @@ export default{
       }
     },
     // 获取文章
-    getItem () {
-      this.item = this.me.collections.data;
-      console.log(this.me);
-      // let url = this.isFind === 'find' ? 'collections' : 'collections';
+    async getItem () {
+      await this.$http.get('posts?include=post_content').then(res => {
+        this.item = res.data.data;
+      });
+      this.handleResize();
+    },
+    // 获取收藏集
+    getCollections () {
+      this.$http.get('collections').then(res => {
+        this.collectionList = res.data.data;
+      });
     }
   }
 };

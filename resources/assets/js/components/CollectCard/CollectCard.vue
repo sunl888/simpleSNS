@@ -14,28 +14,25 @@
 </template>
 <script>
 export default{
-  data () {
-    return {
-      isSubscribe: false
-    };
-  },
   props: {
     cover: String,
     avator: String,
     title: String,
     color: String,
-    value: Number
+    value: Number,
+    isSubscribe: Boolean
   },
   methods: {
     // 订阅收藏集
     orderCollection () {
-      this.isSubscribe = !this.isSubscribe;
+      // this.isSubscribe = !this.isSubscribe;
       this.$http.post('collections/' + this.value + '/subscribe').then(res => {
         if (this.isSubscribe) {
-          this.$alert('已经成功订阅收藏集《' + this.title + '》', 'primary');
+          this.$alert('已经取消订阅收藏集《 ' + this.title + ' 》', 'primary');
         } else {
-          this.$alert('已经取消订阅收藏集《' + this.title + '》', 'primary');
+          this.$alert('已经成功订阅收藏集《 ' + this.title + ' 》', 'primary');
         }
+        this.$store.dispatch('updateMe');
       });
     },
   }
@@ -66,7 +63,7 @@ export default{
     width: 50px;
     height: 50px;
     overflow: hidden;
-    top: 55%;
+    top: 60%;
     transform: translateY(-60%);
     left: 20px;
     border-radius: 50%;
@@ -77,7 +74,7 @@ export default{
     }
   }
   .collect_bottom{
-    padding: 30px 20px;
+    padding: 50px 20px;
     margin-top: -8px!important;
     .mu-raised-button{
       min-width: 70px;

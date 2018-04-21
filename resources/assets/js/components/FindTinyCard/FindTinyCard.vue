@@ -2,13 +2,13 @@
 <div class="find_tiny_card">
   <mu-card @click.native="openArticleCard" class="clear_fixed">
     <mu-card-media>
-      <img src="../../assets/images/temp.jpg" />
+      <img :src="value.cover.cover_url" />
     </mu-card-media>
     <mu-card-text>
-      test text test text test text test text test text test text test texttest texttest text
+      {{value.post_content.data.content}}
     </mu-card-text>
-    <mu-card-header title="Myron Avatar" subTitle="sub title">
-      <mu-avatar src="../../assets/images/temp.jpg" slot="avatar"/>
+    <mu-card-header :title="value.user.name" :subTitle="value.collection.title">
+      <mu-avatar :src="value.user.avatar_hash.cover_url" slot="avatar"/>
     </mu-card-header>
   </mu-card>
 </div>
@@ -21,8 +21,14 @@ export default{
       cardMenu: false
     };
   },
+  props: {
+    value: Object
+  },
+  mounted () {
+    console.log(this.value);
+  },
   methods: {
-    chhoseThePanel () {
+    choseThePanel () {
       this.wasChoose = !this.wasChoose;
     },
     openArticleCard () {

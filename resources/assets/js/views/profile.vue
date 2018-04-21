@@ -1,26 +1,25 @@
 <template>
-<div v-if="me !== null" class="profile clear_fixed">
+<div v-if="this.$route.name ==='me' && me !== null" class="profile clear_fixed">
   <mu-flexbox class="profile" orient="vertical">
     <mu-flexbox-item>
       <mu-paper class="profile_top">
-        <img :src="me.avatar_hash.cover_url">
+        <img v-if="me.avatar_hash" :src="me.avatar_hash.cover_url">
         <!-- <img src="../assets/images/bg.png"> -->
         <div class="modify_box clear_fixed">
-          <img :src="me.avatar_hash.url">
+          <img v-if="me.avatar_hash" :src="me.avatar_hash.url">
           <strong>{{me.nickname}}</strong>
-          <mu-raised-button v-if="$route.params.userId" @click="followMe">{{'关注'}}</mu-raised-button>
-          <mu-raised-button v-else @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
+          <mu-raised-button @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
         </div>
       </mu-paper>
     </mu-flexbox-item>
   </mu-flexbox>
   <p>我的收藏集<router-link :to="{name: 'all_collections'}">更多</router-link></p>
-  <mu-flexbox justify="space-between" class="collect">
+  <mu-flexbox   v-if="me.collections" justify="space-between" class="collect">
     <mu-flexbox-item>
       <collect-create v-on:openCMP = "isCreatePanel = true"></collect-create>
     </mu-flexbox-item>
     <mu-flexbox-item v-for="(value, index) in (me.collections.data.slice(0, this.column) || myCollection)" :key="index">
-      <collect-card :value="value.id" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color"></collect-card>
+      <collect-card :value="value.id" :isSubscribe="value.isSubscribedByMe" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color"></collect-card>
     </mu-flexbox-item>
   </mu-flexbox>
   <p>动态</p>
@@ -36,6 +35,42 @@
     <edit-me @closeEM="isEditMe = false"></edit-me>
   </mask-box>
 </div>
+<div v-else class="profile clear_fixed">
+    <mu-flexbox class="profile" orient="vertical">
+      <mu-flexbox-item>
+        <mu-paper class="profile_top">
+          <img v-if="userPro.avatar_hash" :src="userPro.avatar_hash.cover_url">
+          <!-- <img src="../assets/images/bg.png"> -->
+          <div class="modify_box clear_fixed">
+            <img v-if="userPro.avatar_hash" :src="userPro.avatar_hash.url">
+            <strong>{{userPro.nickname}}</strong>
+            <mu-raised-button @click="followMe">{{userPro.is_followed ? '取消关注' : '关注'}}</mu-raised-button>
+          </div>
+        </mu-paper>
+      </mu-flexbox-item>
+    </mu-flexbox>
+    <p>我的收藏集<router-link :to="{name: 'all_collections'}">更多</router-link></p>
+    <mu-flexbox   v-if="userPro.collections" justify="space-between" class="collect">
+      <mu-flexbox-item>
+        <collect-create v-on:openCMP = "isCreatePanel = true"></collect-create>
+      </mu-flexbox-item>
+      <mu-flexbox-item v-for="(value, index) in (userPro.collections.data.slice(0, this.column) || myCollection)" :key="index">
+        <collect-card :value="value.id" :isSubscribe="value.isSubscribedByMe" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color"></collect-card>
+      </mu-flexbox-item>
+    </mu-flexbox>
+    <p>动态</p>
+    <mu-flexbox>
+      <mu-flexbox-item>
+        <article-card class="profile_article"></article-card>
+      </mu-flexbox-item>
+    </mu-flexbox>
+    <mask-box :isMask = "isCreatePanel">
+      <collect-made-panel v-on:closeCMP = "isCreatePanel = false" type="create"></collect-made-panel>
+    </mask-box>
+    <mask-box :isMask = "isEditMe">
+      <edit-me @closeEM="isEditMe = false"></edit-me>
+    </mask-box>
+  </div>
 </template>
 <script>
 import {CollectCard, CollectCreate} from '../components/CollectCard';
@@ -61,7 +96,7 @@ export default{
       myCollection: [],
       // 是否显示修改资料面板
       isEditMe: false,
-      isMe: false
+      userPro: []
     };
   },
   computed: {
@@ -71,6 +106,9 @@ export default{
     }
   },
   mounted () {
+    if (this.$route.name === 'profile') {
+      this.getUserProfile();
+    }
     this.handleResize();
     window.addEventListener('resize', this.handleResize);
   },
@@ -85,11 +123,24 @@ export default{
         this.myCollection = null;
       }
     },
-    followMe () {
-      this.$http.get(`users/${this.$route.params.userId}/follow`).then(res => {
-        console.log(res);
+    async followMe () {
+      await this.$http.post(`users/${this.$route.params.userId}/follow`);
+      this.getUserProfile();
+      if (this.userPro.is_followed) {
+        this.$alert(`已经取消对${this.userPro.name}的关注啦!`, 'primary');
+      } else {
+        this.$alert(`已经成功关注${this.userPro.name}啦!`, 'primary');
+      }
+    },
+    getUserProfile () {
+      this.$http.get('user/' + this.$route.params.userId).then(res => {
+        this.userPro = res.data.data;
+        console.log(this.userPro);
       });
     }
+    // getUserCollection () {
+    //   this.$http.get('user')
+    // }
   }
 };
 </script>

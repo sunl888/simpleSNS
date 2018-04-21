@@ -179,7 +179,7 @@ export default{
     goProfile () {
       if (this.value !== null) {
         if (this.me.id === this.value.user.id) {
-          this.$router.push({name: 'profile'});
+          this.$router.push({name: 'me'});
         } else {
           this.$router.push({
             name: 'profile',
@@ -248,6 +248,7 @@ export default{
   .time{
     position: absolute;
     right: 20px;
+    .mu-icon-button{}
   }
   .operation_btn{
     float: right;

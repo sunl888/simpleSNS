@@ -15,12 +15,12 @@ class CollectionTransformer extends BaseTransformer
     public function transform(Collection $collection)
     {
         return [
-            'id' => $collection->id,
-            'title' => $collection->title,
+            'id'           => $collection->id,
+            'title'        => $collection->title,
             'collect_slug' => $collection->collect_slug,
             'introduction' => $collection->introduction,
-            'color' => $collection->color,
-            'cover' => $collection->cover,
+            'color'        => $collection->color,
+            'cover'        => $collection->cover,
             // 收藏集创建者
             'user' => $collection->user,
             // 我是否订阅了这个收藏集

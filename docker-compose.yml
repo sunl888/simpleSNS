@@ -2,7 +2,6 @@ version: "3"
 services:
   image_server:
     image: registry.cn-hangzhou.aliyuncs.com/ty666/image_server
-    restart: always
     environment:
       - URL_PREFIX=${IMAGE_SERVER_URL_PREFIX}
       - CACHE_DIR_NAME=${IMAGE_SERVER_CACHE_DIR_NAME}
@@ -10,7 +9,7 @@ services:
     volumes:
       - ./storage/app/uploads/images:/app/images
     ports:
-     - "${IMAGE_SERVER_HOST}:10000"
+     - "${IMAGE_SERVER_HOST}:10001"
 
   backend_dev:
     build:

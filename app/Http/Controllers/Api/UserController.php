@@ -57,4 +57,5 @@ class UserController extends ApiController
 
         return $this->response()->noContent();
     }
+
 }

@@ -1,7 +1,7 @@
 FROM php:7.2-fpm-alpine3.7
 
 #替换国内镜像
-#COPY deploy/source.list /etc/apk/repositories
+COPY deploy/source.list /etc/apk/repositories
 
 RUN apk update && apk --no-cache add freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev curl zlib-dev \
  && docker-php-ext-configure gd \
@@ -11,8 +11,7 @@ RUN apk update && apk --no-cache add freetype libpng libjpeg-turbo freetype-dev 
   --with-jpeg-dir=/usr/include/ \
   --with-zlib-dir=/usr \
  && NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
- && docker-php-ext-install -j${NPROC} gd zip pdo_mysql mbstring opcache \
- #&& docker-php-ext-enable redis xdebug \
+ && docker-php-ext-install -j${NPROC} gd zip pdo_mysql mbstring \
  && apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
 
 ENV COMPOSER_VERSION 1.6.3

@@ -29,6 +29,8 @@ class UserTransformer extends BaseTransformer
             'company' => $user->company,
             'username' => $user->username,
             'name' => $user->name,
+            'followers' =>$user->followers,
+            'followings' =>$user->followings,
             'is_followed' => auth()->check() ? $user->isFollowedBy(auth()->id()) : false,
             'created_at' => toIso8601String($user->created_at),
             'updated_at' => toIso8601String($user->updated_at),

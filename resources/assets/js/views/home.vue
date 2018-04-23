@@ -71,7 +71,7 @@ export default{
   background: #f1f1f1;
 }
 .item{
-  height: calc(~"100% - 80px");
+  height: calc(~"100% - 70px");
 }
 .item_inner{
   height: 100%;

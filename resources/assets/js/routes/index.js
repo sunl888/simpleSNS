@@ -68,13 +68,25 @@ export default new Router({
         {
           path: 'all_collections',
           name: 'all_collections',
-          component: require('../views/find.vue')
+          component: require('../views/all_collections.vue')
         },
         {
           path: 'notice',
           name: 'notice',
           meta: {title: '通知'},
           component: require('../views/notice.vue')
+        },
+        {
+          path: 'friends',
+          name: 'friends',
+          meta: {title: '人脉'},
+          component: require('../views/friends.vue')
+        },
+        {
+          path: 'feekback',
+          name: 'feekback',
+          meta: {title: '反馈'},
+          component: require('../views/feekback.vue')
         }
       ]
     }

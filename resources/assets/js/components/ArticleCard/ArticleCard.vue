@@ -3,7 +3,7 @@
   <slot></slot>
   <mu-icon-button v-if="closeable" @click="mask = false" icon="cancel"></mu-icon-button>
     <mu-card v-if="value !== null" @mouseover.native="cardMenu = true" :class="{'active_panel' : wasChoose === true}" @click.native="wasChoose=true" @mouseout.native="cardMenu = false; wasChoose = false" class="clear_fixed">
-      <mu-card-header class="clear_fixed" :title="value.user.nickname">
+      <mu-card-header class="clear_fixed" :title="value.user.name">
         <mu-avatar @click="goProfile" :src="value.user.avatar_hash.url" slot="avatar"/>
         <i class="material-icons">play_arrow</i>
         <router-link :to="{name: 'collection', params: {collection_id: value.collection.id}}" class="mu-card-sub-title"> {{value.collection.title}}</router-link>
@@ -32,7 +32,7 @@
       <div class="bottom">
         <div class="all_comments_box">
           <div v-for="(value, index) in commentList" :key="index" class="all_comments">
-            <strong>{{value.user.name + ' : '}}</strong>
+            <strong  @click="goProfile">{{value.user.name + ' : '}}</strong>
             <p>{{value.content}}</p>
             <span class="update_at">{{value.updated_at | localeTime}}</span>
           </div>

@@ -16,14 +16,15 @@
         <img :src="item.user.avatar_hash.url" alt="">
       </div>
       <div class="cover_text">
-        <span>{{item.user.nickname}}</span>
+        <span @click="goProfile">{{item.user.name}}</span>
         <h2>{{item.title}}</h2>
         <p>{{item.introduction}}</p>
         <mu-raised-button @click.native="orderCollection" class="order_collection">{{isSubscribe === true ? '取消订阅' : '订阅'}}</mu-raised-button>
       </div>
     </mu-flexbox-item>
     <mu-flexbox-item class="collects">
-      <article-card class="card" v-for="x in 10" :key="x"></article-card>
+      <article-card v-if="posts.length>0" class="card" v-for="(post, index) in posts" :key="index" :value="post"></article-card>
+      <h3 class="collection_tips" v-if="posts.length === 0">这个收藏集是空的哦</h3>
     </mu-flexbox-item>
   </mu-flexbox>
   <mask-box :isMask = "isCreatePanel">
@@ -42,6 +43,7 @@ export default{
       leftTop: {horizontal: 'left', vertical: 'top'},
       // 收藏集详情
       item: [],
+      posts: [],
       // 是否被订阅
       isSubscribe: false
     };
@@ -50,8 +52,15 @@ export default{
     ArticleCard,
     CollectMadePanel
   },
+  computed: {
+    // 获取个人信息
+    me () {
+      return this.$store.state.me === null ? null : this.$store.state.me;
+    }
+  },
   mounted () {
     this.getItem();
+    this.getPosts();
   },
   methods: {
     // 获取收藏集详情
@@ -83,6 +92,23 @@ export default{
         this.$alert('你已经成功删除此收藏集', 'primary');
         this.$store.dispatch('updateMe');
         this.$router.back();
+      });
+    },
+    goProfile () {
+      if (this.item.user !== null) {
+        if (this.me.id === this.item.user.id) {
+          this.$router.push({name: 'me'});
+        } else {
+          this.$router.push({
+            name: 'profile',
+            params: {userId: this.item.user.id}
+          });
+        }
+      }
+    },
+    getPosts () {
+      this.$http.get('posts?include=post_content&collection_id=' + this.$route.params.collection_id).then(res => {
+        this.posts = res.data.data;
       });
     }
   }
@@ -149,6 +175,11 @@ export default{
     flex-flow: row wrap;
     flex: 0 none!important;
     padding: 10px 10px 0 0;
+    .collection_tips{
+      text-align: center;
+      color: #999;
+      margin: 200px auto;
+    }
     .card{
       margin: 0 10px 10px 0;
       width: 48%;

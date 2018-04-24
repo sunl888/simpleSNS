@@ -1,10 +1,12 @@
 <template>
   <mu-paper>
-    <mu-list>
         <mu-list-item v-for="(value, index) in item" :title="value.data.message" :key="index">
           <span class="created"><i class="material-icons">access_time</i>{{value.created_at.slice(0, value.created_at.indexOf('T'))}}</span>
           <mu-icon v-if="value.read_at === null" @click="setAlread(value.id)" title="设为已读" slot="right" value="done"/>
           <span v-else slot="right">已读</span>
+        </mu-list-item>
+        <mu-list-item v-if="item.length === 0">
+          <span>当前没有新通知哦</span>
         </mu-list-item>
     </mu-list>
   </mu-paper>

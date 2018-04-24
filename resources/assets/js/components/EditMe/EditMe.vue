@@ -17,8 +17,8 @@
       </div>
       <mu-flexbox class="form" :gutter="20">
         <mu-flexbox-item>
-          <mu-text-field v-model="formData.nickname" fullWidth label="昵称" hintText="请输入昵称"/>
-          <mu-text-field v-model="formData.name" fullWidth label="真实姓名" hintText="请输入真实姓名"/>
+          <mu-text-field v-model="formData.name" fullWidth label="昵称" hintText="请输入昵称"/>
+          <mu-text-field v-model="formData.nickname" fullWidth label="用户ID" hintText="请输入用户ID"/>
           <mu-text-field v-model="formData.tel_num" fullWidth label="手机号" hintText="请输入手机号"/>
           <mu-text-field v-model="formData.email" fullWidth label="邮箱" hintText="请输入邮箱"/>
         </mu-flexbox-item>
@@ -138,6 +138,7 @@ export default {
         this.$store.dispatch('updateMe');
       });
       this.$emit('closeEM');
+      this.$alert('资料已更新', 'primary');
     }
   },
   computed: {

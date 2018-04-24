@@ -8,13 +8,13 @@
       <div class="my_profile">
         <div class="my_profile_top clear_fixed">
           <div class="my_photo">
-            <span v-if="me.avatar_hash === null">{{me.nickname.substr(0, 1)}}</span>
-            <img v-else :src="me.avatar_hash.url" alt="me.nickname">  
+            <span v-if="me.avatar_hash === null">{{me.name.substr(0, 1)}}</span>
+            <img v-else :src="me.avatar_hash.url" alt="me.name">  
             <!-- <span>更改</span> -->
             <input type="file">
           </div>
           <div class="my_profile_text">
-            <h3>{{me.nickname}}</h3>
+            <h3>{{me.name}}</h3>
             <p>{{me.tel_num}}</p>
             <p>{{me.email}}</p>
             <a @click="$router.push({name: 'profile'});$emit('closeTP')" class="theme_btn">{{me.tel_num === null ? '完善资料' : '更多资料'}}</a>

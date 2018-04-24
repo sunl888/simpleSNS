@@ -7,23 +7,8 @@
         <!-- <img src="../assets/images/bg.png"> -->
         <div class="modify_box clear_fixed">
           <img v-if="me.avatar_hash" :src="me.avatar_hash.url">
-          <strong>{{me.nickname}}</strong>
+          <strong>{{me.name}}</strong>
           <mu-raised-button @click="isEditMe = true">{{me.tel_num === null ? '完善资料' : '修改资料'}}</mu-raised-button>
-          <!-- <div class="more">
-            <p>
-              <strong>真实姓名 {{me.name}}</strong>
-              <strong>手机号码 {{me.tel_num}}</strong>
-              <strong>邮箱 {{me.email}}</strong> 
-            </p>
-            <p>
-              <strong>城市 {{me.city}}</strong>
-              <strong>详细地址 {{me.location}}</strong>
-              <strong>所属公司 {{me.company}}</strong>
-            </p>
-            <p>
-              <strong>个性签名 {{me.introduction}}</strong>
-            </p>
-          </div> -->
         </div>
       </mu-paper>
     </mu-flexbox-item>
@@ -35,12 +20,6 @@
     </mu-flexbox-item>
     <mu-flexbox-item v-for="(value, index) in (me.collections.data.slice(0, this.column) || myCollection)" :key="index">
       <collect-card :value="value.id" :isSubscribe="value.isSubscribedByMe" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color"></collect-card>
-    </mu-flexbox-item>
-  </mu-flexbox>
-  <p>动态</p>
-  <mu-flexbox>
-    <mu-flexbox-item>
-      <article-card class="profile_article"></article-card>
     </mu-flexbox-item>
   </mu-flexbox>
   <mask-box :isMask = "isCreatePanel">
@@ -58,7 +37,7 @@
           <!-- <img src="../assets/images/bg.png"> -->
           <div class="modify_box clear_fixed">
             <img v-if="userPro.avatar_hash" :src="userPro.avatar_hash.url">
-            <strong>{{userPro.nickname}}</strong>
+            <strong>{{userPro.name}}</strong>
             <mu-raised-button @click="followMe">{{userPro.is_followed ? '取消关注' : '关注'}}</mu-raised-button>
           </div>
         </mu-paper>
@@ -71,12 +50,6 @@
       </mu-flexbox-item>
       <mu-flexbox-item v-for="(value, index) in (userPro.collections.data.slice(0, this.column) || myCollection)" :key="index">
         <collect-card :value="value.id" :isSubscribe="value.isSubscribedByMe" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color"></collect-card>
-      </mu-flexbox-item>
-    </mu-flexbox>
-    <p>动态</p>
-    <mu-flexbox>
-      <mu-flexbox-item>
-        <article-card class="profile_article"></article-card>
       </mu-flexbox-item>
     </mu-flexbox>
     <mask-box :isMask = "isCreatePanel">
@@ -150,7 +123,6 @@ export default{
     getUserProfile () {
       this.$http.get('user/' + this.$route.params.userId).then(res => {
         this.userPro = res.data.data;
-        console.log(this.userPro);
       });
     }
     // getUserCollection () {

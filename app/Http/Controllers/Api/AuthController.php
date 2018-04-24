@@ -44,7 +44,7 @@ class AuthController extends ApiController
         // 过滤掉第三方登录的帐号信息
         $credentials['provider'] = null;
         $user = User::byUserNames($this->username(), $credentials)->first();
-        if (null === $user || !\Hash::check($credentials['password'], $user->password)) {
+        if (null === $user || ! \Hash::check($credentials['password'], $user->password)) {
             return;
         }
 
@@ -86,7 +86,7 @@ class AuthController extends ApiController
         // 验证用户信息是否存在
         $credentials = [
             'username' => $originalInfo->getUsername(),
-            'email' => $originalInfo->getEmail(),
+            'email'    => $originalInfo->getEmail(),
             'provider' => strtolower($originalInfo->provider),
         ];
         $user = User::where($credentials)->first();
@@ -109,14 +109,14 @@ class AuthController extends ApiController
             Image::where('hash', $image->hash)->update(['creator_id' => $user->id]);
         }
 
-        if (!$token = $this->guard()->login($user)) {
+        if (! $token = $this->guard()->login($user)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return view('logging', [
             'access_token' => $token,
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,// 过期时间 单位:秒
-            'user' => $user,
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60, // 过期时间 单位:秒
+            'user'         => $user,
         ]);
     }
 
@@ -129,8 +129,8 @@ class AuthController extends ApiController
     {
         return response()->json([
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => $this->guard()->factory()->getTTL() * 60,
+            'token_type'   => 'bearer',
+            'expires_in'   => $this->guard()->factory()->getTTL() * 60,
         ]);
     }
 

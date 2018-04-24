@@ -7,7 +7,7 @@
       <img :src="avator">
     </mu-flexbox-item>
     <mu-flexbox-item class="collect_bottom clear_fixed">
-      <strong>{{title}}</strong>
+      <h3>{{title}}</h3>
       <mu-raised-button @click.native.stop="orderCollection" class="order_collection">{{isSubscribe === false ? '订阅' : '取消订阅'}}</mu-raised-button>
     </mu-flexbox-item>
   </mu-flexbox>
@@ -41,7 +41,7 @@ export default{
 <style lang="less">
 .collect_card{
   width: 100%;
-  height: 320px;
+  height: 250px;
   // min-height: 280px;
   background: #ddd; 
   position: relative;
@@ -52,7 +52,7 @@ export default{
   overflow: hidden;
   box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.2);
   .collect_top{
-    height: 60%;
+    height: 55%;
   }
   .collect_top>img{
     width: 100%;
@@ -63,8 +63,8 @@ export default{
     width: 50px;
     height: 50px;
     overflow: hidden;
-    top: 60%;
-    transform: translateY(-60%);
+    top: 50%;
+    transform: translateY(-50%);
     left: 20px;
     border-radius: 50%;
     border: 2px solid #fff;
@@ -74,12 +74,12 @@ export default{
     }
   }
   .collect_bottom{
-    padding: 50px 20px;
+    padding: 40px 20px;
     margin-top: -8px!important;
     .mu-raised-button{
       min-width: 70px;
     }
-    &>strong{
+    &>h3{
       color: #fff;
       font-size: 17px;
       font-weight: normal;
@@ -89,9 +89,9 @@ export default{
     }
   }
   .order_collection{
-    float: right;
-    margin-top: 20px;
-    margin-right: 5px;
+    // float: right;
+    margin-top: 10px;
+    // margin-right: 5px;
   }
 }
 </style>

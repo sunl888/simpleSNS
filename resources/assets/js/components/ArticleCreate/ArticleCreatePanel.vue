@@ -102,6 +102,7 @@ export default{
         setTimeout(function () {
           this.$emit('updatePost');
         }.bind(this), 500);
+        this.$alert('已经成功发布啦', 'primary');
       } else {
         await this.$http.put('posts/' + this.editID, this.formData);
         this.$emit('updatePost');

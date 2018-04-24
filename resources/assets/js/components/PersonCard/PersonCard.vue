@@ -2,11 +2,16 @@
   <mu-paper class="person-card">
       <img src="../../assets/images/temp.jpg" alt="">
       <h3>asdsadsadas</h3>
-      <mu-flat-button>已关注</mu-flat-button>
+      <mu-flat-button @click="isFollowed = !isFollowed">{{isFollowed ? '取消关注' : '关注'}}</mu-flat-button>
   </mu-paper>
 </template>
 <script>
 export default {
+  data () {
+    return {
+      isFollowed: true
+    };
+  }
 };
 </script>
 <style lang="less">

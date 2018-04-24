@@ -138,6 +138,7 @@ export default {
         this.$store.dispatch('updateMe');
       });
       this.$emit('closeEM');
+      this.$alert('资料已更新', 'primary');
     }
   },
   computed: {

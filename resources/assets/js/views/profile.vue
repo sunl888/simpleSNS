@@ -22,12 +22,6 @@
       <collect-card :value="value.id" :isSubscribe="value.isSubscribedByMe" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color"></collect-card>
     </mu-flexbox-item>
   </mu-flexbox>
-  <p>动态</p>
-  <mu-flexbox>
-    <mu-flexbox-item>
-      <article-card class="profile_article"></article-card>
-    </mu-flexbox-item>
-  </mu-flexbox>
   <mask-box :isMask = "isCreatePanel">
     <collect-made-panel v-on:closeCMP = "isCreatePanel = false" type="create"></collect-made-panel>
   </mask-box>
@@ -56,12 +50,6 @@
       </mu-flexbox-item>
       <mu-flexbox-item v-for="(value, index) in (userPro.collections.data.slice(0, this.column) || myCollection)" :key="index">
         <collect-card :value="value.id" :isSubscribe="value.isSubscribedByMe" :cover="value.cover.url" :avator="value.user.avatar_hash.url" :title="value.title" :color="value.color"></collect-card>
-      </mu-flexbox-item>
-    </mu-flexbox>
-    <p>动态</p>
-    <mu-flexbox>
-      <mu-flexbox-item>
-        <article-card class="profile_article"></article-card>
       </mu-flexbox-item>
     </mu-flexbox>
     <mask-box :isMask = "isCreatePanel">
@@ -135,7 +123,6 @@ export default{
     getUserProfile () {
       this.$http.get('user/' + this.$route.params.userId).then(res => {
         this.userPro = res.data.data;
-        console.log(this.userPro);
       });
     }
     // getUserCollection () {

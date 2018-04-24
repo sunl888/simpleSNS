@@ -32,6 +32,11 @@ class Collection extends BaseModel
         return $query->latest();
     }
 
+    public function posts()
+    {
+        return $this->belongsTo(Post::class, 'collection_id', 'id');
+    }
+
     // 封面信息
     public function getCoverAttribute($value)
     {

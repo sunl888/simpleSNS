@@ -5,7 +5,8 @@
     <mu-menu-item value="2" title="关注我的"/>
   </mu-dropDown-menu>
   <div v-if="value == 1" class="peroson-card-list">
-    <person-card></person-card>
+    <!--<person-card></person-card>-->
+    <h3 class="follow_tips">还没有人关注我哦</h3>
   </div>
   <div v-else>
     <h3 class="follow_tips">还没有人关注我哦</h3>

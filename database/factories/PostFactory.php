@@ -10,6 +10,7 @@ use Faker\Generator as Faker;
 $factory->define(Post::class, function (Faker $faker) {
     $imgUrl = $faker->imageUrl(640, 480);
     $img = app(\App\Services\ImageService::class)->store($imgUrl);
+
     return [
         /*'title'          => str_random(10),
         'slug'           => str_random(10),

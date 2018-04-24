@@ -33,8 +33,8 @@ class DatabaseSeeder extends Seeder
         }
         App\Models\User::where('id', 1)->first()->update([
             'nickname' => 'admin',
-            'tel_num' => '15705547511',
-            'email' => '2013855675@qq.com',
+            'tel_num'  => '15705547511',
+            'email'    => '2013855675@qq.com',
         ]);
 
         // 清除缓存
